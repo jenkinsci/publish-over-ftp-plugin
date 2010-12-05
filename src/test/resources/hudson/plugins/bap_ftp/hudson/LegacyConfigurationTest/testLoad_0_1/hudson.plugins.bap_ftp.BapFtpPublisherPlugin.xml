@@ -8,7 +8,7 @@
       <password>password.a</password>
       <remoteRootDir>remoteRoot.a</remoteRootDir>
       <port>21</port>
-      <timeOut>300000</timeOut>
+      <timeout>300000</timeout>
       <useActiveData>false</useActiveData>
     </hudson.plugins.bap__ftp.BapFtpHostConfiguration>
     <hudson.plugins.bap__ftp.BapFtpHostConfiguration>
@@ -18,7 +18,7 @@
       <password>password.b</password>
       <remoteRootDir>remoteRoot.b</remoteRootDir>
       <port>121</port>
-      <timeOut>121000</timeOut>
+      <timeout>121000</timeout>
       <useActiveData>true</useActiveData>
     </hudson.plugins.bap__ftp.BapFtpHostConfiguration>
   </hostConfigurations>

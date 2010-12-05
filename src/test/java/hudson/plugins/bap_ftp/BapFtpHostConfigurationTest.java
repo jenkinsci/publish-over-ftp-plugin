@@ -86,8 +86,8 @@ public class BapFtpHostConfigurationTest {
     }
 
     private void expectConnectAndLogin() throws Exception {
-        mockFTPClient.setDefaultTimeout(bapFtpHostConfiguration.getTimeOut());
-        mockFTPClient.setDataTimeout(bapFtpHostConfiguration.getTimeOut());
+        mockFTPClient.setDefaultTimeout(bapFtpHostConfiguration.getTimeout());
+        mockFTPClient.setDataTimeout(bapFtpHostConfiguration.getTimeout());
         mockFTPClient.connect(bapFtpHostConfiguration.getHostname(), bapFtpHostConfiguration.getPort());
         expect(mockFTPClient.getReplyCode()).andReturn(FTPReply.SERVICE_READY);
         if (bapFtpHostConfiguration.isUseActiveData()) {

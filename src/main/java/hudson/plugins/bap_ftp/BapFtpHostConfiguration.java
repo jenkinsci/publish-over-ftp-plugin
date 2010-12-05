@@ -25,20 +25,20 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient> {
     public static int getDefaultPort() { return DEFAULT_PORT; }
     public static int getDefaultTimeout() { return DEFAULT_TIMEOUT; }
     
-    private int timeOut;
+    private int timeout;
     private boolean useActiveData;
 
 	public BapFtpHostConfiguration() {}
 
     @DataBoundConstructor
-	public BapFtpHostConfiguration(String name, String hostname, String username, String password, String remoteRootDir, int port, int timeOut, boolean useActiveData) {
+	public BapFtpHostConfiguration(String name, String hostname, String username, String password, String remoteRootDir, int port, int timeout, boolean useActiveData) {
         super(name, hostname, username, password, remoteRootDir, port);
-        this.timeOut = timeOut;
+        this.timeout = timeout;
         this.useActiveData = useActiveData;
 	}
 
-	public int getTimeOut() { return timeOut; }
-	public void setTimeOut(int timeOut) { this.timeOut = timeOut; }
+	public int getTimeout() { return timeout; }
+	public void setTimeout(int timeout) { this.timeout = timeout; }
 
     public boolean isUseActiveData() { return useActiveData; }
     public void setUseActiveData(boolean useActiveData) { this.useActiveData = useActiveData; }
@@ -76,8 +76,8 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient> {
 	}
 
     private void configureFTPClient(FTPClient ftpClient) {
-        ftpClient.setDefaultTimeout(timeOut);
-        ftpClient.setDataTimeout(timeOut);
+        ftpClient.setDefaultTimeout(timeout);
+        ftpClient.setDataTimeout(timeout);
     }
 
     private void setRootDirectoryInClient(BapFtpClient client) throws IOException {
@@ -157,21 +157,21 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient> {
         
         return createEqualsBuilder(that)
             .append(useActiveData, that.useActiveData)
-            .append(timeOut, that.timeOut)
+            .append(timeout, that.timeout)
             .isEquals();
     }
 
     public int hashCode() {
         return createHashCodeBuilder()
             .append(useActiveData)
-            .append(timeOut)
+            .append(timeout)
             .toHashCode();
     }
     
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
             .append("useActiveData", useActiveData)
-            .append("timeOut", timeOut)
+            .append("timeout", timeout)
             .toString();
     }
 

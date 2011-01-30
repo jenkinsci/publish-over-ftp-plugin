@@ -1,0 +1,77 @@
+<?jelly escape-by-default='true'?>
+
+<!--
+  ~ The MIT License
+  ~
+  ~ Copyright (C) 2010-2011 by Anthony Robinson
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in
+  ~ all copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  ~ THE SOFTWARE.
+  -->
+
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+
+  <j:set var="helpUrl" value="${rootURL}/plugin/publish-over-ftp/help/global/"/>
+  <j:invokeStatic className="jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration" method="getDefaultPort" var="defaultPort"/>
+  <j:invokeStatic className="jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration" method="getDefaultTimeout" var="defaultTimeout"/>
+
+  <f:section title="${%hostconfig.section.title}" description="${%hostconfig.section.description}">
+    <f:entry title="${%hostconfig.entry.title}">
+      <f:repeatable var="hostconfig" items="${descriptor.hostConfigurations}" header="${%hostconfig.dragAndDrop}">
+        <table width="100%">
+          <f:entry title="${%name.title}" help="${helpUrl}name.html">
+            <f:textbox name="bap-pub.name" value="${hostconfig.name}"/>
+          </f:entry>
+          <f:entry title="${%hostname.title}" help="${helpUrl}hostname.html">
+            <f:textbox name="bap-pub.hostname" value="${hostconfig.hostname}"/>
+          </f:entry>
+          <f:entry title="${%username.title}" help="${helpUrl}username.html">
+            <f:textbox name="bap-pub.username" value="${hostconfig.username}" />
+          </f:entry>
+          <f:entry title="${%password.title}" help="${helpUrl}password.html">
+            <input class="setting-input" name="bap-pub.password" type="password" value="${hostconfig.password}" />
+          </f:entry>
+          <f:entry title="${%remotePath.title}" help="${helpUrl}remoteRootDir.html">
+            <f:textbox name="bap-pub.remoteRootDir" value="${hostconfig.remoteRootDir}"/>
+          </f:entry>
+          <f:advanced>
+            <f:entry title="${%port.title}" help="${helpUrl}port.html">
+              <f:textbox name="bap-pub.port" value="${hostconfig.port}" default="${defaultPort}"/>
+            </f:entry>
+            <f:entry title="${%timeout.title}" help="${helpUrl}timeout.html">
+              <f:textbox name="bap-pub.timeout" value="${hostconfig.timeout}" default="${defaultTimeout}"/>
+            </f:entry>
+            <f:entry title="${%useActiveData.title}" help="${helpUrl}useActiveData.html">
+              <f:checkbox name="bap-pub.useActiveData" checked="${hostconfig.useActiveData}" />
+            </f:entry>
+          </f:advanced>
+          <f:validateButton
+            title="${%test.title}" progress="${%test.progress}"
+            method="testConnection" with="bap-pub.name,bap-pub.hostname,bap-pub.username,bap-pub.password,bap-pub.remoteRootDir,bap-pub.port,bap-pub.timeout,bap-pub.useActiveData" />
+          <f:entry title="">
+            <div align="right">
+              <f:repeatableDeleteButton />
+            </div>
+          </f:entry>
+        </table>
+      </f:repeatable>
+    </f:entry>
+  </f:section>
+
+
+</j:jelly>

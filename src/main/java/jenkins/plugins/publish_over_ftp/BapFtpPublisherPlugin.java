@@ -33,7 +33,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.util.List;
 
-public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClient> {
+public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClient, Object> {
 
     private static BPPluginDescriptor.DescriptorMessages createDescriptorMessages() {
         return new BPPluginDescriptor.DescriptorMessages() {
@@ -50,8 +50,8 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     }
 
     @Extension
-    public static final BPPluginDescriptor<BapFtpHostConfiguration> DESCRIPTOR = new BPPluginDescriptor<BapFtpHostConfiguration>(
-            createDescriptorMessages(), BapFtpPublisherPlugin.class, BapFtpHostConfiguration.class);
+    public static final BPPluginDescriptor<BapFtpHostConfiguration, Object> DESCRIPTOR = new BPPluginDescriptor<BapFtpHostConfiguration, Object>(
+            createDescriptorMessages(), BapFtpPublisherPlugin.class, BapFtpHostConfiguration.class, null);
 
     @DataBoundConstructor
 	public BapFtpPublisherPlugin(List<BapFtpPublisher> publishers, boolean continueOnError, boolean failOnError, boolean alwaysPublishFromMaster) {

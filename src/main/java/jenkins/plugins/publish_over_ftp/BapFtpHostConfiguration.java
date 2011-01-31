@@ -39,7 +39,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient> {
+public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> {
 
     static final long serialVersionUID = 1L;
     

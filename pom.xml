@@ -102,12 +102,6 @@
 					<compatibleSinceVersion>1.0</compatibleSinceVersion>
 				</configuration>
 			</plugin>
-            <plugin>
-                <groupId>com.googlecode.maven-overview-plugin</groupId>
-                <artifactId>maven-overview-plugin</artifactId>
-                <version>RELEASE</version>
-            </plugin>
-            
 		</plugins>
 	</build>
 </project>

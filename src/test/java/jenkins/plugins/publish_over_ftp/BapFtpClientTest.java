@@ -193,27 +193,27 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
     
-    @Test public void testSetBeginTransfers_ascii() throws Exception {
+    @Test public void testBeginTransfers_ascii() throws Exception {
         expect(mockFTPClient.setFileType(FTP.ASCII_FILE_TYPE)).andReturn(true);
         mockControl.replay();
-        bapFtpClient.beginTransfers(new BapFtpTransfer("", "", "", true, false, false));
+        bapFtpClient.beginTransfers(new BapFtpTransfer("*", "", "", true, false, false));
         mockControl.verify();
     }
     
-    @Test public void testSetBeginTransfers_binary() throws Exception {
+    @Test public void testBeginTransfers_binary() throws Exception {
         expect(mockFTPClient.setFileType(FTP.BINARY_FILE_TYPE)).andReturn(true);
         mockControl.replay();
-        bapFtpClient.beginTransfers(new BapFtpTransfer("", "", "", false, false, false));
+        bapFtpClient.beginTransfers(new BapFtpTransfer("*", "", "", false, false, false));
         mockControl.verify();
     }
     
-    @Test public void testSetBeginTransfers_fail() throws Exception {
+    @Test public void testBeginTransfers_fail() throws Exception {
         String why = "123 Something went wrong!";
         expect(mockFTPClient.setFileType(FTP.BINARY_FILE_TYPE)).andReturn(false);
         expect(mockFTPClient.getReplyString()).andReturn(why);
         mockControl.replay();
         try {
-            bapFtpClient.beginTransfers(new BapFtpTransfer("", "", "", false, false, false));
+            bapFtpClient.beginTransfers(new BapFtpTransfer("*", "", "", false, false, false));
             fail();
         } catch (BapPublisherException bpe) {
             assertTrue(bpe.getMessage().contains(why));
@@ -221,11 +221,11 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
     
-    @Test public void testSetBeginTransfers_IOException() throws Exception {
+    @Test public void testBeginTransfers_IOException() throws Exception {
         expect(mockFTPClient.setFileType(FTP.BINARY_FILE_TYPE)).andThrow(IO_EXCEPTION);
         mockControl.replay();
         try {
-            bapFtpClient.beginTransfers(new BapFtpTransfer("", "", "", false, false, false));
+            bapFtpClient.beginTransfers(new BapFtpTransfer("*", "", "", false, false, false));
             fail();
         } catch (BapPublisherException bpe) {
             assertSame(IO_EXCEPTION, bpe.getCause());
@@ -233,16 +233,26 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
     
-    @Test public void testSetBeginTransfers_RuntimeException() throws Exception {
+    @Test public void testBeginTransfers_RuntimeException() throws Exception {
         expect(mockFTPClient.setFileType(FTP.BINARY_FILE_TYPE)).andThrow(RUNTIME_EXCEPTION);
         mockControl.replay();
         try {
-            bapFtpClient.beginTransfers(new BapFtpTransfer("", "", "", false, false, false));
+            bapFtpClient.beginTransfers(new BapFtpTransfer("*", "", "", false, false, false));
             fail();
         } catch (RuntimeException re) {
             assertSame(RUNTIME_EXCEPTION, re);
         }
         mockControl.verify();
+    }
+    
+//    @TODO ensure that we cannot be configured without Source files so that this should never occur if using the GUI
+    @Test public void testSetBeginTransfers_failIfNoSourceFiles() throws Exception {
+        try {
+            bapFtpClient.beginTransfers(new BapFtpTransfer("", "", "", false, false, false));
+            fail();
+        } catch (BapPublisherException bpe) {
+            assertEquals(Messages.exception_noSourceFiles(), bpe.getMessage());
+        }
     }
     
     @Test public void testTransferFile_success() throws Exception {

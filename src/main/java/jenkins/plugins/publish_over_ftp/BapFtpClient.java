@@ -25,6 +25,7 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.FilePath;
+import hudson.Util;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPDefaultClient;
 import jenkins.plugins.publish_over.BapPublisherException;
@@ -71,6 +72,8 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
     }
 
     public void beginTransfers(BapFtpTransfer transfer) {
+        if (!transfer.hasConfiguredSourceFiles())
+            throw new BapPublisherException(Messages.exception_noSourceFiles());
         try {
             if(!setTransferMode(transfer))
                 throw new BapPublisherException(Messages.exception_failedToSetTransferMode(ftpClient.getReplyString()));

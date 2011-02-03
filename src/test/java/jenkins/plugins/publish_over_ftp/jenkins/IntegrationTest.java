@@ -61,7 +61,7 @@ public class IntegrationTest extends HudsonTestCase {
         final String dirToIgnore = "target";
         BapFtpTransfer transfer = new BapFtpTransfer("**/*", "sub-home", dirToIgnore, true, false, false);
         BapFtpPublisher publisher = new BapFtpPublisher(testHostConfig.getName(), false, Collections.singletonList(transfer));
-        BapFtpPublisherPlugin plugin = new BapFtpPublisherPlugin(Collections.singletonList(publisher), false, false, false);
+        BapFtpPublisherPlugin plugin = new BapFtpPublisherPlugin(Collections.singletonList(publisher), false, false, false, "master");
 
         FreeStyleProject project = createFreeStyleProject();
         project.getPublishersList().add(plugin);

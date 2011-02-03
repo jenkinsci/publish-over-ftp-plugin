@@ -35,27 +35,12 @@ import java.util.List;
 
 public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClient, Object> {
 
-    private static BPPluginDescriptor.DescriptorMessages createDescriptorMessages() {
-        return new BPPluginDescriptor.DescriptorMessages() {
-            public String displayName() {
-                return Messages.descriptor_displayName();
-            }
-            public String connectionOK() {
-                return Messages.descriptor_testConnection_ok();
-            }
-            public String connectionErr() {
-                return Messages.descriptor_testConnection_error();
-            }
-        };
-    }
-
     @Extension
-    public static final BPPluginDescriptor<BapFtpHostConfiguration, Object> DESCRIPTOR = new BPPluginDescriptor<BapFtpHostConfiguration, Object>(
-            createDescriptorMessages(), BapFtpPublisherPlugin.class, BapFtpHostConfiguration.class, null);
+    public static final Descriptor DESCRIPTOR = new Descriptor();
 
     @DataBoundConstructor
-	public BapFtpPublisherPlugin(List<BapFtpPublisher> publishers, boolean continueOnError, boolean failOnError, boolean alwaysPublishFromMaster) {
-        super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster);
+	public BapFtpPublisherPlugin(List<BapFtpPublisher> publishers, boolean continueOnError, boolean failOnError, boolean alwaysPublishFromMaster, String masterNodeName) {
+        super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
     }
     
     public boolean equals(Object o) {
@@ -76,5 +61,23 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     public BapFtpHostConfiguration getConfiguration(String name) {
 		return DESCRIPTOR.getConfiguration(name);
 	}
-
+    
+    public static class Descriptor extends BPPluginDescriptor<BapFtpHostConfiguration, Object> {
+        public Descriptor() {
+            super(new DescriptorMessages(), BapFtpPublisherPlugin.class, BapFtpHostConfiguration.class, null);
+        }
+    }
+    
+    public static class DescriptorMessages implements BPPluginDescriptor.BPDescriptorMessages {
+        public String displayName() {
+            return Messages.descriptor_displayName();
+        }
+        public String connectionOK() {
+            return Messages.descriptor_testConnection_ok();
+        }
+        public String connectionErr() {
+            return Messages.descriptor_testConnection_error();
+        }
+    }
+    
 }

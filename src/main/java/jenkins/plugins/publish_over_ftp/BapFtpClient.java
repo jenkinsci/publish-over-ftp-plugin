@@ -42,7 +42,6 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
 
     private BPBuildInfo buildInfo;
     private FTPClient ftpClient;
-    private String absoluteRemoteRoot;
 
     public BapFtpClient(FTPClient ftpClient, BPBuildInfo buildInfo) {
         this.ftpClient = ftpClient;
@@ -54,13 +53,6 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
 
     public BPBuildInfo getBuildInfo() { return buildInfo; }
     public void setBuildInfo(BPBuildInfo buildInfo) { this.buildInfo = buildInfo; }
-
-    public String getAbsoluteRemoteRoot() { return absoluteRemoteRoot; }
-    public void setAbsoluteRemoteRoot(String absoluteRemoteRoot) { this.absoluteRemoteRoot = absoluteRemoteRoot; }
-
-    public boolean changeToInitialDirectory() {
-        return changeDirectory(absoluteRemoteRoot);
-    }
 
     public boolean changeDirectory(String directory) {
         try {
@@ -80,18 +72,16 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
 
     public void beginTransfers(BapFtpTransfer transfer) {
         try {
-            if(!setTransferMode(transfer)) {
+            if(!setTransferMode(transfer))
                 throw new BapPublisherException(Messages.exception_failedToSetTransferMode(ftpClient.getReplyString()));
-            }
         } catch (IOException ioe) {
             throw new BapPublisherException(Messages.exception_exceptionSettingTransferMode(), ioe);
         }
     }
 
     public void transferFile(BapFtpTransfer client, FilePath filePath, InputStream content) throws IOException {
-        if(!ftpClient.storeFile(filePath.getName(), content)) {
+        if(!ftpClient.storeFile(filePath.getName(), content))
             throw new BapPublisherException(Messages.exception_failedToStoreFile(ftpClient.getReplyString()));
-        }
     }
 
     public void disconnect() {

@@ -51,18 +51,15 @@
                             <table width="100%" padding="0">
 
                                 <f:entry title="${%sourceFiles.title}" help="${helpUrl}sourceFiles.html">
-                                    <input name="bap-ftp.sourceFiles" class="setting-input"
-                                           type="text" value="${transfer.sourceFiles}" />
+                                    <f:textbox name="bap-ftp.sourceFiles" value="${transfer.sourceFiles}" />
                                 </f:entry>
 
                                 <f:entry title="${%removePrefix.title}" help="${helpUrl}removePrefix.html">
-                                    <input name="bap-ftp.removePrefix" class="setting-input"
-                                           type="text" value="${transfer.removePrefix}" />
+                                    <f:textbox name="bap-ftp.removePrefix" value="${transfer.removePrefix}" />
                                 </f:entry>
 
                                 <f:entry title="${%remoteDirectory.title}" help="${helpUrl}remoteDirectory.html">
-                                    <input name="bap-ftp.remoteDirectory" class="setting-input"
-                                           type="text" value="${transfer.remoteDirectory}" />
+                                    <f:textbox name="bap-ftp.remoteDirectory" value="${transfer.remoteDirectory}" />
                                 </f:entry>
 
                                 <f:advanced>
@@ -111,6 +108,9 @@
                 </f:entry>
                 <f:entry title="${%alwaysFtpFromMaster.title}" help="${helpUrl}alwaysFtpFromMaster.html">
                     <f:checkbox name="bap-ftp.alwaysPublishFromMaster" checked="${instance.alwaysPublishFromMaster}" />
+                </f:entry>
+                <f:entry title="${%masterNodeName.title}" help="${helpUrl}masterNodeName.html">
+                    <f:textbox name="bap-ftp.masterNodeName" value="${instance.masterNodeName}"/>
                 </f:entry>
             </f:advanced>
 

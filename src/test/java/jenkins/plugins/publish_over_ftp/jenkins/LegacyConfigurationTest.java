@@ -58,7 +58,7 @@ public class LegacyConfigurationTest extends HudsonTestCase {
         List<BapFtpPublisher> publishers = new LinkedList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);
-        BapFtpPublisherPlugin expectedPlugin = new BapFtpPublisherPlugin(publishers, true, true, true);
+        BapFtpPublisherPlugin expectedPlugin = new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER");
         assertEquals(expectedPlugin, getConfiguredPlugin());
     }
 

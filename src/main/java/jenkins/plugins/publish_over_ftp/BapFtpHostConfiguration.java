@@ -24,6 +24,7 @@
 
 package jenkins.plugins.publish_over_ftp;
 
+import hudson.Util;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPClient;
 import jenkins.plugins.publish_over.BPHostConfiguration;
@@ -105,7 +106,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     }
 
     private void setRootDirectoryInClient(BapFtpClient client) throws IOException {
-        if (isDirAbsolute(getRemoteRootDir())) {
+        if (isDirectoryAbsolute(getRemoteRootDir())) {
             client.setAbsoluteRemoteRoot(getRemoteRootDir());
         } else {
             client.setAbsoluteRemoteRoot(getRootDirectoryFromPwd(client));
@@ -116,24 +117,9 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         BPBuildInfo buildInfo = client.getBuildInfo();
         buildInfo.printIfVerbose(Messages.console_usingPwd());
         String pwd = client.getFtpClient().printWorkingDirectory();
-        if (!isDirAbsolute(pwd))
+        if (!isDirectoryAbsolute(pwd))
             exception(client, Messages.exception_pwdNotAbsolute(pwd));
         return pwd;
-    }
-
-    private boolean isDirAbsolute(String dir) {
-        if (dir == null)
-            return false;
-        return dir.startsWith("/") || dir.startsWith("\\");
-    }
-
-    private void changeToRootDirectory(BapFtpClient client) throws IOException {
-        String remoteRootDir = getRemoteRootDir();
-        if ((remoteRootDir != null) && (!"".equals(remoteRootDir.trim()))) {
-            if (!client.changeDirectory(remoteRootDir)) {
-                exception(client, Messages.exception_cwdRemoteRoot(remoteRootDir));
-            }
-        }
     }
 
     private void login(BapFtpClient client, PrintCommandListener commandListener) throws IOException {
@@ -168,10 +154,6 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         } else {
             ftpClient.enterLocalPassiveMode();
         }
-    }
-
-    private void exception(BPClient client, String message) {
-        BapPublisherException.exception(client, message);
     }
     
     public boolean equals(Object o) {

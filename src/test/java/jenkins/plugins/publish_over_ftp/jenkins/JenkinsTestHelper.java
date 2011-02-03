@@ -24,6 +24,7 @@
 
 package jenkins.plugins.publish_over_ftp.jenkins;
 
+import jenkins.plugins.publish_over.BPPluginDescriptor;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import hudson.util.CopyOnWriteList;
@@ -38,7 +39,7 @@ public class JenkinsTestHelper {
     }
     
     public CopyOnWriteList<BapFtpHostConfiguration> getHostConfigurations() throws Exception {
-        Field hostConfig = BapFtpPublisherPlugin.DESCRIPTOR.getClass().getDeclaredField("hostConfigurations");
+        Field hostConfig = BPPluginDescriptor.class.getDeclaredField("hostConfigurations");
         hostConfig.setAccessible(true);
         return (CopyOnWriteList)hostConfig.get(BapFtpPublisherPlugin.DESCRIPTOR);        
     }

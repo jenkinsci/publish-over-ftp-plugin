@@ -31,7 +31,6 @@
   <scm class="hudson.scm.NullSCM"/>
   <canRoam>true</canRoam>
   <disabled>false</disabled>
-  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
   <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
   <triggers class="vector"/>
   <concurrentBuild>false</concurrentBuild>
@@ -80,6 +79,7 @@
         <continueOnError>true</continueOnError>
         <failOnError>true</failOnError>
         <alwaysPublishFromMaster>true</alwaysPublishFromMaster>
+        <masterNodeName>MASTER</masterNodeName>
         <hostConfigurationAccess class="jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin" reference="../.."/>
       </delegate>
       <consolePrefix>FTP: </consolePrefix>

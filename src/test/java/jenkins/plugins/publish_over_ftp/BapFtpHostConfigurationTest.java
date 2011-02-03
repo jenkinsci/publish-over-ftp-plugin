@@ -45,7 +45,7 @@ import static org.easymock.EasyMock.expect;
 public class BapFtpHostConfigurationTest {
     
     private Map<String, String> envVars = new TreeMap<String, String>();
-    private BPBuildInfo buildInfo = new BPBuildInfo(envVars, new FilePath(new File("aBaseDir")), Calendar.getInstance(), TaskListener.NULL, "");
+    private BPBuildInfo buildInfo = new BPBuildInfo(envVars, new FilePath(new File("aBaseDir")), Calendar.getInstance(), TaskListener.NULL, "", new FilePath(new File("")));
     private IMocksControl mockControl = EasyMock.createStrictControl();
     FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
     private BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient();

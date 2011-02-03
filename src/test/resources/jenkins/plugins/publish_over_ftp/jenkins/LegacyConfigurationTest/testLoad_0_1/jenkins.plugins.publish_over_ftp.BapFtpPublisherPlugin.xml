@@ -23,7 +23,9 @@
   ~ THE SOFTWARE.
   -->
 
-<jenkins.plugins.publish__over.BPPluginDescriptor>
+<jenkins.plugins.publish__over__ftp.BapFtpPublisherPlugin_-Descriptor>
+  <msg class="jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin$DescriptorMessages"/>
+  <hostConfigClass>jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration</hostConfigClass>
   <hostConfigurations>
     <jenkins.plugins.publish__over__ftp.BapFtpHostConfiguration>
       <name>Config a</name>
@@ -46,6 +48,4 @@
       <useActiveData>true</useActiveData>
     </jenkins.plugins.publish__over__ftp.BapFtpHostConfiguration>
   </hostConfigurations>
-  <hostConfigClass>jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration</hostConfigClass>
-  <msg class="jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin$1"/>
-</jenkins.plugins.publish__over.BPPluginDescriptor>
+</jenkins.plugins.publish__over__ftp.BapFtpPublisherPlugin_-Descriptor>

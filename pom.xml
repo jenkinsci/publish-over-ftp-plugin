@@ -41,7 +41,7 @@
 	<name>Publish Over FTP</name>
 	<version>0.1-SNAPSHOT</version>
 	<description>Send build artifacts over FTP</description>
-	<!-- <url>http://wiki.hudson-ci.org/display/HUDSON/Publish+Over+FTP+Plugin</url> -->
+    <url>http://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+FTP+Plugin</url> 
 
     <licenses>
         <license>

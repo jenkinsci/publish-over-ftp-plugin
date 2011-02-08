@@ -49,6 +49,8 @@ import static org.mockito.Mockito.*;
 
 public class IntegrationTest extends HudsonTestCase {
     
+//    @TODO test that we get the expected result when in a promotion 
+    
     public void testIntegration() throws Exception {
         final FTPClient mockFTPClient = mock(FTPClient.class);
         BapFtpHostConfiguration testHostConfig = new BapFtpHostConfiguration("testConfig", "testHostname", "testUsername", "testPassword", "/testRemoteRoot", 21, 3000, false) {

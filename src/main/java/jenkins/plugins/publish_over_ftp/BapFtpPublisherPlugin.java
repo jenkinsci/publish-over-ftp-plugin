@@ -25,6 +25,7 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.Extension;
+import hudson.model.AbstractProject;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -65,6 +66,9 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     public static class Descriptor extends BPPluginDescriptor<BapFtpHostConfiguration, Object> {
         public Descriptor() {
             super(new DescriptorMessages(), BapFtpPublisherPlugin.class, BapFtpHostConfiguration.class, null);
+        }
+        public boolean isApplicable(Class<? extends AbstractProject> aClass) {
+            return !BPPlugin.PROMOTION_JOB_TYPE.equals(aClass.getCanonicalName());
         }
     }
     

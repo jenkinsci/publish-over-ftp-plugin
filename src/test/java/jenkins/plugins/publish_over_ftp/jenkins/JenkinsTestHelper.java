@@ -24,10 +24,10 @@
 
 package jenkins.plugins.publish_over_ftp.jenkins;
 
+import hudson.util.CopyOnWriteList;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
-import hudson.util.CopyOnWriteList;
 
 import java.lang.reflect.Field;
 

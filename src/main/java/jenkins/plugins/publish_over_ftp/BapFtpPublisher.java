@@ -33,9 +33,13 @@ import java.util.List;
 
 public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
 
-    @DataBoundConstructor
     public BapFtpPublisher(String configName, boolean verbose, List<BapFtpTransfer> transfers) {
-        super(configName, verbose, transfers);
+        this(configName, verbose, transfers, false, false);
+    }
+    
+    @DataBoundConstructor
+    public BapFtpPublisher(String configName, boolean verbose, List<BapFtpTransfer> transfers, boolean useWorkspaceInPromotion, boolean usePromotionTimestamp) {
+        super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp);
     }
     
     public boolean equals(Object o) {

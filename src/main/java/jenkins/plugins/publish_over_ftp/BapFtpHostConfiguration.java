@@ -24,9 +24,7 @@
 
 package jenkins.plugins.publish_over_ftp;
 
-import hudson.Util;
 import jenkins.plugins.publish_over.BPBuildInfo;
-import jenkins.plugins.publish_over.BPClient;
 import jenkins.plugins.publish_over.BPHostConfiguration;
 import jenkins.plugins.publish_over.BapPublisherException;
 import org.apache.commons.lang.builder.ToStringBuilder;

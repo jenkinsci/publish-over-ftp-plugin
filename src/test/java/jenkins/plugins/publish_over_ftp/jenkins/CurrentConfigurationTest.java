@@ -24,14 +24,11 @@
 
 package jenkins.plugins.publish_over_ftp.jenkins;
 
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import hudson.model.FreeStyleProject;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
-import org.junit.Ignore;
 import org.jvnet.hudson.test.HudsonTestCase;
 
 import java.util.LinkedList;

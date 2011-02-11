@@ -25,7 +25,6 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.FilePath;
-import hudson.Util;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPDefaultClient;
 import jenkins.plugins.publish_over.BapPublisherException;

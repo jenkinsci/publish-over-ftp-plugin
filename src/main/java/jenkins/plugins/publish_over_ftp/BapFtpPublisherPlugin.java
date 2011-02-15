@@ -26,11 +26,13 @@ package jenkins.plugins.publish_over_ftp;
 
 import hudson.Extension;
 import hudson.model.AbstractProject;
+import hudson.util.FormValidation;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
 
 import java.util.List;
 
@@ -69,6 +71,12 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         }
         public boolean isApplicable(Class<? extends AbstractProject> aClass) {
             return !BPPlugin.PROMOTION_JOB_TYPE.equals(aClass.getCanonicalName());
+        }
+        public FormValidation doCheckSourceFiles(@QueryParameter String value) {
+            return FormValidation.validateRequired(value);
+        }
+        public BapFtpPublisherPlugin.Descriptor getPublisherDescriptor() {
+            return this;
         }
     }
     

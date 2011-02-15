@@ -35,7 +35,7 @@
                 <table width="100%" padding="0">
 
                     <f:entry title="${%hostconfig.title}" help="${helpUrl}configName.html">
-                        <select class="setting-input" name="bap-ftp.configName" description="${%hostconfig.description}">
+                        <select class="setting-input" name="configName" description="${%hostconfig.description}">
                             <j:forEach var="s" items="${descriptor.hostConfigurations}">
                                 <f:option selected="${s.name==publisher.configName}">${s.name}</f:option>
                             </j:forEach>
@@ -43,15 +43,15 @@
                     </f:entry>
 
                     <f:entry title="${%verbose.title}" help="${helpUrl}verbose.html">
-                        <f:checkbox name="bap-ftp.verbose" checked="${publisher.verbose}" />
+                        <f:checkbox name="verbose" checked="${publisher.verbose}" />
                     </f:entry>
                     
                     <j:if test='${descriptor.getClass().getCanonicalName().contains("BapFtpPromotionPublisherPlugin")}'>
                         <f:entry title="${%useWorkspaceInPromotion.title}" help="${helpUrl}useWorkspaceInPromotion.html">
-                            <f:checkbox name="bap-ftp.useWorkspaceInPromotion" checked="${publisher.useWorkspaceInPromotion}" />
+                            <f:checkbox name="useWorkspaceInPromotion" checked="${publisher.useWorkspaceInPromotion}" />
                         </f:entry>
                         <f:entry title="${%usePromotionTimestamp.title}" help="${helpUrl}usePromotionTimestamp.html">
-                            <f:checkbox name="bap-ftp.usePromotionTimestamp" checked="${publisher.usePromotionTimestamp}" />
+                            <f:checkbox name="usePromotionTimestamp" checked="${publisher.usePromotionTimestamp}" />
                         </f:entry>
                     </j:if>
 
@@ -60,28 +60,28 @@
                             <table width="100%" padding="0">
 
                                 <f:entry title="${%sourceFiles.title}" help="${helpUrl}sourceFiles.html">
-                                    <f:textbox name="bap-ftp.sourceFiles" value="${transfer.sourceFiles}" />
+                                    <f:textbox name="sourceFiles" value="${transfer.sourceFiles}" checkUrl="${descriptor.publisherDescriptor.getCheckUrl('sourceFiles')}"/>
                                 </f:entry>
 
                                 <f:entry title="${%removePrefix.title}" help="${helpUrl}removePrefix.html">
-                                    <f:textbox name="bap-ftp.removePrefix" value="${transfer.removePrefix}" />
+                                    <f:textbox name="removePrefix" value="${transfer.removePrefix}" />
                                 </f:entry>
 
                                 <f:entry title="${%remoteDirectory.title}" help="${helpUrl}remoteDirectory.html">
-                                    <f:textbox name="bap-ftp.remoteDirectory" value="${transfer.remoteDirectory}" />
+                                    <f:textbox name="remoteDirectory" value="${transfer.remoteDirectory}" />
                                 </f:entry>
 
                                 <f:advanced>
                                     <f:entry title="${%asciiMode.title}" help="${helpUrl}asciiMode.html">
-                                        <f:checkbox name="bap-ftp.asciiMode" checked="${transfer.asciiMode}"/>
+                                        <f:checkbox name="asciiMode" checked="${transfer.asciiMode}"/>
                                     </f:entry>
 
                                     <f:entry title="${%flatten.title}" help="${helpUrl}flatten.html">
-                                        <f:checkbox name="bap-ftp.flatten" checked="${transfer.flatten}" />
+                                        <f:checkbox name="flatten" checked="${transfer.flatten}" />
                                     </f:entry>
 
                                     <f:entry title="${%remoteDirectorySDF.title}" help="${helpUrl}remoteDirectorySDF.html">
-                                        <f:checkbox name="bap-ftp.remoteDirectorySDF" checked="${transfer.remoteDirectorySDF}" />
+                                        <f:checkbox name="remoteDirectorySDF" checked="${transfer.remoteDirectorySDF}" />
                                     </f:entry>
 
                                 </f:advanced>
@@ -110,16 +110,16 @@
 
             <f:advanced>
                 <f:entry title="${%continueOnError.title}" help="${helpUrl}continueOnError.html">
-                    <f:checkbox name="bap-ftp.continueOnError" checked="${instance.continueOnError}" />
+                    <f:checkbox name="continueOnError" checked="${instance.continueOnError}" />
                 </f:entry>
                 <f:entry title="${%failOnError.title}" help="${helpUrl}failOnError.html">
-                    <f:checkbox name="bap-ftp.failOnError" checked="${instance.failOnError}" />
+                    <f:checkbox name="failOnError" checked="${instance.failOnError}" />
                 </f:entry>
                 <f:entry title="${%alwaysFtpFromMaster.title}" help="${helpUrl}alwaysFtpFromMaster.html">
-                    <f:checkbox name="bap-ftp.alwaysPublishFromMaster" checked="${instance.alwaysPublishFromMaster}" />
+                    <f:checkbox name="alwaysPublishFromMaster" checked="${instance.alwaysPublishFromMaster}" />
                 </f:entry>
                 <f:entry title="${%masterNodeName.title}" help="${helpUrl}masterNodeName.html">
-                    <f:textbox name="bap-ftp.masterNodeName" value="${instance.masterNodeName}"/>
+                    <f:textbox name="masterNodeName" value="${instance.masterNodeName}"/>
                 </f:entry>
             </f:advanced>
 

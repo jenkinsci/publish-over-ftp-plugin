@@ -35,10 +35,10 @@
       <f:repeatable var="hostconfig" items="${descriptor.hostConfigurations}" header="${%hostconfig.dragAndDrop}">
         <table width="100%">
           <f:entry title="${%name.title}" help="${helpUrl}name.html">
-            <f:textbox name="bap-pub.name" value="${hostconfig.name}"/>
+            <f:textbox name="bap-pub.name" value="${hostconfig.name}" checkUrl="${descriptor.getCheckUrl('name')}"/>
           </f:entry>
           <f:entry title="${%hostname.title}" help="${helpUrl}hostname.html">
-            <f:textbox name="bap-pub.hostname" value="${hostconfig.hostname}"/>
+            <f:textbox name="bap-pub.hostname" value="${hostconfig.hostname}" checkUrl="${descriptor.getCheckUrl('hostname')}"/>
           </f:entry>
           <f:entry title="${%username.title}" help="${helpUrl}username.html">
             <f:textbox name="bap-pub.username" value="${hostconfig.username}" />
@@ -51,10 +51,10 @@
           </f:entry>
           <f:advanced>
             <f:entry title="${%port.title}" help="${helpUrl}port.html">
-              <f:textbox name="bap-pub.port" value="${hostconfig.port}" default="${defaultPort}"/>
+              <f:textbox name="bap-pub.port" value="${hostconfig.port}" default="${defaultPort}" checkUrl="${descriptor.getCheckUrl('port')}"/>
             </f:entry>
             <f:entry title="${%timeout.title}" help="${helpUrl}timeout.html">
-              <f:textbox name="bap-pub.timeout" value="${hostconfig.timeout}" default="${defaultTimeout}"/>
+              <f:textbox name="bap-pub.timeout" value="${hostconfig.timeout}" default="${defaultTimeout}" checkUrl="${descriptor.getCheckUrl('timeout')}"/>
             </f:entry>
             <f:entry title="${%useActiveData.title}" help="${helpUrl}useActiveData.html">
               <f:checkbox name="bap-pub.useActiveData" checked="${hostconfig.useActiveData}" />

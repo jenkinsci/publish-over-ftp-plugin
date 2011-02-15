@@ -136,7 +136,10 @@ public class BapFtpPromotionPublisherPlugin extends Notifier {
             return getViewPage(BapFtpPublisherPlugin.class, "config.jelly");
         }
         public List<BapFtpHostConfiguration> getHostConfigurations() {
-            return BapFtpPublisherPlugin.DESCRIPTOR.getHostConfigurations();
+            return getPublisherDescriptor().getHostConfigurations();
+        }
+        public BapFtpPublisherPlugin.Descriptor getPublisherDescriptor() {
+            return BapFtpPublisherPlugin.DESCRIPTOR;
         }
     }
 

@@ -53,13 +53,14 @@
                         <f:entry title="${%usePromotionTimestamp.title}" help="${helpUrl}usePromotionTimestamp.html">
                             <f:checkbox name="usePromotionTimestamp" checked="${publisher.usePromotionTimestamp}" />
                         </f:entry>
+                        <j:set var="promoHelpSuffix" value="ForPromotion"/>
                     </j:if>
 
                     <f:entry title="${%ftpTransfers.section}" help="${helpUrl}ftpTransfers.html">
                         <f:repeatable items="${publisher.transfers}" var="transfer" name="transfers" minimum="1" header="${%ftpTransfers.dragAndDropLabel}" add="${%addFtpTransfers.value}">
                             <table width="100%" padding="0">
 
-                                <f:entry title="${%sourceFiles.title}" help="${helpUrl}sourceFiles.html">
+                                <f:entry title="${%sourceFiles.title}" help="${helpUrl}sourceFiles${promoHelpSuffix}.html">
                                     <f:textbox name="sourceFiles" value="${transfer.sourceFiles}" checkUrl="${descriptor.publisherDescriptor.getCheckUrl('sourceFiles')}"/>
                                 </f:entry>
 

@@ -30,7 +30,7 @@
 
     <f:entry title="${%publishers.section}">
 
-            <f:repeatable items="${instance.publishers}" var="publisher" name="publishers" minimum="1" header="${%publisher.dragAndDropLabel}" add="${%addPublisher.value}">
+            <f:repeatable items="${instance.instanceConfig.publishers}" var="publisher" name="publishers" minimum="1" header="${%publisher.dragAndDropLabel}" add="${%addPublisher.value}">
 
                 <table width="100%" padding="0">
 
@@ -46,10 +46,22 @@
                         <f:checkbox name="verbose" checked="${publisher.verbose}" />
                     </f:entry>
                     
-                    <j:if test='${descriptor.getClass().getCanonicalName().contains("BapFtpPromotionPublisherPlugin")}'>
-                        <f:entry title="${%useWorkspaceInPromotion.title}" help="${helpUrl}useWorkspaceInPromotion.html">
-                            <f:checkbox name="useWorkspaceInPromotion" checked="${publisher.useWorkspaceInPromotion}" />
-                        </f:entry>
+                    <j:if test='${descriptor.getClass().canonicalName.contains("BapFtpPromotionPublisherPlugin")}'>
+                        <j:choose>
+                            <j:when test="${it.getClass().canonicalName == 'hudson.matrix.MatrixProject'}">
+                                <f:entry title="${%useWorkspaceInPromotion.title}" help="${helpUrl}useWorkspaceInPromotionForMatrix.html">
+                                    <input type="checkbox" checked="true" disabled="true"/>
+                                </f:entry>
+                                <f:invisiblEntry>
+                                    <f:checkbox name="useWorkspaceInPromotion" checked="true"/>
+                                </f:invisiblEntry>
+                            </j:when>
+                            <j:otherwise>
+                                <f:entry title="${%useWorkspaceInPromotion.title}" help="${helpUrl}useWorkspaceInPromotion.html">
+                                    <f:checkbox name="useWorkspaceInPromotion" checked="${publisher.useWorkspaceInPromotion}" />
+                                </f:entry>
+                            </j:otherwise>
+                        </j:choose>
                         <f:entry title="${%usePromotionTimestamp.title}" help="${helpUrl}usePromotionTimestamp.html">
                             <f:checkbox name="usePromotionTimestamp" checked="${publisher.usePromotionTimestamp}" />
                         </f:entry>
@@ -97,8 +109,6 @@
                         </f:repeatable>
                     </f:entry>
 
-
-
                     <f:entry title="">
                         <div align="right" class="show-if-not-only">
                             <f:repeatableDeleteButton value="${%deletePublisher.value}"/>
@@ -111,16 +121,16 @@
 
             <f:advanced>
                 <f:entry title="${%continueOnError.title}" help="${helpUrl}continueOnError.html">
-                    <f:checkbox name="continueOnError" checked="${instance.continueOnError}" />
+                    <f:checkbox name="continueOnError" checked="${instance.instanceConfig.continueOnError}" />
                 </f:entry>
                 <f:entry title="${%failOnError.title}" help="${helpUrl}failOnError.html">
-                    <f:checkbox name="failOnError" checked="${instance.failOnError}" />
+                    <f:checkbox name="failOnError" checked="${instance.instanceConfig.failOnError}" />
                 </f:entry>
                 <f:entry title="${%alwaysFtpFromMaster.title}" help="${helpUrl}alwaysFtpFromMaster.html">
-                    <f:checkbox name="alwaysPublishFromMaster" checked="${instance.alwaysPublishFromMaster}" />
+                    <f:checkbox name="alwaysPublishFromMaster" checked="${instance.instanceConfig.alwaysPublishFromMaster}" />
                 </f:entry>
                 <f:entry title="${%masterNodeName.title}" help="${helpUrl}masterNodeName.html">
-                    <f:textbox name="masterNodeName" value="${instance.masterNodeName}"/>
+                    <f:textbox name="masterNodeName" value="${instance.instanceConfig.masterNodeName}"/>
                 </f:entry>
             </f:advanced>
 

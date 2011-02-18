@@ -84,6 +84,10 @@
                                     <f:textbox name="remoteDirectory" value="${transfer.remoteDirectory}" />
                                 </f:entry>
 
+                                <f:entry>
+                                    <j:out value='${%transfers.envVars(rootURL)}'/>
+                                </f:entry>
+
                                 <f:advanced>
                                     <f:entry title="${%asciiMode.title}" help="${helpUrl}asciiMode.html">
                                         <f:checkbox name="asciiMode" checked="${transfer.asciiMode}"/>

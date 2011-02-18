@@ -44,7 +44,7 @@
             <f:textbox name="bap-pub.username" value="${hostconfig.username}" />
           </f:entry>
           <f:entry title="${%password.title}" help="${helpUrl}password.html">
-            <input class="setting-input" name="bap-pub.password" type="password" value="${hostconfig.password}" />
+            <input class="setting-input" name="bap-pub.password" type="password" value="${hostconfig.encryptedPassword}" />
           </f:entry>
           <f:entry title="${%remotePath.title}" help="${helpUrl}remoteRootDir.html">
             <f:textbox name="bap-pub.remoteRootDir" value="${hostconfig.remoteRootDir}"/>

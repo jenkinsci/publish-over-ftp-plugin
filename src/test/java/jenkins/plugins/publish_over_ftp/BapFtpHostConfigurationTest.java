@@ -26,11 +26,14 @@ package jenkins.plugins.publish_over_ftp;
 
 import hudson.FilePath;
 import hudson.model.TaskListener;
+import hudson.util.SecretHelper;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.File;
@@ -42,6 +45,16 @@ import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.expect;
 
 public class BapFtpHostConfigurationTest {
+    
+    @BeforeClass
+    public static void before() {
+        SecretHelper.setSecretKey();
+    }
+    
+    @AfterClass
+    public static void after() {
+        SecretHelper.clearSecretKey();
+    }
     
     private Map<String, String> envVars = new TreeMap<String, String>();
     private BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);

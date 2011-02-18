@@ -37,15 +37,9 @@ import java.util.List;
 public class CurrentConfigurationTest extends HudsonTestCase {
     
     FreeStyleProject project;
-    BapFtpHostConfiguration configA = new BapFtpHostConfiguration("host A", "", "", "", "", 0, 0, false);
-    BapFtpHostConfiguration configB = new BapFtpHostConfiguration("host B", "", "", "", "", 0, 0, false);
+    BapFtpHostConfiguration configA;
+    BapFtpHostConfiguration configB;
     JenkinsTestHelper testHelper = new JenkinsTestHelper();
-    
-    public void setUp() throws Exception {
-        super.setUp();
-        project = createFreeStyleProject();
-        testHelper.setGlobalConfig(configA, configB);
-    }
     
     public void test_TEST_DISABLED() throws Exception {
         for (int i = 0; i < 3; i++) {
@@ -57,6 +51,10 @@ public class CurrentConfigurationTest extends HudsonTestCase {
     }
 //    @TODO figure out why this no longer works
     public void _testRoundTrip() throws Exception {
+        configA = new BapFtpHostConfiguration("host A", "", "", "", "", 0, 0, false);
+        configB = new BapFtpHostConfiguration("host B", "", "", "", "", 0, 0, false);
+        project = createFreeStyleProject();
+        testHelper.setGlobalConfig(configA, configB);
         BapFtpPublisherPlugin plugin = createPlugin();       
         project.getPublishersList().add(plugin);
         

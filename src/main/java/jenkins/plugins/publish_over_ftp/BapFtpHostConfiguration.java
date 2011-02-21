@@ -51,23 +51,23 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private int timeout;
     private boolean useActiveData;
 
-	public BapFtpHostConfiguration() {}
+	public BapFtpHostConfiguration() { }
 
     @DataBoundConstructor
-	public BapFtpHostConfiguration(String name, String hostname, String username, String password, String remoteRootDir, int port, int timeout, boolean useActiveData) {
+	public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String password, final String remoteRootDir, final int port, final int timeout, final boolean useActiveData) {
         super(name, hostname, username, password, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
 	}
 
 	public int getTimeout() { return timeout; }
-	public void setTimeout(int timeout) { this.timeout = timeout; }
+	public void setTimeout(final int timeout) { this.timeout = timeout; }
 
     public boolean isUseActiveData() { return useActiveData; }
-    public void setUseActiveData(boolean useActiveData) { this.useActiveData = useActiveData; }
+    public void setUseActiveData(final boolean useActiveData) { this.useActiveData = useActiveData; }
 
     @Override
-    public BapFtpClient createClient(BPBuildInfo buildInfo) {
+    public BapFtpClient createClient(final BPBuildInfo buildInfo) {
         BapFtpClient client = new BapFtpClient(createFTPClient(), buildInfo);
         try {
             init(client);
@@ -81,7 +81,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         return new FTPClient();
     }
 
-	private void init(BapFtpClient client) throws IOException {
+	private void init(final BapFtpClient client) throws IOException {
 		FTPClient ftpClient = client.getFtpClient();
         BPBuildInfo buildInfo = client.getBuildInfo();
         PrintCommandListener commandPrinter = null;
@@ -98,12 +98,12 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         setRootDirectoryInClient(client);
 	}
 
-    private void configureFTPClient(FTPClient ftpClient) {
+    private void configureFTPClient(final FTPClient ftpClient) {
         ftpClient.setDefaultTimeout(timeout);
         ftpClient.setDataTimeout(timeout);
     }
 
-    private void setRootDirectoryInClient(BapFtpClient client) throws IOException {
+    private void setRootDirectoryInClient(final BapFtpClient client) throws IOException {
         if (isDirectoryAbsolute(getRemoteRootDir())) {
             client.setAbsoluteRemoteRoot(getRemoteRootDir());
         } else {
@@ -111,7 +111,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         }
     }
 
-    private String getRootDirectoryFromPwd(BapFtpClient client) throws IOException {
+    private String getRootDirectoryFromPwd(final BapFtpClient client) throws IOException {
         BPBuildInfo buildInfo = client.getBuildInfo();
         buildInfo.printIfVerbose(Messages.console_usingPwd());
         String pwd = client.getFtpClient().printWorkingDirectory();
@@ -120,7 +120,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         return pwd;
     }
 
-    private void login(BapFtpClient client, PrintCommandListener commandListener) throws IOException {
+    private void login(final BapFtpClient client, final PrintCommandListener commandListener) throws IOException {
         FTPClient ftpClient = client.getFtpClient();
         BPBuildInfo buildInfo = client.getBuildInfo();
         if (commandListener != null) {
@@ -136,7 +136,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         }
     }
 
-    private void connect(BapFtpClient client) throws IOException {
+    private void connect(final BapFtpClient client) throws IOException {
         FTPClient ftpClient = client.getFtpClient();
         ftpClient.connect(getHostname(), getPort());
         int responseCode = ftpClient.getReplyCode();
@@ -146,7 +146,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         setDataTransferMode(ftpClient);
     }
 
-    private void setDataTransferMode(FTPClient ftpClient) {
+    private void setDataTransferMode(final FTPClient ftpClient) {
         if (useActiveData) {
             ftpClient.enterLocalActiveMode();
         } else {
@@ -154,7 +154,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         }
     }
     
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BapFtpHostConfiguration that = (BapFtpHostConfiguration) o;

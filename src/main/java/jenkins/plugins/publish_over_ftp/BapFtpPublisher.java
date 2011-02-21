@@ -33,16 +33,16 @@ import java.util.List;
 
 public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
 
-    public BapFtpPublisher(String configName, boolean verbose, List<BapFtpTransfer> transfers) {
+    public BapFtpPublisher(final String configName, final boolean verbose, final List<BapFtpTransfer> transfers) {
         this(configName, verbose, transfers, false, false);
     }
     
     @DataBoundConstructor
-    public BapFtpPublisher(String configName, boolean verbose, List<BapFtpTransfer> transfers, boolean useWorkspaceInPromotion, boolean usePromotionTimestamp) {
+    public BapFtpPublisher(final String configName, final boolean verbose, final List<BapFtpTransfer> transfers, final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp) {
         super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp);
     }
     
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         

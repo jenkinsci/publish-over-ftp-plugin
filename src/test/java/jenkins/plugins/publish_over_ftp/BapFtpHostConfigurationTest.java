@@ -90,7 +90,7 @@ public class BapFtpHostConfigurationTest {
         testNoChangeToInitialDirectory("  ");
     }
 
-    private void testNoChangeToInitialDirectory(String remoteRoot) throws Exception {
+    private void testNoChangeToInitialDirectory(final String remoteRoot) throws Exception {
         bapFtpHostConfiguration.setRemoteRootDir(remoteRoot);
         expectConnectAndLogin();
         expect(mockFTPClient.printWorkingDirectory()).andReturn("/pub");
@@ -99,11 +99,11 @@ public class BapFtpHostConfigurationTest {
         assertEquals("/pub", client.getAbsoluteRemoteRoot());
     }
 
-    private void testChangeToInitialDirectory(String remoteRoot) throws Exception {
+    private void testChangeToInitialDirectory(final String remoteRoot) throws Exception {
         testChangeToInitialDirectory(remoteRoot, false);
     }
     
-    private void testChangeToInitialDirectory(String remoteRoot, boolean expectPwd) throws Exception {
+    private void testChangeToInitialDirectory(final String remoteRoot, final boolean expectPwd) throws Exception {
         bapFtpHostConfiguration.setRemoteRootDir(remoteRoot);
         expectConnectAndLogin();   
         expect(mockFTPClient.changeWorkingDirectory(remoteRoot)).andReturn(true);

@@ -42,11 +42,11 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     public static final Descriptor DESCRIPTOR = new Descriptor();
 
     @DataBoundConstructor
-	public BapFtpPublisherPlugin(List<BapFtpPublisher> publishers, boolean continueOnError, boolean failOnError, boolean alwaysPublishFromMaster, String masterNodeName) {
+	public BapFtpPublisherPlugin(final List<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError, final boolean alwaysPublishFromMaster, final String masterNodeName) {
         super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
     }
     
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         
@@ -61,7 +61,7 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
     }
 
-    public BapFtpHostConfiguration getConfiguration(String name) {
+    public BapFtpHostConfiguration getConfiguration(final String name) {
 		return DESCRIPTOR.getConfiguration(name);
 	}
     
@@ -69,10 +69,10 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         public Descriptor() {
             super(new DescriptorMessages(), BapFtpPublisherPlugin.class, BapFtpHostConfiguration.class, null);
         }
-        public boolean isApplicable(Class<? extends AbstractProject> aClass) {
+        public boolean isApplicable(final Class<? extends AbstractProject> aClass) {
             return !BPPlugin.PROMOTION_JOB_TYPE.equals(aClass.getCanonicalName());
         }
-        public FormValidation doCheckSourceFiles(@QueryParameter String value) {
+        public FormValidation doCheckSourceFiles(@QueryParameter final String value) {
             return FormValidation.validateRequired(value);
         }
         public BapFtpPublisherPlugin.Descriptor getPublisherDescriptor() {

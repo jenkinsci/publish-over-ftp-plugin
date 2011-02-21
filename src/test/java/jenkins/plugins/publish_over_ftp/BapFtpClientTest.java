@@ -245,7 +245,6 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
     
-//    @TODO ensure that we cannot be configured without Source files so that this should never occur if using the GUI
     @Test public void testSetBeginTransfers_failIfNoSourceFiles() throws Exception {
         try {
             bapFtpClient.beginTransfers(new BapFtpTransfer("", "", "", false, false, false));

@@ -33,7 +33,7 @@ import java.lang.reflect.Field;
 
 public class JenkinsTestHelper {
     
-    public void setGlobalConfig(BapFtpHostConfiguration... newHostConfigurations) throws Exception {
+    public void setGlobalConfig(final BapFtpHostConfiguration... newHostConfigurations) throws Exception {
         CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = getHostConfigurations();
         hostConfigurations.replaceBy(newHostConfigurations);
     }

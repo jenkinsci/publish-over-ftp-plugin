@@ -43,18 +43,18 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
     private BPBuildInfo buildInfo;
     private FTPClient ftpClient;
 
-    public BapFtpClient(FTPClient ftpClient, BPBuildInfo buildInfo) {
+    public BapFtpClient(final FTPClient ftpClient, final BPBuildInfo buildInfo) {
         this.ftpClient = ftpClient;
         this.buildInfo = buildInfo;
     }
 
     public FTPClient getFtpClient() { return ftpClient; }
-    public void setFtpClient(FTPClient ftpClient) { this.ftpClient = ftpClient; }
+    public void setFtpClient(final FTPClient ftpClient) { this.ftpClient = ftpClient; }
 
     public BPBuildInfo getBuildInfo() { return buildInfo; }
-    public void setBuildInfo(BPBuildInfo buildInfo) { this.buildInfo = buildInfo; }
+    public void setBuildInfo(final BPBuildInfo buildInfo) { this.buildInfo = buildInfo; }
 
-    public boolean changeDirectory(String directory) {
+    public boolean changeDirectory(final String directory) {
         try {
             return ftpClient.changeWorkingDirectory(directory);
         } catch (IOException ioe) {
@@ -62,7 +62,7 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
         }
     }
 
-    public boolean makeDirectory(String directory) {
+    public boolean makeDirectory(final String directory) {
         try {
             return ftpClient.makeDirectory(directory);
         } catch (IOException ioe) {
@@ -70,7 +70,7 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
         }
     }
 
-    public void beginTransfers(BapFtpTransfer transfer) {
+    public void beginTransfers(final BapFtpTransfer transfer) {
         if (!transfer.hasConfiguredSourceFiles())
             throw new BapPublisherException(Messages.exception_noSourceFiles());
         try {
@@ -81,7 +81,7 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
         }
     }
 
-    public void transferFile(BapFtpTransfer client, FilePath filePath, InputStream content) throws IOException {
+    public void transferFile(final BapFtpTransfer client, final FilePath filePath, final InputStream content) throws IOException {
         if(!ftpClient.storeFile(filePath.getName(), content))
             throw new BapPublisherException(Messages.exception_failedToStoreFile(ftpClient.getReplyString()));
     }
@@ -104,7 +104,7 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
         }
     }
 
-    private boolean setTransferMode(BapFtpTransfer transfer) throws IOException {
+    private boolean setTransferMode(final BapFtpTransfer transfer) throws IOException {
         int fileType = transfer.isAsciiMode() ? FTP.ASCII_FILE_TYPE : FTP.BINARY_FILE_TYPE;
         return ftpClient.setFileType(fileType);
     }

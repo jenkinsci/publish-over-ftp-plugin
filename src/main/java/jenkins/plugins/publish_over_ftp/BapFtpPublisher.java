@@ -32,7 +32,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import java.util.List;
 
 public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
-    
+
     static final long serialVersionUID = 1L;
 
     public BapFtpPublisher(final String configName, final boolean verbose, final List<BapFtpTransfer> transfers) {
@@ -48,7 +48,7 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        
+
         return createEqualsBuilder((BapFtpPublisher) o).isEquals();
     }
 

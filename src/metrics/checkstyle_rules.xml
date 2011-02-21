@@ -38,8 +38,14 @@
        <property name="maximum" value="0"/>
        <property name="message" value="Line has trailing spaces."/>
     </module>
+    <module name="SuppressionCommentFilter">
+        <property name="offCommentFormat" value="CSOFF\: ([\w\|]+)"/>
+        <property name="onCommentFormat" value="CSON\: ([\w\|]+)"/>
+        <property name="checkFormat" value="$1"/>
+    </module>
     <module name="TreeWalker">
-        <property name="tabWidth" value="4"/>        
+        <property name="tabWidth" value="4"/>
+        <module name="FileContentsHolder"/>
         <module name="ConstantName"/>
         <module name="LocalFinalVariableName"/>
         <module name="LocalVariableName"/>
@@ -84,7 +90,6 @@
         <module name="SimplifyBooleanExpression"/>
         <module name="SimplifyBooleanReturn"/>
         <module name="FinalClass"/>
-        <module name="HideUtilityClassConstructor"/>
         <module name="InterfaceIsType"/>
         <module name="VisibilityModifier"/>
         <module name="ArrayTypeStyle"/>

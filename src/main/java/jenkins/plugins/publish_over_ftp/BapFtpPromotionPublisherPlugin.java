@@ -52,18 +52,18 @@ public class BapFtpPromotionPublisherPlugin extends Notifier {
     private BapFtpPublisherPlugin delegate;
     
     @DataBoundConstructor
-	public BapFtpPromotionPublisherPlugin(final List<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError, final boolean alwaysPublishFromMaster, final String masterNodeName) {
-		this.delegate = new BapFtpPublisherPlugin(publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
+    public BapFtpPromotionPublisherPlugin(final List<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError, final boolean alwaysPublishFromMaster, final String masterNodeName) {
+        this.delegate = new BapFtpPublisherPlugin(publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
     }
 
-	public BPInstanceConfig getInstanceConfig() {
+    public BPInstanceConfig getInstanceConfig() {
         return delegate.getInstanceConfig();
     }
     
-	@Override
-	public boolean perform(final AbstractBuild<?, ?> build, final Launcher launcher, final BuildListener listener) throws InterruptedException, IOException {
+    @Override
+    public boolean perform(final AbstractBuild<?, ?> build, final Launcher launcher, final BuildListener listener) throws InterruptedException, IOException {
         return delegate.perform(build, launcher, listener);
-	}
+    }
 
     public BuildStepMonitor getRequiredMonitorService() {
         return delegate.getRequiredMonitorService();

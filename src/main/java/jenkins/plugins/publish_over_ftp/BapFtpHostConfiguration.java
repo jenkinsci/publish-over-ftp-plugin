@@ -51,17 +51,17 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private int timeout;
     private boolean useActiveData;
 
-	public BapFtpHostConfiguration() { }
+    public BapFtpHostConfiguration() { }
 
     @DataBoundConstructor
-	public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String password, final String remoteRootDir, final int port, final int timeout, final boolean useActiveData) {
+    public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String password, final String remoteRootDir, final int port, final int timeout, final boolean useActiveData) {
         super(name, hostname, username, password, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
-	}
+    }
 
-	public int getTimeout() { return timeout; }
-	public void setTimeout(final int timeout) { this.timeout = timeout; }
+    public int getTimeout() { return timeout; }
+    public void setTimeout(final int timeout) { this.timeout = timeout; }
 
     public boolean isUseActiveData() { return useActiveData; }
     public void setUseActiveData(final boolean useActiveData) { this.useActiveData = useActiveData; }
@@ -81,8 +81,8 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         return new FTPClient();
     }
 
-	private void init(final BapFtpClient client) throws IOException {
-		FTPClient ftpClient = client.getFtpClient();
+    private void init(final BapFtpClient client) throws IOException {
+        FTPClient ftpClient = client.getFtpClient();
         BPBuildInfo buildInfo = client.getBuildInfo();
         PrintCommandListener commandPrinter = null;
         if (buildInfo.isVerbose()) {
@@ -96,7 +96,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
         changeToRootDirectory(client);
         setRootDirectoryInClient(client);
-	}
+    }
 
     private void configureFTPClient(final FTPClient ftpClient) {
         ftpClient.setDefaultTimeout(timeout);

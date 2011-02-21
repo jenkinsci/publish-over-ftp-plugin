@@ -42,10 +42,11 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     public static final Descriptor DESCRIPTOR = new Descriptor();
 
     @DataBoundConstructor
-    public BapFtpPublisherPlugin(final List<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError, final boolean alwaysPublishFromMaster, final String masterNodeName) {
+    public BapFtpPublisherPlugin(final List<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError,
+                                 final boolean alwaysPublishFromMaster, final String masterNodeName) {
         super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
     }
-    
+
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -56,7 +57,7 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     public int hashCode() {
         return createHashCodeBuilder().toHashCode();
     }
-    
+
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
     }
@@ -64,7 +65,7 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     public BapFtpHostConfiguration getConfiguration(final String name) {
         return DESCRIPTOR.getConfiguration(name);
     }
-    
+
     public static class Descriptor extends BPPluginDescriptor<BapFtpHostConfiguration, Object> {
         public Descriptor() {
             super(new DescriptorMessages(), BapFtpPublisherPlugin.class, BapFtpHostConfiguration.class, null);
@@ -79,7 +80,7 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
             return this;
         }
     }
-    
+
     public static class DescriptorMessages implements BPPluginDescriptor.BPDescriptorMessages {
         public String displayName() {
             return Messages.descriptor_displayName();
@@ -91,5 +92,5 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
             return Messages.descriptor_testConnection_error();
         }
     }
-    
+
 }

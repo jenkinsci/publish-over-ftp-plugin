@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
-    
+
     private static final Log LOG = LogFactory.getLog(BapFtpClient.class);
 
     private BPBuildInfo buildInfo;
@@ -74,7 +74,7 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
         if (!transfer.hasConfiguredSourceFiles())
             throw new BapPublisherException(Messages.exception_noSourceFiles());
         try {
-            if(!setTransferMode(transfer))
+            if (!setTransferMode(transfer))
                 throw new BapPublisherException(Messages.exception_failedToSetTransferMode(ftpClient.getReplyString()));
         } catch (IOException ioe) {
             throw new BapPublisherException(Messages.exception_exceptionSettingTransferMode(), ioe);
@@ -82,7 +82,7 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
     }
 
     public void transferFile(final BapFtpTransfer client, final FilePath filePath, final InputStream content) throws IOException {
-        if(!ftpClient.storeFile(filePath.getName(), content))
+        if (!ftpClient.storeFile(filePath.getName(), content))
             throw new BapPublisherException(Messages.exception_failedToStoreFile(ftpClient.getReplyString()));
     }
 

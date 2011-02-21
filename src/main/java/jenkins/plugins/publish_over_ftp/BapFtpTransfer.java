@@ -36,7 +36,8 @@ public class BapFtpTransfer extends BPTransfer {
     private boolean asciiMode;
 
     @DataBoundConstructor
-    public BapFtpTransfer(final String sourceFiles, final String remoteDirectory, final String removePrefix, final boolean asciiMode, final boolean remoteDirectorySDF, final boolean flatten) {
+    public BapFtpTransfer(final String sourceFiles, final String remoteDirectory, final String removePrefix, final boolean asciiMode,
+                          final boolean remoteDirectorySDF, final boolean flatten) {
         super(sourceFiles, remoteDirectory, removePrefix, remoteDirectorySDF, flatten);
         this.asciiMode = asciiMode;
     }
@@ -48,7 +49,7 @@ public class BapFtpTransfer extends BPTransfer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BapFtpTransfer that = (BapFtpTransfer) o;
-        
+
         return createEqualsBuilder(that)
             .append(asciiMode, that.asciiMode)
             .isEquals();
@@ -59,11 +60,11 @@ public class BapFtpTransfer extends BPTransfer {
             .append(asciiMode)
             .toHashCode();
     }
-    
+
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
             .append("asciiMode", asciiMode)
             .toString();
     }
-    
+
 }

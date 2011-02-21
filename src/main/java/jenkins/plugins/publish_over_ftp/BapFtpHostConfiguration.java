@@ -41,20 +41,21 @@ import java.io.PrintWriter;
 public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> {
 
     static final long serialVersionUID = 1L;
-    
+
     public static final int DEFAULT_PORT = FTP.DEFAULT_PORT;
     public static final int DEFAULT_TIMEOUT = 300000;
 
     public static int getDefaultPort() { return DEFAULT_PORT; }
     public static int getDefaultTimeout() { return DEFAULT_TIMEOUT; }
-    
+
     private int timeout;
     private boolean useActiveData;
 
     public BapFtpHostConfiguration() { }
 
     @DataBoundConstructor
-    public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String password, final String remoteRootDir, final int port, final int timeout, final boolean useActiveData) {
+    public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String password,
+                                   final String remoteRootDir, final int port, final int timeout, final boolean useActiveData) {
         super(name, hostname, username, password, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
@@ -140,7 +141,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         FTPClient ftpClient = client.getFtpClient();
         ftpClient.connect(getHostname(), getPort());
         int responseCode = ftpClient.getReplyCode();
-        if(!FTPReply.isPositiveCompletion(responseCode)) {
+        if (!FTPReply.isPositiveCompletion(responseCode)) {
             exception(client, Messages.exception_connectFailed(getHostname(), getPort(), responseCode));
         }
         setDataTransferMode(ftpClient);
@@ -153,12 +154,12 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
             ftpClient.enterLocalPassiveMode();
         }
     }
-    
+
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BapFtpHostConfiguration that = (BapFtpHostConfiguration) o;
-        
+
         return createEqualsBuilder(that)
             .append(useActiveData, that.useActiveData)
             .append(timeout, that.timeout)
@@ -171,7 +172,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
             .append(timeout)
             .toHashCode();
     }
-    
+
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
             .append("useActiveData", useActiveData)

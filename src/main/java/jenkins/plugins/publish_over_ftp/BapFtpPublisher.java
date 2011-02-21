@@ -33,17 +33,18 @@ import java.util.List;
 
 public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
     
-    static final long serialVersionUID = 1L;    
+    static final long serialVersionUID = 1L;
 
     public BapFtpPublisher(final String configName, final boolean verbose, final List<BapFtpTransfer> transfers) {
         this(configName, verbose, transfers, false, false);
     }
-    
+
     @DataBoundConstructor
-    public BapFtpPublisher(final String configName, final boolean verbose, final List<BapFtpTransfer> transfers, final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp) {
+    public BapFtpPublisher(final String configName, final boolean verbose, final List<BapFtpTransfer> transfers,
+                           final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp) {
         super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp);
     }
-    
+
     public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -54,7 +55,7 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
     public int hashCode() {
         return createHashCodeBuilder().toHashCode();
     }
-    
+
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
     }

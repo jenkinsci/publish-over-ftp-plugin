@@ -48,9 +48,9 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
 public class IntegrationTest extends HudsonTestCase {
-    
-//    @TODO test that we get the expected result when in a promotion 
-    
+
+//    @TODO test that we get the expected result when in a promotion
+
     public void testIntegration() throws Exception {
         final FTPClient mockFTPClient = mock(FTPClient.class);
         BapFtpHostConfiguration testHostConfig = new BapFtpHostConfiguration("testConfig", "testHostname", "testUsername", "testPassword", "/testRemoteRoot", 21, 3000, false) {
@@ -79,7 +79,7 @@ public class IntegrationTest extends HudsonTestCase {
                 return true;
             }
         });
-        
+
         when(mockFTPClient.getReplyCode()).thenReturn(FTPReply.SERVICE_READY);
         when(mockFTPClient.login(testHostConfig.getUsername(), testHostConfig.getPassword())).thenReturn(true);
         when(mockFTPClient.changeWorkingDirectory(testHostConfig.getRemoteRootDir())).thenReturn(true);
@@ -89,13 +89,13 @@ public class IntegrationTest extends HudsonTestCase {
         when(mockFTPClient.changeWorkingDirectory(buildDirectory)).thenReturn(false).thenReturn(true);
         when(mockFTPClient.makeDirectory(buildDirectory)).thenReturn(true);
         when(mockFTPClient.storeFile(eq(buildFileName), (InputStream)anyObject())).thenReturn(true);
-        
+
         assertBuildStatusSuccess(project.scheduleBuild2(0).get());
-        
+
         verify(mockFTPClient).connect(testHostConfig.getHostname(), testHostConfig.getPort());
         verify(mockFTPClient).storeFile(eq(buildFileName), (InputStream)anyObject());
         verify(mockFTPClient).setDefaultTimeout(testHostConfig.getTimeout());
         verify(mockFTPClient).setDataTimeout(testHostConfig.getTimeout());
     }
-    
+
 }

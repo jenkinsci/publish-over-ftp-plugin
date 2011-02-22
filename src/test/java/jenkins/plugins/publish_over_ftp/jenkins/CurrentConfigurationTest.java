@@ -35,12 +35,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CurrentConfigurationTest extends HudsonTestCase {
-    
+
     FreeStyleProject project;
     BapFtpHostConfiguration configA;
     BapFtpHostConfiguration configB;
     JenkinsTestHelper testHelper = new JenkinsTestHelper();
-    
+
     public void test_TEST_DISABLED() throws Exception {
         for (int i = 0; i < 3; i++) {
             System.out.println("*** TEST DISABLED!");
@@ -55,23 +55,23 @@ public class CurrentConfigurationTest extends HudsonTestCase {
         configB = new BapFtpHostConfiguration("host B", "", "", "", "", 0, 0, false);
         project = createFreeStyleProject();
         testHelper.setGlobalConfig(configA, configB);
-        BapFtpPublisherPlugin plugin = createPlugin();       
+        BapFtpPublisherPlugin plugin = createPlugin();
         project.getPublishersList().add(plugin);
-        
+
         submit(new WebClient().getPage(project, "configure").getFormByName("config"));
-        
+
         BapFtpPublisherPlugin configured = (BapFtpPublisherPlugin)project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR);
         System.out.println(" pre:" + plugin);
         System.out.println("post:" + configured);
         assertNotSame(plugin, configured);
         assertEquals(plugin, configured);
     }
-    
+
 //    @TODO test configuring various ways using the jelly forms (promotions?)
 //    public void testConfigureProject() throws Exception {}
-//    
+//
 //    public void testConfigureGlobal() throws Exception {}
-    
+
     private BapFtpPublisherPlugin createPlugin() {
         BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "/pub", "target", true, false, true);
         BapFtpTransfer transfer2 = new BapFtpTransfer("*", "", "WebApp", false, true, false);
@@ -88,5 +88,5 @@ public class CurrentConfigurationTest extends HudsonTestCase {
         publishers.add(publisher2);
         return new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER");
     }
- 
+
 }

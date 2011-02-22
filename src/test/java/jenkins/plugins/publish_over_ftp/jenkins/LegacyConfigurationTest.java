@@ -36,14 +36,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class LegacyConfigurationTest extends HudsonTestCase {
-    
+
     @LocalData
     public void testLoad_0_1() throws Exception {
         List<BapFtpHostConfiguration> configurations = BapFtpPublisherPlugin.DESCRIPTOR.getHostConfigurations();
         assertEquals(2, configurations.size());
         assertEquals(createHostConfiguration("a", 21, 300000, false), configurations.get(0));
         assertEquals(createHostConfiguration("b", 121, 121000, true), configurations.get(1));
-        
+
         BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "'helloo-${BUILD_NUMBER}'-MMDD", "target", true, true, true);
         List<BapFtpTransfer> transfers1 = new LinkedList<BapFtpTransfer>();
         transfers1.add(transfer1);
@@ -74,5 +74,5 @@ public class LegacyConfigurationTest extends HudsonTestCase {
         return new BapFtpHostConfiguration("Config " + suffix, "hostname." + suffix, "username." + suffix,
             "password." + suffix, "remoteRoot." + suffix, port, timeout, useActiveData);
     }
-    
+
 }

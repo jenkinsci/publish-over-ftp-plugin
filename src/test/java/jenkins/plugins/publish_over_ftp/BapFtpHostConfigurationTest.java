@@ -45,23 +45,23 @@ import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.expect;
 
 public class BapFtpHostConfigurationTest {
-    
+
     @BeforeClass
     public static void before() {
         SecretHelper.setSecretKey();
     }
-    
+
     @AfterClass
     public static void after() {
         SecretHelper.clearSecretKey();
     }
-    
+
     private Map<String, String> envVars = new TreeMap<String, String>();
     private BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
     private IMocksControl mockControl = EasyMock.createStrictControl();
     FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
     private BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient();
-    
+
     @Test public void testChangeToRootDir() throws Exception {
         testChangeToInitialDirectory("/");
     }
@@ -102,10 +102,10 @@ public class BapFtpHostConfigurationTest {
     private void testChangeToInitialDirectory(final String remoteRoot) throws Exception {
         testChangeToInitialDirectory(remoteRoot, false);
     }
-    
+
     private void testChangeToInitialDirectory(final String remoteRoot, final boolean expectPwd) throws Exception {
         bapFtpHostConfiguration.setRemoteRootDir(remoteRoot);
-        expectConnectAndLogin();   
+        expectConnectAndLogin();
         expect(mockFTPClient.changeWorkingDirectory(remoteRoot)).andReturn(true);
         if (expectPwd)
             expect(mockFTPClient.printWorkingDirectory()).andReturn("/" + remoteRoot);
@@ -133,7 +133,7 @@ public class BapFtpHostConfigurationTest {
         }
         expect(mockFTPClient.login(bapFtpHostConfiguration.getUsername(), bapFtpHostConfiguration.getPassword())).andReturn(true);
     }
-    
+
     private BapFtpClient assertCreateSession() throws IOException {
         mockControl.replay();
         BapFtpClient client = bapFtpHostConfiguration.createClient(buildInfo);
@@ -154,5 +154,5 @@ public class BapFtpHostConfigurationTest {
             return mockFTPClient;
         }
     }
-    
+
 }

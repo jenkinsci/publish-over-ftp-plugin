@@ -32,16 +32,16 @@ import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import java.lang.reflect.Field;
 
 public class JenkinsTestHelper {
-    
+
     public void setGlobalConfig(final BapFtpHostConfiguration... newHostConfigurations) throws Exception {
         CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = getHostConfigurations();
         hostConfigurations.replaceBy(newHostConfigurations);
     }
-    
+
     public CopyOnWriteList<BapFtpHostConfiguration> getHostConfigurations() throws Exception {
         Field hostConfig = BPPluginDescriptor.class.getDeclaredField("hostConfigurations");
         hostConfig.setAccessible(true);
-        return (CopyOnWriteList)hostConfig.get(BapFtpPublisherPlugin.DESCRIPTOR);        
+        return (CopyOnWriteList)hostConfig.get(BapFtpPublisherPlugin.DESCRIPTOR);
     }
-    
+
 }

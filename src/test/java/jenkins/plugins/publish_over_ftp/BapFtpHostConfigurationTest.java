@@ -56,10 +56,9 @@ public class BapFtpHostConfigurationTest {
         SecretHelper.clearSecretKey();
     }
 
-    private Map<String, String> envVars = new TreeMap<String, String>();
     private BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
     private IMocksControl mockControl = EasyMock.createStrictControl();
-    FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
+    private FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
     private BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient();
 
     @Test public void testChangeToRootDir() throws Exception {

@@ -53,7 +53,10 @@ public class IntegrationTest extends HudsonTestCase {
 
     public void testIntegration() throws Exception {
         final FTPClient mockFTPClient = mock(FTPClient.class);
-        BapFtpHostConfiguration testHostConfig = new BapFtpHostConfiguration("testConfig", "testHostname", "testUsername", "testPassword", "/testRemoteRoot", 21, 3000, false) {
+        int port = 21;
+        int timeout = 3000;
+        BapFtpHostConfiguration testHostConfig = new BapFtpHostConfiguration("testConfig", "testHostname", "testUsername", "testPassword",
+                                                                             "/testRemoteRoot", port, timeout, false) {
             @Override
             public FTPClient createFTPClient() {
                 return mockFTPClient;
@@ -71,7 +74,8 @@ public class IntegrationTest extends HudsonTestCase {
         final String buildFileName = "file.txt";
         project.getBuildersList().add(new TestBuilder() {
             @Override
-            public boolean perform(final AbstractBuild<?, ?> build, final Launcher launcher, final BuildListener listener) throws InterruptedException, IOException {
+            public boolean perform(final AbstractBuild<?, ?> build, final Launcher launcher, final BuildListener listener)
+                            throws InterruptedException, IOException {
                 FilePath dir = build.getWorkspace().child(dirToIgnore).child(buildDirectory);
                 dir.mkdirs();
                 dir.child(buildFileName).write("Helloooooo", "UTF-8");
@@ -88,12 +92,12 @@ public class IntegrationTest extends HudsonTestCase {
         when(mockFTPClient.makeDirectory(transfer.getRemoteDirectory())).thenReturn(true);
         when(mockFTPClient.changeWorkingDirectory(buildDirectory)).thenReturn(false).thenReturn(true);
         when(mockFTPClient.makeDirectory(buildDirectory)).thenReturn(true);
-        when(mockFTPClient.storeFile(eq(buildFileName), (InputStream)anyObject())).thenReturn(true);
+        when(mockFTPClient.storeFile(eq(buildFileName), (InputStream) anyObject())).thenReturn(true);
 
         assertBuildStatusSuccess(project.scheduleBuild2(0).get());
 
         verify(mockFTPClient).connect(testHostConfig.getHostname(), testHostConfig.getPort());
-        verify(mockFTPClient).storeFile(eq(buildFileName), (InputStream)anyObject());
+        verify(mockFTPClient).storeFile(eq(buildFileName), (InputStream) anyObject());
         verify(mockFTPClient).setDefaultTimeout(testHostConfig.getTimeout());
         verify(mockFTPClient).setDataTimeout(testHostConfig.getTimeout());
     }

@@ -41,8 +41,12 @@ public class LegacyConfigurationTest extends HudsonTestCase {
     public void testLoad_0_1() throws Exception {
         List<BapFtpHostConfiguration> configurations = BapFtpPublisherPlugin.DESCRIPTOR.getHostConfigurations();
         assertEquals(2, configurations.size());
-        assertEquals(createHostConfiguration("a", 21, 300000, false), configurations.get(0));
-        assertEquals(createHostConfiguration("b", 121, 121000, true), configurations.get(1));
+        int expectedConfigAPort = 21;
+        int expectedConfigATimeout = 300000;
+        assertEquals(createHostConfiguration("a", expectedConfigAPort, expectedConfigATimeout, false), configurations.get(0));
+        int expectedConfigBPort = 121;
+        int expectedConfigBTimeout = 121000;
+        assertEquals(createHostConfiguration("b", expectedConfigBPort, expectedConfigBTimeout, true), configurations.get(1));
 
         BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "'helloo-${BUILD_NUMBER}'-MMDD", "target", true, true, true);
         List<BapFtpTransfer> transfers1 = new LinkedList<BapFtpTransfer>();
@@ -64,13 +68,14 @@ public class LegacyConfigurationTest extends HudsonTestCase {
     private BapFtpPublisherPlugin getConfiguredPlugin() {
         for (Project project : hudson.getProjects()) {
             if (project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR) != null)
-                return (BapFtpPublisherPlugin)project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR);
+                return (BapFtpPublisherPlugin) project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR);
         }
         fail();
         return null;
     }
 
-    public BapFtpHostConfiguration createHostConfiguration(final String suffix, final int port, final int timeout, final boolean useActiveData) {
+    public BapFtpHostConfiguration createHostConfiguration(final String suffix, final int port,
+                                                           final int timeout, final boolean useActiveData) {
         return new BapFtpHostConfiguration("Config " + suffix, "hostname." + suffix, "username." + suffix,
             "password." + suffix, "remoteRoot." + suffix, port, timeout, useActiveData);
     }

@@ -41,7 +41,7 @@ public class JenkinsTestHelper {
     public CopyOnWriteList<BapFtpHostConfiguration> getHostConfigurations() throws Exception {
         Field hostConfig = BPPluginDescriptor.class.getDeclaredField("hostConfigurations");
         hostConfig.setAccessible(true);
-        return (CopyOnWriteList)hostConfig.get(BapFtpPublisherPlugin.DESCRIPTOR);
+        return (CopyOnWriteList) hostConfig.get(BapFtpPublisherPlugin.DESCRIPTOR);
     }
 
 }

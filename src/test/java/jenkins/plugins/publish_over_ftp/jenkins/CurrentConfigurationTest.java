@@ -36,13 +36,14 @@ import java.util.List;
 
 public class CurrentConfigurationTest extends HudsonTestCase {
 
-    FreeStyleProject project;
-    BapFtpHostConfiguration configA;
-    BapFtpHostConfiguration configB;
-    JenkinsTestHelper testHelper = new JenkinsTestHelper();
+    private FreeStyleProject project;
+    private BapFtpHostConfiguration configA;
+    private BapFtpHostConfiguration configB;
+    private JenkinsTestHelper testHelper = new JenkinsTestHelper();
 
-    public void test_TEST_DISABLED() throws Exception {
-        for (int i = 0; i < 3; i++) {
+    public void testTestsAreDisabled() throws Exception {
+        int numberOfTimesToRepeatTheMessage = 3;
+        for (int i = 0; i < numberOfTimesToRepeatTheMessage; i++) {
             System.out.println("*** TEST DISABLED!");
             System.err.println("*** TEST DISABLED!");
         }
@@ -50,17 +51,17 @@ public class CurrentConfigurationTest extends HudsonTestCase {
         System.err.println("can no longer configure or retrieve the config");
     }
 //    @TODO figure out why this no longer works
-    public void _testRoundTrip() throws Exception {
+    public void dontTestRoundTrip() throws Exception {
         configA = new BapFtpHostConfiguration("host A", "", "", "", "", 0, 0, false);
         configB = new BapFtpHostConfiguration("host B", "", "", "", "", 0, 0, false);
         project = createFreeStyleProject();
         testHelper.setGlobalConfig(configA, configB);
-        BapFtpPublisherPlugin plugin = createPlugin();
+        BapFtpPublisherPlugin plugin = createPlugin(configA.getName(), configB.getName());
         project.getPublishersList().add(plugin);
 
         submit(new WebClient().getPage(project, "configure").getFormByName("config"));
 
-        BapFtpPublisherPlugin configured = (BapFtpPublisherPlugin)project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR);
+        BapFtpPublisherPlugin configured = (BapFtpPublisherPlugin) project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR);
         System.out.println(" pre:" + plugin);
         System.out.println("post:" + configured);
         assertNotSame(plugin, configured);
@@ -72,7 +73,7 @@ public class CurrentConfigurationTest extends HudsonTestCase {
 //
 //    public void testConfigureGlobal() throws Exception {}
 
-    private BapFtpPublisherPlugin createPlugin() {
+    private BapFtpPublisherPlugin createPlugin(final String config1, final String config2) {
         BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "/pub", "target", true, false, true);
         BapFtpTransfer transfer2 = new BapFtpTransfer("*", "", "WebApp", false, true, false);
         BapFtpTransfer transfer3 = new BapFtpTransfer("dave", "", "", false, true, true);
@@ -81,8 +82,8 @@ public class CurrentConfigurationTest extends HudsonTestCase {
         transfers1.add(transfer2);
         List<BapFtpTransfer> transfers2 = new LinkedList<BapFtpTransfer>();
         transfers2.add(transfer3);
-        BapFtpPublisher publisher1 = new BapFtpPublisher(configA.getName(), true, transfers1);
-        BapFtpPublisher publisher2 = new BapFtpPublisher(configB.getName(), false, transfers2);
+        BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1);
+        BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2);
         List<BapFtpPublisher> publishers = new LinkedList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);

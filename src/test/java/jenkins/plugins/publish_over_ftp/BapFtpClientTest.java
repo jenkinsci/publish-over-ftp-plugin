@@ -51,22 +51,20 @@ public class BapFtpClientTest {
     private static final RuntimeException RUNTIME_EXCEPTION = new RuntimeException();
     private static final IOException IO_EXCEPTION = new IOException();
     private static Level originalLogLevel;
+    private static Logger logger;
 
     @BeforeClass
     public static void before() {
-        String packageName = getLoggerName();
-        originalLogLevel = Logger.getLogger(packageName).getLevel();
-        Logger.getLogger(packageName).setLevel(Level.OFF);
+        logger = Logger.getLogger(BapFtpClient.class.getCanonicalName());
+        originalLogLevel = logger.getLevel();
+        logger.setLevel(Level.OFF);
     }
 
     @AfterClass
     public static void after() {
-        Logger.getLogger(getLoggerName()).setLevel(originalLogLevel);
+        logger.setLevel(originalLogLevel);
     }
 
-    private static String getLoggerName() {
-        return BapFtpClient.class.getCanonicalName();
-    }
     private IMocksControl mockControl = EasyMock.createStrictControl();
     private FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
     private BapFtpClient bapFtpClient = new BapFtpClient(mockFTPClient, null);

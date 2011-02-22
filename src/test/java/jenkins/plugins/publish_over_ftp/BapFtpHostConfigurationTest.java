@@ -38,8 +38,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
-import java.util.TreeMap;
 
 import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.expect;
@@ -59,7 +57,7 @@ public class BapFtpHostConfigurationTest {
     private BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
     private IMocksControl mockControl = EasyMock.createStrictControl();
     private FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
-    private BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient();
+    private BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
 
     @Test public void testChangeToRootDir() throws Exception {
         testChangeToInitialDirectory("/");
@@ -140,17 +138,20 @@ public class BapFtpHostConfigurationTest {
         return client;
     }
 
-    private class BapFtpHostConfigurationWithMockFTPClient extends BapFtpHostConfiguration {
+    private static class BapFtpHostConfigurationWithMockFTPClient extends BapFtpHostConfiguration {
+        static final long serialVersionUID = 1L;
         private static final String TEST_CFG_NAME = "myTestConfig";
         private static final String TEST_HOSTNAME = "my.test.hostname";
         private static final String TEST_USERNAME = "myTestUsername";
         private static final String TEST_PASSWORD = "myTestPassword";
-        BapFtpHostConfigurationWithMockFTPClient() {
+        private FTPClient ftpClient;
+        BapFtpHostConfigurationWithMockFTPClient(final FTPClient ftpClient) {
             super(TEST_CFG_NAME, TEST_HOSTNAME, TEST_USERNAME, TEST_PASSWORD, "", DEFAULT_PORT, DEFAULT_TIMEOUT, false);
+            this.ftpClient = ftpClient;
         }
         @Override
         public FTPClient createFTPClient() {
-            return mockFTPClient;
+            return ftpClient;
         }
     }
 

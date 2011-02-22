@@ -30,6 +30,9 @@ import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 
 import java.lang.reflect.Field;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 
 public class JenkinsTestHelper {
 
@@ -39,9 +42,17 @@ public class JenkinsTestHelper {
     }
 
     public CopyOnWriteList<BapFtpHostConfiguration> getHostConfigurations() throws Exception {
-        Field hostConfig = BPPluginDescriptor.class.getDeclaredField("hostConfigurations");
-        hostConfig.setAccessible(true);
-        return (CopyOnWriteList) hostConfig.get(BapFtpPublisherPlugin.DESCRIPTOR);
+        final Field hostConfig = BPPluginDescriptor.class.getDeclaredField("hostConfigurations");
+        try {
+            return AccessController.doPrivileged(new PrivilegedExceptionAction<CopyOnWriteList<BapFtpHostConfiguration>>() {
+                public CopyOnWriteList<BapFtpHostConfiguration> run() throws IllegalAccessException {
+                    hostConfig.setAccessible(true);
+                    return (CopyOnWriteList) hostConfig.get(BapFtpPublisherPlugin.DESCRIPTOR);
+                }
+            });
+        } catch (PrivilegedActionException pae) {
+            throw (IllegalAccessException) pae.getException();
+        }
     }
 
 }

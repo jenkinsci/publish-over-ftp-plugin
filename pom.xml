@@ -154,6 +154,7 @@
                             <effort>Max</effort>
                             <threshold>Low</threshold>
                             <xmlOutput>true</xmlOutput>
+                            <includeTests>true</includeTests>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -162,6 +163,7 @@
                         <version>2.5</version>
                         <configuration>
                             <targetJdk>1.5</targetJdk>
+                            <includeTests>true</includeTests>
                         </configuration>
                     </plugin>
                     <plugin>
@@ -170,6 +172,7 @@
                         <version>2.6</version>
                         <configuration>
                             <configLocation>src/metrics/checkstyle_rules.xml</configLocation>
+                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
                         </configuration>
                     </plugin>
                     <plugin>

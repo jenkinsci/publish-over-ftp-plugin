@@ -29,14 +29,16 @@ import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
+import org.junit.Test;
 import org.jvnet.hudson.test.HudsonTestCase;
 
 import java.util.LinkedList;
 import java.util.List;
 
-@SuppressWarnings({"PMD.SystemPrintln", "PMD.SignatureDeclareThrowsException"})
+@SuppressWarnings({ "PMD.SystemPrintln", "PMD.SignatureDeclareThrowsException" })
 public class CurrentConfigurationTest extends HudsonTestCase {
 
+    @Test
     public void testTestsAreDisabled() throws Exception {
         final int numberOfTimesToRepeatTheMessage = 3;
         for (int i = 0; i < numberOfTimesToRepeatTheMessage; i++) {
@@ -70,17 +72,17 @@ public class CurrentConfigurationTest extends HudsonTestCase {
 //    public void testConfigureGlobal() throws Exception {}
 
     private BapFtpPublisherPlugin createPlugin(final String config1, final String config2) {
-        BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "/pub", "target", true, false, true);
-        BapFtpTransfer transfer2 = new BapFtpTransfer("*", "", "WebApp", false, true, false);
-        BapFtpTransfer transfer3 = new BapFtpTransfer("dave", "", "", false, true, true);
-        List<BapFtpTransfer> transfers1 = new LinkedList<BapFtpTransfer>();
+        final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "/pub", "target", true, false, true);
+        final BapFtpTransfer transfer2 = new BapFtpTransfer("*", "", "WebApp", false, true, false);
+        final BapFtpTransfer transfer3 = new BapFtpTransfer("dave", "", "", false, true, true);
+        final List<BapFtpTransfer> transfers1 = new LinkedList<BapFtpTransfer>();
         transfers1.add(transfer1);
         transfers1.add(transfer2);
-        List<BapFtpTransfer> transfers2 = new LinkedList<BapFtpTransfer>();
+        final List<BapFtpTransfer> transfers2 = new LinkedList<BapFtpTransfer>();
         transfers2.add(transfer3);
-        BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1);
-        BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2);
-        List<BapFtpPublisher> publishers = new LinkedList<BapFtpPublisher>();
+        final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1);
+        final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2);
+        final List<BapFtpPublisher> publishers = new LinkedList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);
         return new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER");

@@ -48,7 +48,7 @@ public class BapFtpTransfer extends BPTransfer {
     public boolean equals(final Object that) {
         if (this == that) return true;
         if (that == null || getClass() != that.getClass()) return false;
-        BapFtpTransfer thatTransfer = (BapFtpTransfer) that;
+        final BapFtpTransfer thatTransfer = (BapFtpTransfer) that;
 
         return createEqualsBuilder(thatTransfer)
             .append(asciiMode, thatTransfer.asciiMode)

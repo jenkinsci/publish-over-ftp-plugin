@@ -51,7 +51,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods"})
+@SuppressWarnings({ "PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods" })
 public class BapFtpClientTest {
 
     private static final Logger BFTP_CLIENT_LOGGER = Logger.getLogger(BapFtpClient.class.getCanonicalName());

@@ -42,7 +42,7 @@ import java.io.IOException;
 import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.expect;
 
-@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods"})
+@SuppressWarnings({ "PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods" })
 public class BapFtpHostConfigurationTest {
 
     @BeforeClass

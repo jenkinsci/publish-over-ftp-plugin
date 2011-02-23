@@ -36,7 +36,8 @@ import java.security.PrivilegedExceptionAction;
 
 public class JenkinsTestHelper {
 
-    public void setGlobalConfig(final BapFtpHostConfiguration... newHostConfigurations) throws NoSuchFieldException, IllegalAccessException {
+    public void setGlobalConfig(final BapFtpHostConfiguration... newHostConfigurations)
+                                                                            throws NoSuchFieldException, IllegalAccessException {
         final CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = getHostConfigurations();
         hostConfigurations.replaceBy(newHostConfigurations);
     }

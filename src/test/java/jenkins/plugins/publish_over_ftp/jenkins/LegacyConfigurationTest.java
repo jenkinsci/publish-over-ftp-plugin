@@ -29,17 +29,20 @@ import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
+import org.junit.Test;
 import org.jvnet.hudson.test.HudsonTestCase;
 import org.jvnet.hudson.test.recipes.LocalData;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings("PMD.SignatureDeclareThrowsException")
 public class LegacyConfigurationTest extends HudsonTestCase {
 
     @LocalData
+    @Test
     public void testLoadR0x1() throws Exception {
-        List<BapFtpHostConfiguration> configurations = BapFtpPublisherPlugin.DESCRIPTOR.getHostConfigurations();
+        final List<BapFtpHostConfiguration> configurations = BapFtpPublisherPlugin.DESCRIPTOR.getHostConfigurations();
         assertEquals(2, configurations.size());
         final int expectedConfigAPort = 21;
         final int expectedConfigATimeout = 300000;
@@ -48,20 +51,20 @@ public class LegacyConfigurationTest extends HudsonTestCase {
         final int expectedConfigBTimeout = 121000;
         assertEquals(createHostConfiguration("b", expectedConfigBPort, expectedConfigBTimeout, true), configurations.get(1));
 
-        BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "'helloo-${BUILD_NUMBER}'-MMDD", "target", true, true, true);
-        List<BapFtpTransfer> transfers1 = new LinkedList<BapFtpTransfer>();
+        final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "'helloo-${BUILD_NUMBER}'-MMDD", "target", true, true, true);
+        final List<BapFtpTransfer> transfers1 = new LinkedList<BapFtpTransfer>();
         transfers1.add(transfer1);
-        BapFtpPublisher publisher1 = new BapFtpPublisher("Config b", true, transfers1);
-        BapFtpTransfer transfer21 = new BapFtpTransfer("target\\images\\*", "", "", false, false, false);
-        BapFtpTransfer transfer22 = new BapFtpTransfer("target\\logs\\**\\*", "serverlogs", "target\\logs", true, false, true);
-        List<BapFtpTransfer> transfers2 = new LinkedList<BapFtpTransfer>();
+        final BapFtpPublisher publisher1 = new BapFtpPublisher("Config b", true, transfers1);
+        final BapFtpTransfer transfer21 = new BapFtpTransfer("target\\images\\*", "", "", false, false, false);
+        final BapFtpTransfer transfer22 = new BapFtpTransfer("target\\logs\\**\\*", "serverlogs", "target\\logs", true, false, true);
+        final List<BapFtpTransfer> transfers2 = new LinkedList<BapFtpTransfer>();
         transfers2.add(transfer21);
         transfers2.add(transfer22);
-        BapFtpPublisher publisher2 = new BapFtpPublisher("Config a", false, transfers2);
-        List<BapFtpPublisher> publishers = new LinkedList<BapFtpPublisher>();
+        final BapFtpPublisher publisher2 = new BapFtpPublisher("Config a", false, transfers2);
+        final List<BapFtpPublisher> publishers = new LinkedList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);
-        BapFtpPublisherPlugin expectedPlugin = new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER");
+        final BapFtpPublisherPlugin expectedPlugin = new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER");
         assertEquals(expectedPlugin, getConfiguredPlugin());
     }
 

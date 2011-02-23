@@ -45,13 +45,13 @@ public class BapFtpTransfer extends BPTransfer {
     public boolean isAsciiMode() { return asciiMode; }
     public void setAsciiMode(final boolean asciiMode) { this.asciiMode = asciiMode; }
 
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BapFtpTransfer that = (BapFtpTransfer) o;
+    public boolean equals(final Object that) {
+        if (this == that) return true;
+        if (that == null || getClass() != that.getClass()) return false;
+        BapFtpTransfer thatTransfer = (BapFtpTransfer) that;
 
-        return createEqualsBuilder(that)
-            .append(asciiMode, that.asciiMode)
+        return createEqualsBuilder(thatTransfer)
+            .append(asciiMode, thatTransfer.asciiMode)
             .isEquals();
     }
 

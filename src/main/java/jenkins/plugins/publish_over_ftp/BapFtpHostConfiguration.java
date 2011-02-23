@@ -71,7 +71,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
     @Override
     public BapFtpClient createClient(final BPBuildInfo buildInfo) {
-        BapFtpClient client = new BapFtpClient(createFTPClient(), buildInfo);
+        final BapFtpClient client = new BapFtpClient(createFTPClient(), buildInfo);
         try {
             init(client);
         } catch (IOException ioe) {
@@ -85,8 +85,8 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     }
 
     private void init(final BapFtpClient client) throws IOException {
-        FTPClient ftpClient = client.getFtpClient();
-        BPBuildInfo buildInfo = client.getBuildInfo();
+        final FTPClient ftpClient = client.getFtpClient();
+        final BPBuildInfo buildInfo = client.getBuildInfo();
         PrintCommandListener commandPrinter = null;
         if (buildInfo.isVerbose()) {
             commandPrinter = new PrintCommandListener(new PrintWriter(buildInfo.getListener().getLogger()));
@@ -115,17 +115,17 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     }
 
     private String getRootDirectoryFromPwd(final BapFtpClient client) throws IOException {
-        BPBuildInfo buildInfo = client.getBuildInfo();
+        final BPBuildInfo buildInfo = client.getBuildInfo();
         buildInfo.printIfVerbose(Messages.console_usingPwd());
-        String pwd = client.getFtpClient().printWorkingDirectory();
+        final String pwd = client.getFtpClient().printWorkingDirectory();
         if (!isDirectoryAbsolute(pwd))
             exception(client, Messages.exception_pwdNotAbsolute(pwd));
         return pwd;
     }
 
     private void login(final BapFtpClient client, final PrintCommandListener commandListener) throws IOException {
-        FTPClient ftpClient = client.getFtpClient();
-        BPBuildInfo buildInfo = client.getBuildInfo();
+        final FTPClient ftpClient = client.getFtpClient();
+        final BPBuildInfo buildInfo = client.getBuildInfo();
         if (commandListener != null) {
             buildInfo.println(Messages.console_logInHidingCommunication());
             ftpClient.removeProtocolCommandListener(commandListener);
@@ -140,9 +140,9 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     }
 
     private void connect(final BapFtpClient client) throws IOException {
-        FTPClient ftpClient = client.getFtpClient();
+        final FTPClient ftpClient = client.getFtpClient();
         ftpClient.connect(getHostname(), getPort());
-        int responseCode = ftpClient.getReplyCode();
+        final int responseCode = ftpClient.getReplyCode();
         if (!FTPReply.isPositiveCompletion(responseCode)) {
             exception(client, Messages.exception_connectFailed(getHostname(), getPort(), responseCode));
         }
@@ -157,14 +157,14 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         }
     }
 
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BapFtpHostConfiguration that = (BapFtpHostConfiguration) o;
+    public boolean equals(final Object that) {
+        if (this == that) return true;
+        if (that == null || getClass() != that.getClass()) return false;
+        final BapFtpHostConfiguration thatHostConfiguration = (BapFtpHostConfiguration) that;
 
-        return createEqualsBuilder(that)
-            .append(useActiveData, that.useActiveData)
-            .append(timeout, that.timeout)
+        return createEqualsBuilder(thatHostConfiguration)
+            .append(useActiveData, thatHostConfiguration.useActiveData)
+            .append(timeout, thatHostConfiguration.timeout)
             .isEquals();
     }
 

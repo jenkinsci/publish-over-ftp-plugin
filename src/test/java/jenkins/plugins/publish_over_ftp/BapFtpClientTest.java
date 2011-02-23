@@ -41,33 +41,40 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
+import static org.easymock.EasyMock.same;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods"})
 public class BapFtpClientTest {
 
+    private static final Logger BFTP_CLIENT_LOGGER = Logger.getLogger(BapFtpClient.class.getCanonicalName());
     private static final String REMOTE_ROOT = "/my/remote/root";
     private static final String DIRECTORY = "a/directory";
     private static final RuntimeException RUNTIME_EXCEPTION = new RuntimeException();
     private static final IOException IO_EXCEPTION = new IOException();
     private static Level originalLogLevel;
-    private static Logger logger;
 
     @BeforeClass
     public static void before() {
-        logger = Logger.getLogger(BapFtpClient.class.getCanonicalName());
-        originalLogLevel = logger.getLevel();
-        logger.setLevel(Level.OFF);
+        originalLogLevel = BFTP_CLIENT_LOGGER.getLevel();
+        BFTP_CLIENT_LOGGER.setLevel(Level.OFF);
     }
 
     @AfterClass
     public static void after() {
-        logger.setLevel(originalLogLevel);
+        BFTP_CLIENT_LOGGER.setLevel(originalLogLevel);
     }
 
-    private IMocksControl mockControl = EasyMock.createStrictControl();
-    private FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
-    private BapFtpClient bapFtpClient = new BapFtpClient(mockFTPClient, null);
+    private final transient IMocksControl mockControl = EasyMock.createStrictControl();
+    private final transient FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
+    private final transient BapFtpClient bapFtpClient = new BapFtpClient(mockFTPClient, null);
 
     @Before
     public void setUp() throws Exception {
@@ -206,7 +213,7 @@ public class BapFtpClientTest {
     }
 
     @Test public void testBeginTransfersFail() throws Exception {
-        String why = "123 Something went wrong!";
+        final String why = "123 Something went wrong!";
         expect(mockFTPClient.setFileType(FTP.BINARY_FILE_TYPE)).andReturn(false);
         expect(mockFTPClient.getReplyString()).andReturn(why);
         mockControl.replay();
@@ -253,7 +260,7 @@ public class BapFtpClientTest {
     }
 
     @Test public void testTransferFileSuccess() throws Exception {
-        TransferFileArgs args = createTestArgs();
+        final TransferFileArgs args = createTestArgs();
         expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream))).andReturn(true);
         mockControl.replay();
         bapFtpClient.transferFile(args.bapFtpTransfer, args.filePath, args.inputStream);
@@ -261,8 +268,8 @@ public class BapFtpClientTest {
     }
 
     @Test public void testTransferFileFail() throws Exception {
-        String why = "123 Something went wrong!";
-        TransferFileArgs args = createTestArgs();
+        final String why = "123 Something went wrong!";
+        final TransferFileArgs args = createTestArgs();
         expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream))).andReturn(false);
         expect(mockFTPClient.getReplyString()).andReturn(why);
         mockControl.replay();
@@ -276,7 +283,7 @@ public class BapFtpClientTest {
     }
 
     @Test public void testTransferFileIOException() throws Exception {
-        TransferFileArgs args = createTestArgs();
+        final TransferFileArgs args = createTestArgs();
         expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream))).andThrow(IO_EXCEPTION);
         mockControl.replay();
         try {
@@ -289,7 +296,7 @@ public class BapFtpClientTest {
     }
 
     @Test public void testTransferFileRuntimeException() throws Exception {
-        TransferFileArgs args = createTestArgs();
+        final TransferFileArgs args = createTestArgs();
         expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream))).andThrow(RUNTIME_EXCEPTION);
         mockControl.replay();
         try {
@@ -358,9 +365,9 @@ public class BapFtpClientTest {
     }
 
     private class TransferFileArgs {
-        private BapFtpTransfer bapFtpTransfer = new BapFtpTransfer("", "", "", false, false, false);
-        private InputStream inputStream = mockControl.createMock(InputStream.class);
-        private FilePath filePath = new FilePath(new File("myFile"));
+        private final BapFtpTransfer bapFtpTransfer = new BapFtpTransfer("", "", "", false, false, false);
+        private final InputStream inputStream = mockControl.createMock(InputStream.class);
+        private final FilePath filePath = new FilePath(new File("myFile"));
     }
 
 }

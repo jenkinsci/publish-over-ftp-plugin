@@ -47,11 +47,11 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
     }
 
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object that) {
+        if (this == that) return true;
+        if (that == null || getClass() != that.getClass()) return false;
 
-        return createEqualsBuilder((BapFtpPublisherPlugin) o).isEquals();
+        return createEqualsBuilder((BapFtpPublisherPlugin) that).isEquals();
     }
 
     public int hashCode() {

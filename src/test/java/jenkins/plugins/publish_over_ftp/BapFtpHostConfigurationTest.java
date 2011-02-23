@@ -42,6 +42,7 @@ import java.io.IOException;
 import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.expect;
 
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods"})
 public class BapFtpHostConfigurationTest {
 
     @BeforeClass
@@ -54,59 +55,59 @@ public class BapFtpHostConfigurationTest {
         SecretHelper.clearSecretKey();
     }
 
-    private BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
-    private IMocksControl mockControl = EasyMock.createStrictControl();
-    private FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
-    private BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
+    private final transient BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
+    private final transient IMocksControl mockControl = EasyMock.createStrictControl();
+    private final transient FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
+    private final transient BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
 
     @Test public void testChangeToRootDir() throws Exception {
-        testChangeToInitialDirectory("/");
+        assertChangeToInitialDirectory("/");
     }
 
     @Test public void testChangeToRootDirWin() throws Exception {
-        testChangeToInitialDirectory("\\");
+        assertChangeToInitialDirectory("\\");
     }
 
     @Test public void testChangeToRootDirLongerPath() throws Exception {
-        testChangeToInitialDirectory("/this/is/my/root");
+        assertChangeToInitialDirectory("/this/is/my/root");
     }
 
     @Test public void testChangeToRootDirRelativePath() throws Exception {
-        testChangeToInitialDirectory("this/is/my/rel/root", true);
+        assertChangeToInitialDirectory("this/is/my/rel/root", true);
     }
 
     @Test public void testNoChangeDirectoryRemoteDirNull() throws Exception {
-        testNoChangeToInitialDirectory(null);
+        assertNoChangeToInitialDirectory(null);
     }
 
     @Test public void testNoChangeDirectoryRemoteDirEmptyString() throws Exception {
-        testNoChangeToInitialDirectory("");
+        assertNoChangeToInitialDirectory("");
     }
 
     @Test public void testNoChangeDirectoryRemoteDirOnlySpaceInString() throws Exception {
-        testNoChangeToInitialDirectory("  ");
+        assertNoChangeToInitialDirectory("  ");
     }
 
-    private void testNoChangeToInitialDirectory(final String remoteRoot) throws Exception {
+    private void assertNoChangeToInitialDirectory(final String remoteRoot) throws Exception {
         bapFtpHostConfiguration.setRemoteRootDir(remoteRoot);
         expectConnectAndLogin();
         expect(mockFTPClient.printWorkingDirectory()).andReturn("/pub");
 
-        BapFtpClient client = assertCreateSession();
+        final BapFtpClient client = assertCreateSession();
         assertEquals("/pub", client.getAbsoluteRemoteRoot());
     }
 
-    private void testChangeToInitialDirectory(final String remoteRoot) throws Exception {
-        testChangeToInitialDirectory(remoteRoot, false);
+    private void assertChangeToInitialDirectory(final String remoteRoot) throws Exception {
+        assertChangeToInitialDirectory(remoteRoot, false);
     }
 
-    private void testChangeToInitialDirectory(final String remoteRoot, final boolean expectPwd) throws Exception {
+    private void assertChangeToInitialDirectory(final String remoteRoot, final boolean expectPwd) throws Exception {
         bapFtpHostConfiguration.setRemoteRootDir(remoteRoot);
         expectConnectAndLogin();
         expect(mockFTPClient.changeWorkingDirectory(remoteRoot)).andReturn(true);
         if (expectPwd)
             expect(mockFTPClient.printWorkingDirectory()).andReturn("/" + remoteRoot);
-        BapFtpClient client = assertCreateSession();
+        final BapFtpClient client = assertCreateSession();
         if (!expectPwd)
             assertEquals(remoteRoot, client.getAbsoluteRemoteRoot());
     }
@@ -133,7 +134,7 @@ public class BapFtpHostConfigurationTest {
 
     private BapFtpClient assertCreateSession() throws IOException {
         mockControl.replay();
-        BapFtpClient client = bapFtpHostConfiguration.createClient(buildInfo);
+        final BapFtpClient client = bapFtpHostConfiguration.createClient(buildInfo);
         mockControl.verify();
         return client;
     }
@@ -144,7 +145,7 @@ public class BapFtpHostConfigurationTest {
         private static final String TEST_HOSTNAME = "my.test.hostname";
         private static final String TEST_USERNAME = "myTestUsername";
         private static final String TEST_PASSWORD = "myTestPassword";
-        private transient FTPClient ftpClient;
+        private final transient FTPClient ftpClient;
         BapFtpHostConfigurationWithMockFTPClient(final FTPClient ftpClient) {
             super(TEST_CFG_NAME, TEST_HOSTNAME, TEST_USERNAME, TEST_PASSWORD, "", DEFAULT_PORT, DEFAULT_TIMEOUT, false);
             this.ftpClient = ftpClient;

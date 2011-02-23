@@ -45,11 +45,11 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
         super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp);
     }
 
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object that) {
+        if (this == that) return true;
+        if (that == null || getClass() != that.getClass()) return false;
 
-        return createEqualsBuilder((BapFtpPublisher) o).isEquals();
+        return createEqualsBuilder((BapFtpPublisher) that).isEquals();
     }
 
     public int hashCode() {

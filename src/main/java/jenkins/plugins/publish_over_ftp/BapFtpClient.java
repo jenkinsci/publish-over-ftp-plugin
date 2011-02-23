@@ -105,7 +105,7 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
     }
 
     private boolean setTransferMode(final BapFtpTransfer transfer) throws IOException {
-        int fileType = transfer.isAsciiMode() ? FTP.ASCII_FILE_TYPE : FTP.BINARY_FILE_TYPE;
+        final int fileType = transfer.isAsciiMode() ? FTP.ASCII_FILE_TYPE : FTP.BINARY_FILE_TYPE;
         return ftpClient.setFileType(fileType);
     }
 

@@ -34,12 +34,8 @@ import org.jvnet.hudson.test.HudsonTestCase;
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings({"PMD.SystemPrintln", "PMD.SignatureDeclareThrowsException"})
 public class CurrentConfigurationTest extends HudsonTestCase {
-
-    private FreeStyleProject project;
-    private BapFtpHostConfiguration configA;
-    private BapFtpHostConfiguration configB;
-    private JenkinsTestHelper testHelper = new JenkinsTestHelper();
 
     public void testTestsAreDisabled() throws Exception {
         final int numberOfTimesToRepeatTheMessage = 3;
@@ -52,16 +48,16 @@ public class CurrentConfigurationTest extends HudsonTestCase {
     }
 //    @TODO figure out why this no longer works
     public void dontTestRoundTrip() throws Exception {
-        configA = new BapFtpHostConfiguration("host A", "", "", "", "", 0, 0, false);
-        configB = new BapFtpHostConfiguration("host B", "", "", "", "", 0, 0, false);
-        project = createFreeStyleProject();
-        testHelper.setGlobalConfig(configA, configB);
-        BapFtpPublisherPlugin plugin = createPlugin(configA.getName(), configB.getName());
+        final BapFtpHostConfiguration configA = new BapFtpHostConfiguration("host A", "", "", "", "", 0, 0, false);
+        final BapFtpHostConfiguration configB = new BapFtpHostConfiguration("host B", "", "", "", "", 0, 0, false);
+        final FreeStyleProject project = createFreeStyleProject();
+        new JenkinsTestHelper().setGlobalConfig(configA, configB);
+        final BapFtpPublisherPlugin plugin = createPlugin(configA.getName(), configB.getName());
         project.getPublishersList().add(plugin);
 
         submit(new WebClient().getPage(project, "configure").getFormByName("config"));
 
-        BapFtpPublisherPlugin configured = (BapFtpPublisherPlugin) project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR);
+        final BapFtpPublisherPlugin configured = (BapFtpPublisherPlugin) project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR);
         System.out.println(" pre:" + plugin);
         System.out.println("post:" + configured);
         assertNotSame(plugin, configured);

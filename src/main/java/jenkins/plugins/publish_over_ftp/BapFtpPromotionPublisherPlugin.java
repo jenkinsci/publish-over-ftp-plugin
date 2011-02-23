@@ -49,7 +49,7 @@ public class BapFtpPromotionPublisherPlugin extends Notifier {
     @Extension
     public static final Descriptor DESCRIPTOR = new Descriptor();
 
-    private BapFtpPublisherPlugin delegate;
+    private final BapFtpPublisherPlugin delegate;
 
     @DataBoundConstructor
     public BapFtpPromotionPublisherPlugin(final List<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError,
@@ -91,11 +91,11 @@ public class BapFtpPromotionPublisherPlugin extends Notifier {
         return builder.append("delegate", delegate);
     }
 
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+    public boolean equals(final Object that) {
+        if (this == that) return true;
+        if (that == null || getClass() != that.getClass()) return false;
 
-        return createEqualsBuilder((BapFtpPromotionPublisherPlugin) o).isEquals();
+        return createEqualsBuilder((BapFtpPromotionPublisherPlugin) that).isEquals();
     }
 
     public int hashCode() {

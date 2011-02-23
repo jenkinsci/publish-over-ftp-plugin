@@ -36,13 +36,13 @@ import java.security.PrivilegedExceptionAction;
 
 public class JenkinsTestHelper {
 
-    public void setGlobalConfig(final BapFtpHostConfiguration... newHostConfigurations) throws Exception {
-        CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = getHostConfigurations();
+    public void setGlobalConfig(final BapFtpHostConfiguration... newHostConfigurations) throws NoSuchFieldException, IllegalAccessException {
+        final CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = getHostConfigurations();
         hostConfigurations.replaceBy(newHostConfigurations);
     }
 
-    public CopyOnWriteList<BapFtpHostConfiguration> getHostConfigurations() throws Exception {
-        Field hostConfigurations = BPPluginDescriptor.class.getDeclaredField("hostConfigurations");
+    public CopyOnWriteList<BapFtpHostConfiguration> getHostConfigurations() throws NoSuchFieldException, IllegalAccessException {
+        final Field hostConfigurations = BPPluginDescriptor.class.getDeclaredField("hostConfigurations");
         try {
             return AccessController.doPrivileged(new GetMeTheHostConfigurations(hostConfigurations));
         } catch (PrivilegedActionException pae) {
@@ -50,9 +50,9 @@ public class JenkinsTestHelper {
         }
     }
 
-    private static final class GetMeTheHostConfigurations implements PrivilegedExceptionAction<CopyOnWriteList<BapFtpHostConfiguration>> {
-        private final Field hostConfigurations;
-        private GetMeTheHostConfigurations(final Field hostConfigurations) {
+    public static final class GetMeTheHostConfigurations implements PrivilegedExceptionAction<CopyOnWriteList<BapFtpHostConfiguration>> {
+        private final transient Field hostConfigurations;
+        protected GetMeTheHostConfigurations(final Field hostConfigurations) {
             this.hostConfigurations = hostConfigurations;
         }
         public CopyOnWriteList<BapFtpHostConfiguration> run() throws IllegalAccessException {

@@ -33,7 +33,7 @@ import java.util.List;
 
 public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
 
-    static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     public BapFtpPublisher(final String configName, final boolean verbose, final List<BapFtpTransfer> transfers) {
         this(configName, verbose, transfers, false, false);

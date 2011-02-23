@@ -139,7 +139,7 @@ public class BapFtpHostConfigurationTest {
     }
 
     private static class BapFtpHostConfigurationWithMockFTPClient extends BapFtpHostConfiguration {
-        static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
         private static final String TEST_CFG_NAME = "myTestConfig";
         private static final String TEST_HOSTNAME = "my.test.hostname";
         private static final String TEST_USERNAME = "myTestUsername";

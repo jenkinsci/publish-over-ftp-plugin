@@ -40,7 +40,7 @@ import java.io.PrintWriter;
 
 public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> {
 
-    static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     public static final int DEFAULT_PORT = FTP.DEFAULT_PORT;
     public static final int DEFAULT_TIMEOUT = 300000;

@@ -31,7 +31,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 public class BapFtpTransfer extends BPTransfer {
 
-    static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private boolean asciiMode;
 

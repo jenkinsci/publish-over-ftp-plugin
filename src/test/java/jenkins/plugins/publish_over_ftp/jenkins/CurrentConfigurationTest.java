@@ -42,7 +42,7 @@ public class CurrentConfigurationTest extends HudsonTestCase {
     private JenkinsTestHelper testHelper = new JenkinsTestHelper();
 
     public void testTestsAreDisabled() throws Exception {
-        int numberOfTimesToRepeatTheMessage = 3;
+        final int numberOfTimesToRepeatTheMessage = 3;
         for (int i = 0; i < numberOfTimesToRepeatTheMessage; i++) {
             System.out.println("*** TEST DISABLED!");
             System.err.println("*** TEST DISABLED!");

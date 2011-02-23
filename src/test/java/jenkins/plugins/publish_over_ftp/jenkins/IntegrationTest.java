@@ -53,8 +53,8 @@ public class IntegrationTest extends HudsonTestCase {
 
     public void testIntegration() throws Exception {
         final FTPClient mockFTPClient = mock(FTPClient.class);
-        int port = 21;
-        int timeout = 3000;
+        final int port = 21;
+        final int timeout = 3000;
         BapFtpHostConfiguration testHostConfig = new BapFtpHostConfiguration("testConfig", "testHostname", "testUsername", "testPassword",
                                                                              "/testRemoteRoot", port, timeout, false) {
             @Override

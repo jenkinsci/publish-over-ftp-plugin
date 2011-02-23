@@ -38,14 +38,14 @@ import java.util.List;
 public class LegacyConfigurationTest extends HudsonTestCase {
 
     @LocalData
-    public void testLoad_0_1() throws Exception {
+    public void testLoadR0x1() throws Exception {
         List<BapFtpHostConfiguration> configurations = BapFtpPublisherPlugin.DESCRIPTOR.getHostConfigurations();
         assertEquals(2, configurations.size());
-        int expectedConfigAPort = 21;
-        int expectedConfigATimeout = 300000;
+        final int expectedConfigAPort = 21;
+        final int expectedConfigATimeout = 300000;
         assertEquals(createHostConfiguration("a", expectedConfigAPort, expectedConfigATimeout, false), configurations.get(0));
-        int expectedConfigBPort = 121;
-        int expectedConfigBTimeout = 121000;
+        final int expectedConfigBPort = 121;
+        final int expectedConfigBTimeout = 121000;
         assertEquals(createHostConfiguration("b", expectedConfigBPort, expectedConfigBTimeout, true), configurations.get(1));
 
         BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "'helloo-${BUILD_NUMBER}'-MMDD", "target", true, true, true);

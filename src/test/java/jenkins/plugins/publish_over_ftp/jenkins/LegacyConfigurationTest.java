@@ -33,7 +33,7 @@ import org.junit.Test;
 import org.jvnet.hudson.test.HudsonTestCase;
 import org.jvnet.hudson.test.recipes.LocalData;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressWarnings("PMD.SignatureDeclareThrowsException")
@@ -52,16 +52,16 @@ public class LegacyConfigurationTest extends HudsonTestCase {
         assertEquals(createHostConfiguration("b", expectedConfigBPort, expectedConfigBTimeout, true), configurations.get(1));
 
         final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "'helloo-${BUILD_NUMBER}'-MMDD", "target", true, true, true);
-        final List<BapFtpTransfer> transfers1 = new LinkedList<BapFtpTransfer>();
+        final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<BapFtpTransfer>();
         transfers1.add(transfer1);
         final BapFtpPublisher publisher1 = new BapFtpPublisher("Config b", true, transfers1);
         final BapFtpTransfer transfer21 = new BapFtpTransfer("target\\images\\*", "", "", false, false, false);
         final BapFtpTransfer transfer22 = new BapFtpTransfer("target\\logs\\**\\*", "serverlogs", "target\\logs", true, false, true);
-        final List<BapFtpTransfer> transfers2 = new LinkedList<BapFtpTransfer>();
+        final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
         transfers2.add(transfer21);
         transfers2.add(transfer22);
         final BapFtpPublisher publisher2 = new BapFtpPublisher("Config a", false, transfers2);
-        final List<BapFtpPublisher> publishers = new LinkedList<BapFtpPublisher>();
+        final ArrayList<BapFtpPublisher> publishers = new ArrayList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);
         final BapFtpPublisherPlugin expectedPlugin = new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER");

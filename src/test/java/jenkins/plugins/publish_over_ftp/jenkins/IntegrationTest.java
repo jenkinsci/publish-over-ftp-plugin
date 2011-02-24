@@ -42,6 +42,7 @@ import org.jvnet.hudson.test.TestBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 
 import static org.mockito.Matchers.anyObject;
@@ -72,8 +73,8 @@ public class IntegrationTest extends HudsonTestCase {
         new JenkinsTestHelper().setGlobalConfig(testHostConfig);
         final String dirToIgnore = "target";
         final BapFtpTransfer transfer = new BapFtpTransfer("**/*", "sub-home", dirToIgnore, true, false, false);
-        final BapFtpPublisher publisher = new BapFtpPublisher(testHostConfig.getName(), false, Collections.singletonList(transfer));
-        final BapFtpPublisherPlugin plugin = new BapFtpPublisherPlugin(Collections.singletonList(publisher), false, false, false, "master");
+        final BapFtpPublisher publisher = new BapFtpPublisher(testHostConfig.getName(), false, new ArrayList(Collections.singletonList(transfer)));
+        final BapFtpPublisherPlugin plugin = new BapFtpPublisherPlugin(new ArrayList(Collections.singletonList(publisher)), false, false, false, "master");
 
         final FreeStyleProject project = createFreeStyleProject();
         project.getPublishersList().add(plugin);

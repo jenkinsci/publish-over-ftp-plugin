@@ -32,8 +32,7 @@ import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
 import org.junit.Test;
 import org.jvnet.hudson.test.HudsonTestCase;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
 @SuppressWarnings({ "PMD.SystemPrintln", "PMD.SignatureDeclareThrowsException" })
 public class CurrentConfigurationTest extends HudsonTestCase {
@@ -75,14 +74,14 @@ public class CurrentConfigurationTest extends HudsonTestCase {
         final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "/pub", "target", true, false, true);
         final BapFtpTransfer transfer2 = new BapFtpTransfer("*", "", "WebApp", false, true, false);
         final BapFtpTransfer transfer3 = new BapFtpTransfer("dave", "", "", false, true, true);
-        final List<BapFtpTransfer> transfers1 = new LinkedList<BapFtpTransfer>();
+        final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<BapFtpTransfer>();
         transfers1.add(transfer1);
         transfers1.add(transfer2);
-        final List<BapFtpTransfer> transfers2 = new LinkedList<BapFtpTransfer>();
+        final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
         transfers2.add(transfer3);
         final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1);
         final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2);
-        final List<BapFtpPublisher> publishers = new LinkedList<BapFtpPublisher>();
+        final ArrayList<BapFtpPublisher> publishers = new ArrayList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);
         return new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER");

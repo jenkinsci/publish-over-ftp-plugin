@@ -36,6 +36,7 @@ import org.kohsuke.stapler.QueryParameter;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("PMD.LooseCoupling") // serializable
 public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClient, Object> {
 
     private static final long serialVersionUID = 1L;

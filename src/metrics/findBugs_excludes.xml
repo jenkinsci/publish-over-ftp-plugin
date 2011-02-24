@@ -28,6 +28,6 @@
     </Match>
     <Match>
         <Class name="~.*Test\$.*"/>
-        <Bug code="SE"/>
+        <Bug code="Se"/>
     </Match>
 </FindBugsFilter>

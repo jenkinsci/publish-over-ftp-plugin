@@ -44,6 +44,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import java.io.IOException;
 import java.util.ArrayList;
 
+@SuppressWarnings("PMD.LooseCoupling") // serializable
 public class BapFtpPromotionPublisherPlugin extends Notifier {
 
     @Extension
@@ -52,8 +53,8 @@ public class BapFtpPromotionPublisherPlugin extends Notifier {
     private final BapFtpPublisherPlugin delegate;
 
     @DataBoundConstructor
-    public BapFtpPromotionPublisherPlugin(final ArrayList<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError,
-                                          final boolean alwaysPublishFromMaster, final String masterNodeName) {
+    public BapFtpPromotionPublisherPlugin(final ArrayList<BapFtpPublisher> publishers, final boolean continueOnError,
+                                          final boolean failOnError, final boolean alwaysPublishFromMaster, final String masterNodeName) {
         this.delegate = new BapFtpPublisherPlugin(publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
     }
 

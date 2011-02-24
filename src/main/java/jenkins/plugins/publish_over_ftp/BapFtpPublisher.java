@@ -31,6 +31,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("PMD.LooseCoupling") // serializable
 public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
 
     private static final long serialVersionUID = 1L;

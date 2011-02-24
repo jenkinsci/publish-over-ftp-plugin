@@ -53,6 +53,8 @@ import static org.mockito.Mockito.when;
 @SuppressWarnings("PMD.SignatureDeclareThrowsException")
 public class IntegrationTest extends HudsonTestCase {
 
+    private static final String TEST_PASSWORD = "testPassword";
+
 //    @TODO test that we get the expected result when in a promotion
 
     @Test
@@ -61,7 +63,7 @@ public class IntegrationTest extends HudsonTestCase {
         final int port = 21;
         final int timeout = 3000;
         final BapFtpHostConfiguration testHostConfig = new BapFtpHostConfiguration("testConfig", "testHostname", "testUsername",
-                                                                    "testPassword", "/testRemoteRoot", port, timeout, false) {
+                                                                        TEST_PASSWORD, "/testRemoteRoot", port, timeout, false) {
             @Override
             public FTPClient createFTPClient() {
                 return mockFTPClient;
@@ -90,7 +92,7 @@ public class IntegrationTest extends HudsonTestCase {
         });
 
         when(mockFTPClient.getReplyCode()).thenReturn(FTPReply.SERVICE_READY);
-        when(mockFTPClient.login(testHostConfig.getUsername(), testHostConfig.getPassword())).thenReturn(true);
+        when(mockFTPClient.login(testHostConfig.getUsername(), TEST_PASSWORD)).thenReturn(true);
         when(mockFTPClient.changeWorkingDirectory(testHostConfig.getRemoteRootDir())).thenReturn(true);
         when(mockFTPClient.setFileType(FTPClient.ASCII_FILE_TYPE)).thenReturn(true);
         when(mockFTPClient.changeWorkingDirectory(transfer.getRemoteDirectory())).thenReturn(false).thenReturn(true);

@@ -38,6 +38,8 @@ import java.util.List;
 
 public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClient, Object> {
 
+    private static final long serialVersionUID = 1L;
+
     @Extension
     public static final Descriptor DESCRIPTOR = new Descriptor();
 

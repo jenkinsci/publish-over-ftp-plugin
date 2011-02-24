@@ -51,11 +51,9 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private int timeout;
     private boolean useActiveData;
 
-    //  CSOFF: ParameterNumberCheck
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String password,
                                    final String remoteRootDir, final int port, final int timeout, final boolean useActiveData) {
-        //  CSON: ParameterNumberCheck
         super(name, hostname, username, password, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;

@@ -28,6 +28,6 @@
     </Match>
     <Match>
         <Class name="~.*Test\$.*"/>
-        <Bug pattern="SE_TRANSIENT_FIELD_NOT_RESTORED"/>
+        <Bug code="SE"/>
     </Match>
 </FindBugsFilter>

@@ -34,7 +34,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClient, Object> {
 
@@ -44,7 +44,7 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     public static final Descriptor DESCRIPTOR = new Descriptor();
 
     @DataBoundConstructor
-    public BapFtpPublisherPlugin(final List<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError,
+    public BapFtpPublisherPlugin(final ArrayList<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError,
                                  final boolean alwaysPublishFromMaster, final String masterNodeName) {
         super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
     }

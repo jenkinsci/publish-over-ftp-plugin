@@ -29,18 +29,18 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
 
     private static final long serialVersionUID = 1L;
 
-    public BapFtpPublisher(final String configName, final boolean verbose, final List<BapFtpTransfer> transfers) {
+    public BapFtpPublisher(final String configName, final boolean verbose, final ArrayList<BapFtpTransfer> transfers) {
         this(configName, verbose, transfers, false, false);
     }
 
     @DataBoundConstructor
-    public BapFtpPublisher(final String configName, final boolean verbose, final List<BapFtpTransfer> transfers,
+    public BapFtpPublisher(final String configName, final boolean verbose, final ArrayList<BapFtpTransfer> transfers,
                            final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp) {
         super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp);
     }

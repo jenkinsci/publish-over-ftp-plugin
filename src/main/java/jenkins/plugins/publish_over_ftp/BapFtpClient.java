@@ -32,6 +32,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPListParseEngine;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,6 +69,39 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
             return ftpClient.makeDirectory(directory);
         } catch (IOException ioe) {
             throw new BapPublisherException(Messages.exception_mkdirException(directory), ioe);
+        }
+    }
+
+    public void deleteTree() throws IOException {
+        ftpClient.setListHiddenFiles(true);
+        delete();
+    }
+
+    private void delete() throws IOException {
+        final FTPListParseEngine listParser = ftpClient.initiateListParsing();
+        if (listParser == null)
+            throw new BapPublisherException(Messages.exception_client_listParserNull());
+        while (listParser.hasNext())
+            delete(listParser.getNext(1)[0]);
+    }
+
+    private void delete(final FTPFile ftpFile) throws IOException {
+        if (ftpFile == null)
+            throw new BapPublisherException(Messages.exception_client_fileIsNull());
+        final String entryName = ftpFile.getName();
+        if (".".equals(entryName) || "..".equals(entryName))
+            return;
+        if (ftpFile.isDirectory()) {
+            if (!changeDirectory(entryName))
+                throw new BapPublisherException(Messages.exception_cwdException(entryName));
+            delete();
+            if (!ftpClient.changeToParentDirectory())
+                throw new BapPublisherException(Messages.exception_client_cdup());
+            if (!ftpClient.removeDirectory(entryName))
+                throw new BapPublisherException(Messages.exception_client_rmdir(entryName));
+        } else {
+            if (!ftpClient.deleteFile(entryName))
+                throw new BapPublisherException(Messages.exception_client_dele(entryName));
         }
     }
 

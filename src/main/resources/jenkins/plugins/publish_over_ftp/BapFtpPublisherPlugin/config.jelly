@@ -93,6 +93,10 @@
                                         <f:checkbox name="asciiMode" checked="${transfer.asciiMode}"/>
                                     </f:entry>
 
+                                    <f:entry title="${%cleanRemote.title}" help="${helpUrl}cleanRemote.html">
+                                        <f:checkbox name="cleanRemote" checked="${transfer.cleanRemote}"/>
+                                    </f:entry>
+
                                     <f:entry title="${%flatten.title}" help="${helpUrl}flatten.html">
                                         <f:checkbox name="flatten" checked="${transfer.flatten}" />
                                     </f:entry>

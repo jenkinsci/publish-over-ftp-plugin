@@ -28,6 +28,8 @@ import hudson.FilePath;
 import jenkins.plugins.publish_over.BapPublisherException;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPListParseEngine;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
 import org.junit.AfterClass;
@@ -358,6 +360,78 @@ public class BapFtpClientTest {
         mockControl.replay();
         bapFtpClient.disconnectQuietly();
         mockControl.verify();
+    }
+
+    @Test public void testDeleteTreeDeletesFiles() throws Exception {
+        mockFTPClient.setListHiddenFiles(true);
+        final FTPListParseEngine mockListEngine = mockControl.createMock(FTPListParseEngine.class);
+        expect(mockFTPClient.initiateListParsing()).andReturn(mockListEngine);
+        expectDeleteFiles(mockListEngine, "file1", "file2", "anotherOne");
+        expect(mockListEngine.hasNext()).andReturn(false);
+        mockControl.replay();
+        bapFtpClient.deleteTree();
+        mockControl.verify();
+    }
+
+    @Test public void testDeleteTreeIgnoresCurrentDirAndParentDirEntries() throws Exception {
+        mockFTPClient.setListHiddenFiles(true);
+        final FTPListParseEngine mockListEngine = mockControl.createMock(FTPListParseEngine.class);
+        expect(mockFTPClient.initiateListParsing()).andReturn(mockListEngine);
+        expectFtpFile(mockListEngine, ".");
+        expectFtpFile(mockListEngine, "..");
+        expectDeleteFiles(mockListEngine, "file1", "file2", "anotherOne");
+        expect(mockListEngine.hasNext()).andReturn(false);
+        mockControl.replay();
+        bapFtpClient.deleteTree();
+        mockControl.verify();
+    }
+
+    @Test public void testDeleteTreeDeletesDirectoryWithFiles() throws Exception {
+        mockFTPClient.setListHiddenFiles(true);
+        final FTPListParseEngine mockListEngine = mockControl.createMock(FTPListParseEngine.class);
+        expect(mockFTPClient.initiateListParsing()).andReturn(mockListEngine);
+        final String dirname = "directory";
+        final FTPFile dir = expectDirectory(mockListEngine, dirname);
+        expect(mockFTPClient.changeWorkingDirectory(dirname)).andReturn(true);
+
+        final FTPListParseEngine mockListEngineSubDir = mockControl.createMock(FTPListParseEngine.class);
+        expect(mockFTPClient.initiateListParsing()).andReturn(mockListEngineSubDir);
+        expectDeleteFiles(mockListEngineSubDir, "file1", "file2", "anotherOne");
+        expect(mockListEngineSubDir.hasNext()).andReturn(false);
+
+        expect(mockFTPClient.changeToParentDirectory()).andReturn(true);
+        expect(mockFTPClient.removeDirectory(dirname)).andReturn(true);
+        expect(mockListEngine.hasNext()).andReturn(false);
+        mockControl.replay();
+        bapFtpClient.deleteTree();
+        mockControl.verify();
+    }
+
+    private void expectDeleteFiles(final FTPListParseEngine mockListEngine, final String... filenames) throws Exception {
+        for (final String filename : filenames) {
+            expectFile(mockListEngine, filename);
+            expect(mockFTPClient.deleteFile(filename)).andReturn(true);
+        }
+    }
+
+    private FTPFile expectFile(final FTPListParseEngine mockListEngine, final String filename) {
+        final FTPFile file = expectFtpFile(mockListEngine, filename);
+        expect(file.isDirectory()).andReturn(false);
+        return file;
+    }
+
+    private FTPFile expectDirectory(final FTPListParseEngine mockListEngine, final String dirname) {
+        final FTPFile dir = expectFtpFile(mockListEngine, dirname);
+        expect(dir.isDirectory()).andReturn(true);
+        return dir;
+    }
+
+    private FTPFile expectFtpFile(final FTPListParseEngine mockListEngine, final String filename) {
+        expect(mockListEngine.hasNext()).andReturn(true);
+        final FTPFile file = mockControl.createMock(FTPFile.class);
+        expect(mockListEngine.getNext(1)).andReturn(new FTPFile[]{file});
+        expect(file.getName()).andReturn(filename);
+        return file;
     }
 
     private TransferFileArgs createTestArgs() {

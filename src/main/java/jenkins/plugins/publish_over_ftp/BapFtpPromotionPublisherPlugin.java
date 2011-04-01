@@ -47,9 +47,6 @@ import java.util.ArrayList;
 @SuppressWarnings("PMD.LooseCoupling") // serializable
 public class BapFtpPromotionPublisherPlugin extends Notifier {
 
-    @Extension
-    public static final Descriptor DESCRIPTOR = new Descriptor();
-
     private final BapFtpPublisherPlugin delegate;
 
     @DataBoundConstructor
@@ -107,6 +104,7 @@ public class BapFtpPromotionPublisherPlugin extends Notifier {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
     }
 
+    @Extension
     public static class Descriptor extends BuildStepDescriptor<Publisher> {
         public boolean isApplicable(final Class<? extends AbstractProject> aClass) {
             return BPPlugin.PROMOTION_JOB_TYPE.equals(aClass.getCanonicalName());

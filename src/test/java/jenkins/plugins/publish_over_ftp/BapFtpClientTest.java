@@ -391,7 +391,7 @@ public class BapFtpClientTest {
         final FTPListParseEngine mockListEngine = mockControl.createMock(FTPListParseEngine.class);
         expect(mockFTPClient.initiateListParsing()).andReturn(mockListEngine);
         final String dirname = "directory";
-        final FTPFile dir = expectDirectory(mockListEngine, dirname);
+        expectDirectory(mockListEngine, dirname);
         expect(mockFTPClient.changeWorkingDirectory(dirname)).andReturn(true);
 
         final FTPListParseEngine mockListEngineSubDir = mockControl.createMock(FTPListParseEngine.class);

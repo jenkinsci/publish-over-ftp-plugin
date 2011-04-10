@@ -27,8 +27,9 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
     <j:set var="helpUrl" value="${rootURL}/plugin/publish-over-ftp/help/config/"/>
+    <j:set var="inPromotionSection" value='${descriptor.getClass().canonicalName.contains("BapFtpPromotionPublisherPlugin")}'/>
 
-    <f:entry title="${%publishers.section}">
+    <f:entry title='${inPromotionSection ? "" : "%publishers.section"}'>
 
             <f:repeatable items="${instance.instanceConfig.publishers}" var="publisher" name="publishers" minimum="1" header="${%publisher.dragAndDropLabel}" add="${%addPublisher.value}">
 
@@ -46,7 +47,7 @@
                         <f:checkbox name="verbose" checked="${publisher.verbose}" />
                     </f:entry>
                     
-                    <j:if test='${descriptor.getClass().canonicalName.contains("BapFtpPromotionPublisherPlugin")}'>
+                    <j:if test="${inPromotionSection}">
                         <j:choose>
                             <j:when test="${it.getClass().canonicalName == 'hudson.matrix.MatrixProject'}">
                                 <f:entry title="${%useWorkspaceInPromotion.title}" help="${helpUrl}useWorkspaceInPromotionForMatrix.html">

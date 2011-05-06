@@ -41,8 +41,8 @@ public class BapFtpTransfer extends BPTransfer {
     }
 
     @DataBoundConstructor
-    public BapFtpTransfer(final String sourceFiles, final String excludes, final String remoteDirectory, final String removePrefix, final boolean asciiMode,
-                          final boolean remoteDirectorySDF, final boolean flatten, final boolean cleanRemote) {
+    public BapFtpTransfer(final String sourceFiles, final String excludes, final String remoteDirectory, final String removePrefix,
+                          final boolean asciiMode, final boolean remoteDirectorySDF, final boolean flatten, final boolean cleanRemote) {
         super(sourceFiles, excludes, remoteDirectory, removePrefix, remoteDirectorySDF, flatten, cleanRemote);
         this.asciiMode = asciiMode;
     }

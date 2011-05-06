@@ -85,18 +85,16 @@
                                     <f:textbox name="remoteDirectory" value="${transfer.remoteDirectory}" />
                                 </f:entry>
 
-                                <f:entry>
+                                <f:description>
                                     <j:out value='${%transfers.envVars(rootURL)}'/>
-                                </f:entry>
+                                </f:description>
 
                                 <f:advanced>
-                                    <f:entry title="${%asciiMode.title}" help="${helpUrl}asciiMode.html">
-                                        <f:checkbox name="asciiMode" checked="${transfer.asciiMode}"/>
-                                    </f:entry>
-
-                                    <f:entry title="${%cleanRemote.title}" help="${helpUrl}cleanRemote.html">
-                                        <f:checkbox name="cleanRemote" checked="${transfer.cleanRemote}"/>
-                                    </f:entry>
+                                    <j:if test="${descriptor.publisherDescriptor.canUseExcludes()}">
+                                        <f:entry title="${%excludes.title}" help="${helpUrl}excludes.html">
+                                            <f:textbox name="excludes" value="${transfer.excludes}"/>
+                                        </f:entry>
+                                    </j:if>
 
                                     <f:entry title="${%flatten.title}" help="${helpUrl}flatten.html">
                                         <f:checkbox name="flatten" checked="${transfer.flatten}" />
@@ -104,6 +102,14 @@
 
                                     <f:entry title="${%remoteDirectorySDF.title}" help="${helpUrl}remoteDirectorySDF.html">
                                         <f:checkbox name="remoteDirectorySDF" checked="${transfer.remoteDirectorySDF}" />
+                                    </f:entry>
+
+                                    <f:entry title="${%cleanRemote.title}" help="${helpUrl}cleanRemote.html">
+                                        <f:checkbox name="cleanRemote" checked="${transfer.cleanRemote}"/>
+                                    </f:entry>
+
+                                    <f:entry title="${%asciiMode.title}" help="${helpUrl}asciiMode.html">
+                                        <f:checkbox name="asciiMode" checked="${transfer.asciiMode}"/>
                                     </f:entry>
 
                                 </f:advanced>

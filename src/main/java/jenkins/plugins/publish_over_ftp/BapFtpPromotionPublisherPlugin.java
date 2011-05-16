@@ -29,11 +29,11 @@ import hudson.Launcher;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
+import hudson.model.Hudson;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
-import jenkins.plugins.publish_over.BPInstanceConfig;
 import jenkins.plugins.publish_over.BPPlugin;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -55,8 +55,8 @@ public class BapFtpPromotionPublisherPlugin extends Notifier {
         this.delegate = new BapFtpPublisherPlugin(publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
     }
 
-    public BPInstanceConfig getInstanceConfig() {
-        return delegate.getInstanceConfig();
+    public BapFtpPublisherPlugin getDelegate() {
+        return delegate;
     }
 
     @Override
@@ -112,11 +112,8 @@ public class BapFtpPromotionPublisherPlugin extends Notifier {
         public String getDisplayName() {
             return Messages.promotion_descriptor_displayName();
         }
-        public String getConfigPage() {
-            return getViewPage(BapFtpPublisherPlugin.class, "config.jelly");
-        }
         public BapFtpPublisherPlugin.Descriptor getPublisherDescriptor() {
-            return BapFtpPublisherPlugin.DESCRIPTOR;
+            return Hudson.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
         }
     }
 

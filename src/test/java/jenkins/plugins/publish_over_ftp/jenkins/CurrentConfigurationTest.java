@@ -58,7 +58,8 @@ public class CurrentConfigurationTest extends HudsonTestCase {
 
         submit(new WebClient().getPage(project, "configure").getFormByName("config"));
 
-        final BapFtpPublisherPlugin configured = (BapFtpPublisherPlugin) project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR);
+        final BapFtpPublisherPlugin configured = (BapFtpPublisherPlugin) project.getPublisher(
+                                                                    hudson.getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class));
         System.out.println(" pre:" + plugin);
         System.out.println("post:" + configured);
         assertNotSame(plugin, configured);
@@ -71,16 +72,16 @@ public class CurrentConfigurationTest extends HudsonTestCase {
 //    public void testConfigureGlobal() throws Exception {}
 
     private BapFtpPublisherPlugin createPlugin(final String config1, final String config2) {
-        final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "/pub", "target", true, false, true);
-        final BapFtpTransfer transfer2 = new BapFtpTransfer("*", "", "WebApp", false, true, false);
-        final BapFtpTransfer transfer3 = new BapFtpTransfer("dave", "", "", false, true, true);
+        final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", null, "/pub", "target", true, false, true, false);
+        final BapFtpTransfer transfer2 = new BapFtpTransfer("*", null, "", "WebApp", false, true, false, false);
+        final BapFtpTransfer transfer3 = new BapFtpTransfer("dave", null, "", "", false, true, true, false);
         final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<BapFtpTransfer>();
         transfers1.add(transfer1);
         transfers1.add(transfer2);
         final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
         transfers2.add(transfer3);
-        final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1);
-        final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2);
+        final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1, false, false);
+        final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2, false, false);
         final ArrayList<BapFtpPublisher> publishers = new ArrayList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);

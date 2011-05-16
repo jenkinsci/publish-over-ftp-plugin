@@ -24,6 +24,10 @@
 
 package jenkins.plugins.publish_over_ftp;
 
+import hudson.Extension;
+import hudson.model.Describable;
+import hudson.model.Descriptor;
+import hudson.model.Hudson;
 import jenkins.plugins.publish_over.BapPublisher;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -32,18 +36,18 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import java.util.ArrayList;
 
 @SuppressWarnings("PMD.LooseCoupling") // serializable
-public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
+public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Describable<BapFtpPublisher> {
 
     private static final long serialVersionUID = 1L;
-
-    public BapFtpPublisher(final String configName, final boolean verbose, final ArrayList<BapFtpTransfer> transfers) {
-        this(configName, verbose, transfers, false, false);
-    }
 
     @DataBoundConstructor
     public BapFtpPublisher(final String configName, final boolean verbose, final ArrayList<BapFtpTransfer> transfers,
                            final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp) {
         super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp);
+    }
+
+    public DescriptorImpl getDescriptor() {
+        return Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
     }
 
     public boolean equals(final Object that) {
@@ -59,6 +63,20 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> {
 
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+    }
+
+    @Extension
+    public static class DescriptorImpl extends Descriptor<BapFtpPublisher> {
+        public BapFtpPublisherPlugin.Descriptor getPublisherPluginDescriptor() {
+            return Hudson.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
+        }
+        public BapFtpTransfer.DescriptorImpl getTransferDescriptor() {
+            return Hudson.getInstance().getDescriptorByType(BapFtpTransfer.DescriptorImpl.class);
+        }
+        @Override
+        public String getDisplayName() {
+            return "Pub";
+        }
     }
 
 }

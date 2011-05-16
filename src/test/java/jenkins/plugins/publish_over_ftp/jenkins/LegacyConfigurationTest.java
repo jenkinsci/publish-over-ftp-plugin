@@ -29,6 +29,7 @@ import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
+import jenkins.plugins.publish_over_ftp.BapTransfer;
 import org.junit.Test;
 import org.jvnet.hudson.test.HudsonTestCase;
 import org.jvnet.hudson.test.recipes.LocalData;
@@ -42,7 +43,7 @@ public class LegacyConfigurationTest extends HudsonTestCase {
     @LocalData
     @Test
     public void testLoadR0x1() throws Exception {
-        final List<BapFtpHostConfiguration> configurations = BapFtpPublisherPlugin.DESCRIPTOR.getHostConfigurations();
+        final List<BapFtpHostConfiguration> configurations = getPublisherPluginDescriptor().getHostConfigurations();
         assertEquals(2, configurations.size());
         final int expectedConfigAPort = 21;
         final int expectedConfigATimeout = 300000;
@@ -51,16 +52,18 @@ public class LegacyConfigurationTest extends HudsonTestCase {
         final int expectedConfigBTimeout = 121000;
         assertEquals(createHostConfiguration("b", expectedConfigBPort, expectedConfigBTimeout, true), configurations.get(1));
 
-        final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", "'helloo-${BUILD_NUMBER}'-MMDD", "target", true, true, true);
+        final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", null, "'helloo-${BUILD_NUMBER}'-MMDD", "target",
+                                                            true, true, true, false);
         final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<BapFtpTransfer>();
         transfers1.add(transfer1);
-        final BapFtpPublisher publisher1 = new BapFtpPublisher("Config b", true, transfers1);
-        final BapFtpTransfer transfer21 = new BapFtpTransfer("target\\images\\*", "", "", false, false, false);
-        final BapFtpTransfer transfer22 = new BapFtpTransfer("target\\logs\\**\\*", "serverlogs", "target\\logs", true, false, true);
+        final BapFtpPublisher publisher1 = new BapFtpPublisher("Config b", true, transfers1, false, false);
+        final BapFtpTransfer transfer21 = new BapFtpTransfer("target\\images\\*", null, "", "", false, false, false, false);
+        final BapFtpTransfer transfer22 = new BapFtpTransfer("target\\logs\\**\\*", null, "serverlogs", "target\\logs",
+                                                             true, false, true, false);
         final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
         transfers2.add(transfer21);
         transfers2.add(transfer22);
-        final BapFtpPublisher publisher2 = new BapFtpPublisher("Config a", false, transfers2);
+        final BapFtpPublisher publisher2 = new BapFtpPublisher("Config a", false, transfers2, false, false);
         final ArrayList<BapFtpPublisher> publishers = new ArrayList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);
@@ -68,10 +71,14 @@ public class LegacyConfigurationTest extends HudsonTestCase {
         assertEquals(expectedPlugin, getConfiguredPlugin());
     }
 
+    private BapFtpPublisherPlugin.Descriptor getPublisherPluginDescriptor() {
+        return hudson.getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
+    }
+
     private BapFtpPublisherPlugin getConfiguredPlugin() {
         for (Project project : hudson.getProjects()) {
-            if (project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR) != null)
-                return (BapFtpPublisherPlugin) project.getPublisher(BapFtpPublisherPlugin.DESCRIPTOR);
+            if (project.getPublisher(getPublisherPluginDescriptor()) != null)
+                return (BapFtpPublisherPlugin) project.getPublisher(getPublisherPluginDescriptor());
         }
         fail();
         return null;

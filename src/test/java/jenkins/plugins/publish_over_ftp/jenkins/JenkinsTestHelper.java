@@ -24,6 +24,7 @@
 
 package jenkins.plugins.publish_over_ftp.jenkins;
 
+import hudson.model.Hudson;
 import hudson.util.CopyOnWriteList;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
@@ -58,7 +59,8 @@ public class JenkinsTestHelper {
         }
         public CopyOnWriteList<BapFtpHostConfiguration> run() throws IllegalAccessException {
             hostConfigurations.setAccessible(true);
-            return (CopyOnWriteList) hostConfigurations.get(BapFtpPublisherPlugin.DESCRIPTOR);
+            return (CopyOnWriteList) hostConfigurations.get(Hudson.getInstance().getDescriptorByType(
+                                                                                            BapFtpPublisherPlugin.Descriptor.class));
         }
     }
 

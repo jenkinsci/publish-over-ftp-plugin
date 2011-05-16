@@ -26,6 +26,7 @@ package jenkins.plugins.publish_over_ftp;
 
 import hudson.Extension;
 import hudson.model.AbstractProject;
+import hudson.model.Hudson;
 import hudson.util.FormValidation;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
@@ -40,9 +41,6 @@ import java.util.ArrayList;
 public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClient, Object> {
 
     private static final long serialVersionUID = 1L;
-
-    @Extension
-    public static final Descriptor DESCRIPTOR = new Descriptor();
 
     @DataBoundConstructor
     public BapFtpPublisherPlugin(final ArrayList<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError,
@@ -65,10 +63,16 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
     }
 
-    public BapFtpHostConfiguration getConfiguration(final String name) {
-        return DESCRIPTOR.getConfiguration(name);
+    @Override
+    public Descriptor getDescriptor() {
+        return Hudson.getInstance().getDescriptorByType(Descriptor.class);
     }
 
+    public BapFtpHostConfiguration getConfiguration(final String name) {
+        return getDescriptor().getConfiguration(name);
+    }
+
+    @Extension
     public static class Descriptor extends BPPluginDescriptor<BapFtpHostConfiguration, Object> {
         public Descriptor() {
             super(new DescriptorMessages(), BapFtpPublisherPlugin.class, BapFtpHostConfiguration.class, null);
@@ -76,11 +80,8 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         public boolean isApplicable(final Class<? extends AbstractProject> aClass) {
             return !BPPlugin.PROMOTION_JOB_TYPE.equals(aClass.getCanonicalName());
         }
-        public FormValidation doCheckSourceFiles(@QueryParameter final String value) {
-            return FormValidation.validateRequired(value);
-        }
-        public BapFtpPublisherPlugin.Descriptor getPublisherDescriptor() {
-            return this;
+        public BapFtpPublisher.DescriptorImpl getPublisherDescriptor() {
+            return Hudson.getInstance().getDescriptorByType(BapFtpPublisher.DescriptorImpl.class);
         }
     }
 

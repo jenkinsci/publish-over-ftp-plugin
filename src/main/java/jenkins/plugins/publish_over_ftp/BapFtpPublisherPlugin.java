@@ -27,13 +27,11 @@ package jenkins.plugins.publish_over_ftp;
 import hudson.Extension;
 import hudson.model.AbstractProject;
 import hudson.model.Hudson;
-import hudson.util.FormValidation;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.QueryParameter;
 
 import java.util.ArrayList;
 

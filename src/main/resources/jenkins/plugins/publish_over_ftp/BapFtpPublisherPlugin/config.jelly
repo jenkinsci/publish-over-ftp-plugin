@@ -27,11 +27,9 @@
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
 
     <j:set var="instance" value="${instance.delegate}"/>
-    <!-- hack for scope failure -->
-    <j:set var="xDescriptor" value="${descriptor}"/>
     
     <f:entry title='${inPromotion ? "" : "%publishers.section"}'>
-        <scope>
+        <j:scope>
             <j:set var="descriptor" value="${descriptor.publisherDescriptor}"/>
             <f:repeatable items="${instance.publishers}" var="instance" name="publishers" minimum="1" header="${%publisher.dragAndDropLabel}" add="${%addPublisher.value}">
                 <table width="100%" padding="0">
@@ -43,9 +41,8 @@
                     </f:entry>
                 </table>
             </f:repeatable>
-        </scope>
+        </j:scope>
 
-        <j:set var="descriptor" value="${xDescriptor}"/>
         <f:advanced>
             <f:entry title="${%continueOnError.title}" field="continueOnError">
                 <f:checkbox/>

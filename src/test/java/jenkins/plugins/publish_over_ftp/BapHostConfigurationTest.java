@@ -43,7 +43,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.easymock.EasyMock.expect;
 
 @SuppressWarnings({ "PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods" })
-public class BapFtpHostConfigurationTest {
+public class BapHostConfigurationTest {
 
     @BeforeClass
     public static void before() {
@@ -58,7 +58,7 @@ public class BapFtpHostConfigurationTest {
     private final transient BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
     private final transient IMocksControl mockControl = EasyMock.createStrictControl();
     private final transient FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
-    private final transient BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
+    private final transient BapHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
 
     @Test public void testChangeToRootDir() throws Exception {
         assertChangeToInitialDirectory("/");
@@ -139,7 +139,7 @@ public class BapFtpHostConfigurationTest {
         return client;
     }
 
-    private static class BapFtpHostConfigurationWithMockFTPClient extends BapFtpHostConfiguration {
+    private static class BapFtpHostConfigurationWithMockFTPClient extends BapHostConfiguration {
         private static final long serialVersionUID = 1L;
         private static final String TEST_CFG_NAME = "myTestConfig";
         private static final String TEST_HOSTNAME = "my.test.hostname";

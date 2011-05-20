@@ -24,162 +24,78 @@
 
 package jenkins.plugins.publish_over_ftp;
 
-import jenkins.plugins.publish_over.BPBuildInfo;
-import jenkins.plugins.publish_over.BPHostConfiguration;
-import jenkins.plugins.publish_over.BapPublisherException;
+import hudson.Extension;
+import hudson.model.Describable;
+import hudson.model.Descriptor;
+import hudson.model.Hudson;
+import hudson.util.FormValidation;
+import jenkins.plugins.publish_over.BPValidators;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-import org.apache.commons.net.PrintCommandListener;
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPReply;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.StaplerRequest;
+import org.kohsuke.stapler.StaplerResponse;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
-public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> {
+public class BapFtpHostConfiguration extends BapHostConfiguration implements Describable<BapFtpHostConfiguration> {
 
     private static final long serialVersionUID = 1L;
 
-    public static final int DEFAULT_PORT = FTP.DEFAULT_PORT;
-    public static final int DEFAULT_TIMEOUT = 300000;
-
-    public static int getDefaultPort() { return DEFAULT_PORT; }
-    public static int getDefaultTimeout() { return DEFAULT_TIMEOUT; }
-
-    private int timeout;
-    private boolean useActiveData;
-
     @DataBoundConstructor
-    public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String password,
+    public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
                                    final String remoteRootDir, final int port, final int timeout, final boolean useActiveData) {
-        super(name, hostname, username, password, remoteRootDir, port);
-        this.timeout = timeout;
-        this.useActiveData = useActiveData;
+        super(name, hostname, username, encryptedPassword, remoteRootDir, port, timeout, useActiveData);
     }
 
-    protected final String getPassword() {
-        return super.getPassword();
-    }
-
-    public int getTimeout() { return timeout; }
-    public void setTimeout(final int timeout) { this.timeout = timeout; }
-
-    public boolean isUseActiveData() { return useActiveData; }
-    public void setUseActiveData(final boolean useActiveData) { this.useActiveData = useActiveData; }
-
-    @Override
-    public BapFtpClient createClient(final BPBuildInfo buildInfo) {
-        final BapFtpClient client = new BapFtpClient(createFTPClient(), buildInfo);
-        try {
-            init(client);
-        } catch (IOException ioe) {
-            throw new BapPublisherException(Messages.exception_failedToCreateClient(ioe.getLocalizedMessage()), ioe);
-        }
-        return client;
-    }
-
-    public FTPClient createFTPClient() {
-        return new FTPClient();
-    }
-
-    private void init(final BapFtpClient client) throws IOException {
-        final FTPClient ftpClient = client.getFtpClient();
-        final BPBuildInfo buildInfo = client.getBuildInfo();
-        PrintCommandListener commandPrinter = null;
-        if (buildInfo.isVerbose()) {
-            commandPrinter = new PrintCommandListener(new PrintWriter(buildInfo.getListener().getLogger()));
-            ftpClient.addProtocolCommandListener(commandPrinter);
-        }
-        configureFTPClient(ftpClient);
-        connect(client);
-
-        login(client, commandPrinter);
-
-        changeToRootDirectory(client);
-        setRootDirectoryInClient(client);
-    }
-
-    private void configureFTPClient(final FTPClient ftpClient) {
-        ftpClient.setDefaultTimeout(timeout);
-        ftpClient.setDataTimeout(timeout);
-    }
-
-    private void setRootDirectoryInClient(final BapFtpClient client) throws IOException {
-        if (isDirectoryAbsolute(getRemoteRootDir())) {
-            client.setAbsoluteRemoteRoot(getRemoteRootDir());
-        } else {
-            client.setAbsoluteRemoteRoot(getRootDirectoryFromPwd(client));
-        }
-    }
-
-    private String getRootDirectoryFromPwd(final BapFtpClient client) throws IOException {
-        final BPBuildInfo buildInfo = client.getBuildInfo();
-        buildInfo.printIfVerbose(Messages.console_usingPwd());
-        final String pwd = client.getFtpClient().printWorkingDirectory();
-        if (!isDirectoryAbsolute(pwd))
-            exception(client, Messages.exception_pwdNotAbsolute(pwd));
-        return pwd;
-    }
-
-    private void login(final BapFtpClient client, final PrintCommandListener commandListener) throws IOException {
-        final FTPClient ftpClient = client.getFtpClient();
-        final BPBuildInfo buildInfo = client.getBuildInfo();
-        if (commandListener != null) {
-            buildInfo.println(Messages.console_logInHidingCommunication());
-            ftpClient.removeProtocolCommandListener(commandListener);
-        }
-        if (!ftpClient.login(getUsername(), getPassword())) {
-            exception(client, Messages.exception_logInFailed(getUsername()));
-        }
-        if (commandListener != null) {
-            buildInfo.println(Messages.console_loggedInShowingCommunication());
-            ftpClient.addProtocolCommandListener(commandListener);
-        }
-    }
-
-    private void connect(final BapFtpClient client) throws IOException {
-        final FTPClient ftpClient = client.getFtpClient();
-        ftpClient.connect(getHostname(), getPort());
-        final int responseCode = ftpClient.getReplyCode();
-        if (!FTPReply.isPositiveCompletion(responseCode)) {
-            exception(client, Messages.exception_connectFailed(getHostname(), getPort(), responseCode));
-        }
-        setDataTransferMode(ftpClient);
-    }
-
-    private void setDataTransferMode(final FTPClient ftpClient) {
-        if (useActiveData) {
-            ftpClient.enterLocalActiveMode();
-        } else {
-            ftpClient.enterLocalPassiveMode();
-        }
+    public Descriptor<BapFtpHostConfiguration> getDescriptor() {
+        return Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
     }
 
     public boolean equals(final Object that) {
         if (this == that) return true;
         if (that == null || getClass() != that.getClass()) return false;
-        final BapFtpHostConfiguration thatHostConfiguration = (BapFtpHostConfiguration) that;
+        final BapFtpHostConfiguration thatHostConfig = (BapFtpHostConfiguration) that;
 
-        return createEqualsBuilder(thatHostConfiguration)
-            .append(useActiveData, thatHostConfiguration.useActiveData)
-            .append(timeout, thatHostConfiguration.timeout)
-            .isEquals();
+        return createEqualsBuilder(thatHostConfig).isEquals();
     }
 
     public int hashCode() {
-        return createHashCodeBuilder()
-            .append(useActiveData)
-            .append(timeout)
-            .toHashCode();
+        return createHashCodeBuilder().toHashCode();
     }
 
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
-            .append("useActiveData", useActiveData)
-            .append("timeout", timeout)
-            .toString();
+        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+    }
+
+    @Extension
+    public static class DescriptorImpl extends Descriptor<BapFtpHostConfiguration> {
+        @Override
+        public String getDisplayName() {
+            return Messages.hostconfig_descriptor();
+        }
+        public int getDefaultPort() {
+            return BapHostConfiguration.DEFAULT_PORT;
+        }
+        public int getDefaultTimeout() {
+            return BapHostConfiguration.DEFAULT_TIMEOUT;
+        }
+        public FormValidation doCheckName(@QueryParameter final String value) {
+            return BPValidators.validateName(value);
+        }
+        public FormValidation doCheckHostname(@QueryParameter final String value) {
+            return FormValidation.validateRequired(value);
+        }
+        public FormValidation doCheckPort(@QueryParameter final String value) {
+            return FormValidation.validatePositiveInteger(value);
+        }
+        public FormValidation doCheckTimeout(@QueryParameter final String value) {
+            return FormValidation.validateNonNegativeInteger(value);
+        }
+        public FormValidation doTestConnection(final StaplerRequest request, final StaplerResponse response) {
+            final BapFtpPublisherPlugin.Descriptor pluginDescriptor = Hudson.getInstance().getDescriptorByType(
+                                                                                                BapFtpPublisherPlugin.Descriptor.class);
+            return pluginDescriptor.doTestConnection(request, response);
+        }
     }
 
 }

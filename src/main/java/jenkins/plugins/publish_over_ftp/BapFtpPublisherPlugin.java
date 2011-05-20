@@ -81,6 +81,9 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         public BapFtpPublisher.DescriptorImpl getPublisherDescriptor() {
             return Hudson.getInstance().getDescriptorByType(BapFtpPublisher.DescriptorImpl.class);
         }
+        public BapFtpHostConfiguration.DescriptorImpl getHostConfigurationDescriptor() {
+            return Hudson.getInstance().getDescriptorByType(BapFtpHostConfiguration.DescriptorImpl.class);
+        }
     }
 
     public static class DescriptorMessages implements BPPluginDescriptor.BPDescriptorMessages {

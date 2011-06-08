@@ -29,6 +29,8 @@ import hudson.model.AbstractProject;
 import hudson.model.Hudson;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -50,11 +52,11 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         if (this == that) return true;
         if (that == null || getClass() != that.getClass()) return false;
 
-        return createEqualsBuilder((BapFtpPublisherPlugin) that).isEquals();
+        return addToEquals(new EqualsBuilder(), (BapFtpPublisherPlugin) that).isEquals();
     }
 
     public int hashCode() {
-        return createHashCodeBuilder().toHashCode();
+        return addToHashCode(new HashCodeBuilder()).toHashCode();
     }
 
     public String toString() {

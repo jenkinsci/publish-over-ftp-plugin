@@ -30,6 +30,8 @@ import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.util.FormValidation;
 import jenkins.plugins.publish_over.BPTransfer;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -52,11 +54,11 @@ public class BapFtpTransfer extends BapTransfer implements Describable<BapFtpTra
         if (this == that) return true;
         if (that == null || getClass() != that.getClass()) return false;
 
-        return createEqualsBuilder((BapFtpTransfer) that).isEquals();
+        return addToEquals(new EqualsBuilder(), (BapFtpTransfer) that).isEquals();
     }
 
     public int hashCode() {
-        return createHashCodeBuilder().toHashCode();
+        return addToHashCode(new HashCodeBuilder()).toHashCode();
     }
 
     public String toString() {
@@ -76,7 +78,7 @@ public class BapFtpTransfer extends BapTransfer implements Describable<BapFtpTra
         }
         @Override
         public String getDisplayName() {
-            return "transfer";
+            return Messages.transfer_descriptor_displayName();
         }
     }
 }

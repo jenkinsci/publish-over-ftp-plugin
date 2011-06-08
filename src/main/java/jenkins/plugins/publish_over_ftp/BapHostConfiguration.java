@@ -39,6 +39,7 @@ import org.apache.commons.net.ftp.FTPReply;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public class BapHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> {
 
     private static final long serialVersionUID = 1L;

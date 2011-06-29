@@ -25,12 +25,10 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.Extension;
-import hudson.model.AbstractProject;
 import hudson.model.Hudson;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
-import jenkins.plugins.publish_over_ftp.descriptor.BapFtpHostConfigurationDescriptor;
-import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherDescriptor;
+import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherPluginDescriptor;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -75,30 +73,19 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     }
 
     @Extension
-    public static class Descriptor extends BPPluginDescriptor<BapFtpHostConfiguration, Object> {
-        public Descriptor() {
-            super(new DescriptorMessages(), BapFtpPublisherPlugin.class, BapFtpHostConfiguration.class, null);
-        }
-        public boolean isApplicable(final Class<? extends AbstractProject> aClass) {
-            return !BPPlugin.PROMOTION_JOB_TYPE.equals(aClass.getCanonicalName());
-        }
-        public BapFtpPublisherDescriptor getPublisherDescriptor() {
-            return Hudson.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
-        }
-        public BapFtpHostConfigurationDescriptor getHostConfigurationDescriptor() {
-            return Hudson.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
-        }
-    }
+    public static class Descriptor extends BapFtpPublisherPluginDescriptor { }
 
+    /** left in to prevent xstream noise */
+    @Deprecated
     public static class DescriptorMessages implements BPPluginDescriptor.BPDescriptorMessages {
         public String displayName() {
-            return Messages.descriptor_displayName();
+            return null;
         }
         public String connectionOK() {
-            return Messages.descriptor_testConnection_ok();
+            return null;
         }
         public String connectionErr() {
-            return Messages.descriptor_testConnection_error();
+            return null;
         }
     }
 

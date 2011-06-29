@@ -26,9 +26,9 @@ package jenkins.plugins.publish_over_ftp.jenkins;
 
 import hudson.model.Hudson;
 import hudson.util.CopyOnWriteList;
-import jenkins.plugins.publish_over.BPPluginDescriptor;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
+import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherPluginDescriptor;
 
 import java.lang.reflect.Field;
 import java.security.AccessController;
@@ -44,7 +44,7 @@ public class JenkinsTestHelper {
     }
 
     public CopyOnWriteList<BapFtpHostConfiguration> getHostConfigurations() throws NoSuchFieldException, IllegalAccessException {
-        final Field hostConfigurations = BPPluginDescriptor.class.getDeclaredField("hostConfigurations");
+        final Field hostConfigurations = BapFtpPublisherPluginDescriptor.class.getDeclaredField("hostConfigurations");
         try {
             return AccessController.doPrivileged(new GetMeTheHostConfigurations(hostConfigurations));
         } catch (PrivilegedActionException pae) {

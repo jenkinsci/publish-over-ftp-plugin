@@ -29,6 +29,8 @@ import hudson.model.AbstractProject;
 import hudson.model.Hudson;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
+import jenkins.plugins.publish_over_ftp.descriptor.BapFtpHostConfigurationDescriptor;
+import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherDescriptor;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -80,11 +82,11 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         public boolean isApplicable(final Class<? extends AbstractProject> aClass) {
             return !BPPlugin.PROMOTION_JOB_TYPE.equals(aClass.getCanonicalName());
         }
-        public BapFtpPublisher.DescriptorImpl getPublisherDescriptor() {
-            return Hudson.getInstance().getDescriptorByType(BapFtpPublisher.DescriptorImpl.class);
+        public BapFtpPublisherDescriptor getPublisherDescriptor() {
+            return Hudson.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
         }
-        public BapFtpHostConfiguration.DescriptorImpl getHostConfigurationDescriptor() {
-            return Hudson.getInstance().getDescriptorByType(BapFtpHostConfiguration.DescriptorImpl.class);
+        public BapFtpHostConfigurationDescriptor getHostConfigurationDescriptor() {
+            return Hudson.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
         }
     }
 

@@ -58,7 +58,7 @@ public class BapHostConfigurationTest {
     private final transient BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
     private final transient IMocksControl mockControl = EasyMock.createStrictControl();
     private final transient FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
-    private final transient BapHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
+    private final transient BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
 
     @Test public void testChangeToRootDir() throws Exception {
         assertChangeToInitialDirectory("/");
@@ -139,7 +139,7 @@ public class BapHostConfigurationTest {
         return client;
     }
 
-    private static class BapFtpHostConfigurationWithMockFTPClient extends BapHostConfiguration {
+    private static class BapFtpHostConfigurationWithMockFTPClient extends BapFtpHostConfiguration {
         private static final long serialVersionUID = 1L;
         private static final String TEST_CFG_NAME = "myTestConfig";
         private static final String TEST_HOSTNAME = "my.test.hostname";

@@ -24,11 +24,10 @@
 
 package jenkins.plugins.publish_over_ftp;
 
-import hudson.Extension;
 import hudson.model.Describable;
-import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import jenkins.plugins.publish_over.BapPublisher;
+import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherDescriptor;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -37,6 +36,9 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 import java.util.ArrayList;
 
+/**
+ * Class required to enable stapler/DBC to bind to correct BPTransfer - BapFtpTransfer
+ */
 @SuppressWarnings("PMD.LooseCoupling") // serializable
 public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Describable<BapFtpPublisher> {
 
@@ -48,8 +50,8 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Des
         super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp);
     }
 
-    public DescriptorImpl getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(DescriptorImpl.class);
+    public BapFtpPublisherDescriptor getDescriptor() {
+        return Hudson.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
     }
 
     public boolean equals(final Object that) {
@@ -65,20 +67,6 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Des
 
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
-    }
-
-    @Extension
-    public static class DescriptorImpl extends Descriptor<BapFtpPublisher> {
-        public BapFtpPublisherPlugin.Descriptor getPublisherPluginDescriptor() {
-            return Hudson.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
-        }
-        public BapFtpTransfer.DescriptorImpl getTransferDescriptor() {
-            return Hudson.getInstance().getDescriptorByType(BapFtpTransfer.DescriptorImpl.class);
-        }
-        @Override
-        public String getDisplayName() {
-            return Messages.publisher_descriptor_displayName();
-        }
     }
 
 }

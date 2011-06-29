@@ -38,7 +38,7 @@ import org.apache.commons.net.ftp.FTPListParseEngine;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class BapFtpClient extends BPDefaultClient<BapTransfer> {
+public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
 
     private static final Log LOG = LogFactory.getLog(BapFtpClient.class);
 
@@ -105,7 +105,7 @@ public class BapFtpClient extends BPDefaultClient<BapTransfer> {
         }
     }
 
-    public void beginTransfers(final BapTransfer transfer) {
+    public void beginTransfers(final BapFtpTransfer transfer) {
         if (!transfer.hasConfiguredSourceFiles())
             throw new BapPublisherException(Messages.exception_noSourceFiles());
         try {
@@ -116,7 +116,7 @@ public class BapFtpClient extends BPDefaultClient<BapTransfer> {
         }
     }
 
-    public void transferFile(final BapTransfer client, final FilePath filePath, final InputStream content) throws IOException {
+    public void transferFile(final BapFtpTransfer client, final FilePath filePath, final InputStream content) throws IOException {
         if (!ftpClient.storeFile(filePath.getName(), content))
             throw new BapPublisherException(Messages.exception_failedToStoreFile(ftpClient.getReplyString()));
     }
@@ -139,7 +139,7 @@ public class BapFtpClient extends BPDefaultClient<BapTransfer> {
         }
     }
 
-    private boolean setTransferMode(final BapTransfer transfer) throws IOException {
+    private boolean setTransferMode(final BapFtpTransfer transfer) throws IOException {
         final int fileType = transfer.isAsciiMode() ? FTP.ASCII_FILE_TYPE : FTP.BINARY_FILE_TYPE;
         return ftpClient.setFileType(fileType);
     }

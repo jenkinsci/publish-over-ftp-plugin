@@ -80,12 +80,12 @@ public class CurrentConfigurationTest extends HudsonTestCase {
         transfers1.add(transfer2);
         final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
         transfers2.add(transfer3);
-        final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1, false, false);
-        final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2, false, false);
+        final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, transfers1, false, false);
+        final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, transfers2, false, false);
         final ArrayList<BapFtpPublisher> publishers = new ArrayList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);
-        return new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER");
+        return new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER", true);
     }
 
 }

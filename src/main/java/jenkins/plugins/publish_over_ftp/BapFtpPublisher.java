@@ -45,9 +45,9 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Des
     private static final long serialVersionUID = 1L;
 
     @DataBoundConstructor
-    public BapFtpPublisher(final String configName, final boolean verbose, final ArrayList<BapFtpTransfer> transfers,
+    public BapFtpPublisher(final String configName, final ArrayList<BapFtpTransfer> transfers,
                            final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp) {
-        super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp);
+        super(configName, transfers, useWorkspaceInPromotion, usePromotionTimestamp);
     }
 
     public BapFtpPublisherDescriptor getDescriptor() {

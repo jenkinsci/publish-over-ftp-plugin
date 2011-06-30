@@ -51,10 +51,8 @@ public class BapFtpPromotionPublisherPlugin extends Notifier {
 
     @DataBoundConstructor
     public BapFtpPromotionPublisherPlugin(final ArrayList<BapFtpPublisher> publishers, final boolean continueOnError,
-                                          final boolean failOnError, final boolean alwaysPublishFromMaster, final String masterNodeName,
-                                          final boolean verbose) {
-        this.delegate = new BapFtpPublisherPlugin(publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName,
-                                                                                                                                   verbose);
+                                          final boolean failOnError, final boolean alwaysPublishFromMaster, final String masterNodeName) {
+        this.delegate = new BapFtpPublisherPlugin(publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
     }
 
     public BapFtpPublisherPlugin getDelegate() {

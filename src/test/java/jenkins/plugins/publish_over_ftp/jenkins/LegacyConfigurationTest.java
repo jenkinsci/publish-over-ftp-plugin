@@ -55,18 +55,18 @@ public class LegacyConfigurationTest extends HudsonTestCase {
                                                             true, true, true, false);
         final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<BapFtpTransfer>();
         transfers1.add(transfer1);
-        final BapFtpPublisher publisher1 = new BapFtpPublisher("Config b", transfers1, false, false);
+        final BapFtpPublisher publisher1 = new BapFtpPublisher("Config b", true, transfers1, false, false);
         final BapFtpTransfer transfer21 = new BapFtpTransfer("target\\images\\*", null, "", "", false, false, false, false);
         final BapFtpTransfer transfer22 = new BapFtpTransfer("target\\logs\\**\\*", null, "serverlogs", "target\\logs",
                                                              true, false, true, false);
         final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
         transfers2.add(transfer21);
         transfers2.add(transfer22);
-        final BapFtpPublisher publisher2 = new BapFtpPublisher("Config a", transfers2, false, false);
+        final BapFtpPublisher publisher2 = new BapFtpPublisher("Config a", false, transfers2, false, false);
         final ArrayList<BapFtpPublisher> publishers = new ArrayList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);
-        final BapFtpPublisherPlugin expectedPlugin = new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER", true);
+        final BapFtpPublisherPlugin expectedPlugin = new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER");
         assertEquals(expectedPlugin, getConfiguredPlugin());
     }
 

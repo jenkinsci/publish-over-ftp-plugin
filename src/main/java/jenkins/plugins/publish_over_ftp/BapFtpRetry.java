@@ -43,7 +43,7 @@ public class BapFtpRetry extends Retry implements Describable<BapFtpRetry> {
     public BapFtpRetry(final int retries, final long retryDelay) {
         super(retries, retryDelay);
     }
-    
+
     public BapFtpRetryDescriptor getDescriptor() {
         return Hudson.getInstance().getDescriptorByType(BapFtpRetryDescriptor.class);
     }

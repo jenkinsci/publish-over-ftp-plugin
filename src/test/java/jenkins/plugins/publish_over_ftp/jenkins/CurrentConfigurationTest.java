@@ -28,6 +28,7 @@ import hudson.model.FreeStyleProject;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
+import jenkins.plugins.publish_over_ftp.BapFtpRetry;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
 import org.junit.Test;
 import org.jvnet.hudson.test.HudsonTestCase;
@@ -80,8 +81,8 @@ public class CurrentConfigurationTest extends HudsonTestCase {
         transfers1.add(transfer2);
         final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
         transfers2.add(transfer3);
-        final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1, false, false);
-        final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2, false, false);
+        final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1, false, false, null);
+        final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2, false, false, new BapFtpRetry(5, 100L));
         final ArrayList<BapFtpPublisher> publishers = new ArrayList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);

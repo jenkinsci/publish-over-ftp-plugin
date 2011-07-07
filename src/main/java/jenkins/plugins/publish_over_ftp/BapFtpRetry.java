@@ -24,45 +24,35 @@
 
 package jenkins.plugins.publish_over_ftp;
 
+import hudson.Extension;
 import hudson.model.Describable;
+import hudson.model.Descriptor;
 import hudson.model.Hudson;
-import jenkins.plugins.publish_over.BapPublisher;
-import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherDescriptor;
+import hudson.util.FormValidation;
+import jenkins.plugins.publish_over.Retry;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.QueryParameter;
 
-import java.util.ArrayList;
-
-/**
- * Class required to enable stapler/DBC to bind to correct BPTransfer - BapFtpTransfer
- */
-@SuppressWarnings("PMD.LooseCoupling") // serializable
-public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Describable<BapFtpPublisher> {
-
-    private static final long serialVersionUID = 1L;
+public class BapFtpRetry extends Retry implements Describable<BapFtpRetry> {
 
     @DataBoundConstructor
-    public BapFtpPublisher(final String configName, final boolean verbose, final ArrayList<BapFtpTransfer> transfers,
-                           final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp, final BapFtpRetry retry) {
-        super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp, retry);
+    public BapFtpRetry(final int retries, final long retryDelay) {
+        super(retries, retryDelay);
     }
-
-    public BapFtpRetry getRetry() {
-        return (BapFtpRetry) super.getRetry();
-    }
-
-    public BapFtpPublisherDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
+    
+    public BapFtpRetryDescriptor getDescriptor() {
+        return Hudson.getInstance().getDescriptorByType(BapFtpRetryDescriptor.class);
     }
 
     public boolean equals(final Object that) {
         if (this == that) return true;
         if (that == null || getClass() != that.getClass()) return false;
 
-        return addToEquals(new EqualsBuilder(), (BapFtpPublisher) that).isEquals();
+        return addToEquals(new EqualsBuilder(), (BapFtpRetry) that).isEquals();
     }
 
     public int hashCode() {
@@ -71,6 +61,32 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Des
 
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+    }
+
+    @Extension
+    public static class BapFtpRetryDescriptor extends Descriptor<BapFtpRetry> {
+
+        @Override
+        public String getDisplayName() {
+            return Messages.retry_descriptor_displayName();
+        }
+
+        public int getDefaultRetries() {
+            return Retry.DEFAULT_RETRIES;
+        }
+
+        public long getDefaultRetryDelay() {
+            return Retry.DEFAULT_RETRY_DELAY;
+        }
+
+        public FormValidation doCheckRetries(@QueryParameter final String value) {
+            return FormValidation.validateNonNegativeInteger(value);
+        }
+
+        public FormValidation doCheckRetryDelay(@QueryParameter final String value) {
+            return FormValidation.validatePositiveInteger(value);
+        }
+
     }
 
 }

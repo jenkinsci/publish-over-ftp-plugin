@@ -46,16 +46,16 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Des
 
     @DataBoundConstructor
     public BapFtpPublisher(final String configName, final boolean verbose, final ArrayList<BapFtpTransfer> transfers,
-                           final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp, final BapFtpRetry retry,
-                           final BapFtpPublisherLabel label) {
-        super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp, retry, label);
+                           final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp, final BapFtpRetry ftpRetry,
+                           final BapFtpPublisherLabel ftpLabel) {
+        super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp, ftpRetry, ftpLabel);
     }
 
-    public BapFtpRetry getRetry() {
+    public BapFtpRetry getFtpRetry() {
         return (BapFtpRetry) super.getRetry();
     }
 
-    public BapFtpPublisherLabel getLabel() {
+    public BapFtpPublisherLabel getFtpLabel() {
         return (BapFtpPublisherLabel) super.getLabel();
     }
 

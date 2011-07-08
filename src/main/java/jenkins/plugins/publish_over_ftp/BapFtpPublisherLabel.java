@@ -24,50 +24,33 @@
 
 package jenkins.plugins.publish_over_ftp;
 
+import hudson.Extension;
 import hudson.model.Describable;
+import hudson.model.Descriptor;
 import hudson.model.Hudson;
-import jenkins.plugins.publish_over.BapPublisher;
-import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherDescriptor;
+import jenkins.plugins.publish_over.PublisherLabel;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import java.util.ArrayList;
-
-/**
- * Class required to enable stapler/DBC to bind to correct BPTransfer - BapFtpTransfer
- */
-@SuppressWarnings("PMD.LooseCoupling") // serializable
-public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Describable<BapFtpPublisher> {
-
-    private static final long serialVersionUID = 1L;
+public class BapFtpPublisherLabel extends PublisherLabel implements Describable<BapFtpPublisherLabel> {
 
     @DataBoundConstructor
-    public BapFtpPublisher(final String configName, final boolean verbose, final ArrayList<BapFtpTransfer> transfers,
-                           final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp, final BapFtpRetry retry,
-                           final BapFtpPublisherLabel label) {
-        super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp, retry, label);
+    public BapFtpPublisherLabel(final String label) {
+        super(label);
     }
 
-    public BapFtpRetry getRetry() {
-        return (BapFtpRetry) super.getRetry();
-    }
-
-    public BapFtpPublisherLabel getLabel() {
-        return (BapFtpPublisherLabel) super.getLabel();
-    }
-
-    public BapFtpPublisherDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
+    public BapFtpPublisherLabelDescriptor getDescriptor() {
+        return Hudson.getInstance().getDescriptorByType(BapFtpPublisherLabelDescriptor.class);
     }
 
     public boolean equals(final Object that) {
         if (this == that) return true;
         if (that == null || getClass() != that.getClass()) return false;
 
-        return addToEquals(new EqualsBuilder(), (BapFtpPublisher) that).isEquals();
+        return addToEquals(new EqualsBuilder(), (BapFtpPublisherLabel) that).isEquals();
     }
 
     public int hashCode() {
@@ -76,6 +59,16 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Des
 
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+    }
+
+    @Extension
+    public static class BapFtpPublisherLabelDescriptor extends Descriptor<BapFtpPublisherLabel> {
+
+        @Override
+        public String getDisplayName() {
+            return Messages.publisherLabel_descriptor_displayName();
+        }
+
     }
 
 }

@@ -44,8 +44,14 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
 
     @DataBoundConstructor
     public BapFtpPublisherPlugin(final ArrayList<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError,
-                                 final boolean alwaysPublishFromMaster, final String masterNodeName) {
-        super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName);
+                                 final boolean alwaysPublishFromMaster, final String masterNodeName,
+                                 final BapFtpParamPublish paramPublish) {
+        super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName,
+                paramPublish);
+    }
+
+    public BapFtpParamPublish getParamPublish() {
+        return (BapFtpParamPublish) getDelegate().getParamPublish();
     }
 
     public boolean equals(final Object that) {

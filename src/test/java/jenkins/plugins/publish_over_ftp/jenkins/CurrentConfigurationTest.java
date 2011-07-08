@@ -26,7 +26,9 @@ package jenkins.plugins.publish_over_ftp.jenkins;
 
 import hudson.model.FreeStyleProject;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
+import jenkins.plugins.publish_over_ftp.BapFtpParamPublish;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
+import jenkins.plugins.publish_over_ftp.BapFtpPublisherLabel;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpRetry;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
@@ -81,12 +83,13 @@ public class CurrentConfigurationTest extends HudsonTestCase {
         transfers1.add(transfer2);
         final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
         transfers2.add(transfer3);
-        final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1, false, false, null);
-        final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2, false, false, new BapFtpRetry(5, 100L));
+        final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1, false, false, null, null);
+        final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2, false, false, new BapFtpRetry(5, 100L),
+                                                               new BapFtpPublisherLabel("RELEASE"));
         final ArrayList<BapFtpPublisher> publishers = new ArrayList<BapFtpPublisher>();
         publishers.add(publisher1);
         publishers.add(publisher2);
-        return new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER");
+        return new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER", new BapFtpParamPublish("(^RELEASE)"));
     }
 
 }

@@ -37,6 +37,8 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 public class BapFtpPublisherLabel extends PublisherLabel implements Describable<BapFtpPublisherLabel> {
 
+    private static final long serialVersionUID = 1L;
+
     @DataBoundConstructor
     public BapFtpPublisherLabel(final String label) {
         super(label);

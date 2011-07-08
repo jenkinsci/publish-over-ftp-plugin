@@ -39,6 +39,8 @@ import org.kohsuke.stapler.QueryParameter;
 
 public class BapFtpRetry extends Retry implements Describable<BapFtpRetry> {
 
+    private static final long serialVersionUID = 1L;
+
     @DataBoundConstructor
     public BapFtpRetry(final int retries, final long retryDelay) {
         super(retries, retryDelay);

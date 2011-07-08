@@ -37,6 +37,8 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 public class BapFtpParamPublish extends ParamPublish implements Describable<BapFtpParamPublish> {
 
+    private static final long serialVersionUID = 1L;
+
     @DataBoundConstructor
     public BapFtpParamPublish(final String parameterName) {
         super(parameterName);

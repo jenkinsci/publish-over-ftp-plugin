@@ -71,6 +71,10 @@ public class BapFtpParamPublish extends ParamPublish implements Describable<BapF
             return Messages.paramPublish_descriptor_displayName();
         }
 
+        public jenkins.plugins.publish_over.view_defaults.ParamPublish.Messages getCommonFieldNames() {
+            return new jenkins.plugins.publish_over.view_defaults.ParamPublish.Messages();
+        }
+
     }
 
 }

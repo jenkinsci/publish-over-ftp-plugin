@@ -26,43 +26,45 @@
 
 <j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:poj="/pojelly">
 
-    <f:entry title="${%sourceFiles.title}" field="sourceFiles" help="${descriptor.getHelpFile((inPromotion and !matrixPromotion) ? 'sourceFilesForPromotion' : 'sourceFiles')}">
+    <poj:defaultMessages/>
+    
+    <f:entry title="${m.sourceFiles()}" field="sourceFiles" help="${descriptor.getHelpFile((inPromotion and !matrixPromotion) ? 'sourceFilesForPromotion' : 'sourceFiles')}">
         <f:textbox/>
     </f:entry>
 
-    <f:entry title="${%removePrefix.title}" field="removePrefix">
+    <f:entry title="${m.removePrefix()}" field="removePrefix">
         <f:textbox/>
     </f:entry>
 
-    <f:entry title="${%remoteDirectory.title}" field="remoteDirectory">
+    <f:entry title="${m.remoteDirectory()}" field="remoteDirectory">
         <f:textbox/>
     </f:entry>
 
     <f:description>
-        <j:out value='${%transfers.envVars(rootURL)}'/>
+        <j:out value='${m.transfers_envVars(rootURL)}'/>
     </f:description>
 
     <f:advanced>
 
         <j:if test="${descriptor.canUseExcludes()}">
-            <f:entry title="${%excludes.title}" field="excludes">
+            <f:entry title="${m.excludes()}" field="excludes">
                 <f:textbox/>
             </f:entry>
         </j:if>
 
-        <f:entry title="${%flatten.title}" field="flatten">
+        <f:entry title="${m.flatten()}" field="flatten">
             <f:checkbox/>
         </f:entry>
 
-        <f:entry title="${%remoteDirectorySDF.title}" field="remoteDirectorySDF">
+        <f:entry title="${m.remoteDirectorySDF()}" field="remoteDirectorySDF">
             <f:checkbox/>
         </f:entry>
 
-        <f:entry title="${%cleanRemote.title}" field="cleanRemote">
+        <f:entry title="${m.cleanRemote()}" field="cleanRemote">
             <f:checkbox/>
         </f:entry>
 
-        <f:entry title="${%asciiMode.title}" field="asciiMode">
+        <f:entry title="${%asciiMode}" field="asciiMode">
             <f:checkbox/>
         </f:entry>
 

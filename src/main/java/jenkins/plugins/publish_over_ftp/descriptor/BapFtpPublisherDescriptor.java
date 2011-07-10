@@ -51,4 +51,8 @@ public class BapFtpPublisherDescriptor extends Descriptor<BapFtpPublisher> {
         return Hudson.getInstance().getDescriptorByType(BapFtpTransferDescriptor.class);
     }
 
+    public jenkins.plugins.publish_over.view_defaults.BapPublisher.Messages getCommonFieldNames() {
+        return new jenkins.plugins.publish_over.view_defaults.BapPublisher.Messages();
+    }
+
 }

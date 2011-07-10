@@ -99,6 +99,10 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
         return Hudson.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
     }
 
+    public jenkins.plugins.publish_over.view_defaults.BPInstanceConfig.Messages getCommonFieldNames() {
+        return new jenkins.plugins.publish_over.view_defaults.BPInstanceConfig.Messages();
+    }
+
     public FormValidation doTestConnection(final StaplerRequest request, final StaplerResponse response) {
         final BapFtpHostConfiguration hostConfig = request.bindParameters(BapFtpHostConfiguration.class, "");
         final BPBuildInfo buildInfo = createDummyBuildInfo();

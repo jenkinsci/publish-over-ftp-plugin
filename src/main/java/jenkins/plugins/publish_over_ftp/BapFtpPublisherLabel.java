@@ -71,6 +71,10 @@ public class BapFtpPublisherLabel extends PublisherLabel implements Describable<
             return Messages.publisherLabel_descriptor_displayName();
         }
 
+        public jenkins.plugins.publish_over.view_defaults.PublisherLabel.Messages getCommonFieldNames() {
+            return new jenkins.plugins.publish_over.view_defaults.PublisherLabel.Messages();
+        }
+
     }
 
 }

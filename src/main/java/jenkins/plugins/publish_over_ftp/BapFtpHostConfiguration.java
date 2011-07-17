@@ -144,10 +144,10 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
     private void connect(final BapFtpClient client) throws IOException {
         final FTPClient ftpClient = client.getFtpClient();
-        ftpClient.connect(getHostname(), getPort());
+        ftpClient.connect(getHostnameTrimmed(), getPort());
         final int responseCode = ftpClient.getReplyCode();
         if (!FTPReply.isPositiveCompletion(responseCode)) {
-            exception(client, Messages.exception_connectFailed(getHostname(), getPort(), responseCode));
+            exception(client, Messages.exception_connectFailed(getHostnameTrimmed(), getPort(), responseCode));
         }
         setDataTransferMode(ftpClient);
     }

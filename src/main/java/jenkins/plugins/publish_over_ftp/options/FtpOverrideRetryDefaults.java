@@ -36,8 +36,8 @@ import org.kohsuke.stapler.QueryParameter;
 
 public class FtpOverrideRetryDefaults implements RetryOptions, Describable<FtpOverrideRetryDefaults> {
 
-    final private int retries;
-    final private long retryDelay;
+    private final int retries;
+    private final long retryDelay;
 
     @DataBoundConstructor
     public FtpOverrideRetryDefaults(final int retries, final long retryDelay) {

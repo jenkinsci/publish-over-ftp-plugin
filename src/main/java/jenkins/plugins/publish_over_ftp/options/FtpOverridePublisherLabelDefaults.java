@@ -34,7 +34,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 public class FtpOverridePublisherLabelDefaults implements PublisherLabelOptions, Describable<FtpOverridePublisherLabelDefaults> {
 
-    final private String label;
+    private final String label;
 
     @DataBoundConstructor
     public FtpOverridePublisherLabelDefaults(final String label) {

@@ -40,13 +40,9 @@ public abstract class FtpDefaults implements Describable<FtpDefaults>, Extension
         return (FtpDefaultsDescriptor) Hudson.getInstance().getDescriptor(getClass());
     }
 
-    public static abstract class FtpDefaultsDescriptor extends Descriptor<FtpDefaults> {
+    public abstract static class FtpDefaultsDescriptor extends Descriptor<FtpDefaults> {
 
         protected FtpDefaultsDescriptor() { }
-
-        protected FtpDefaultsDescriptor(Class<? extends FtpDefaults> clazz) {
-            super(clazz);
-        }
 
     }
 

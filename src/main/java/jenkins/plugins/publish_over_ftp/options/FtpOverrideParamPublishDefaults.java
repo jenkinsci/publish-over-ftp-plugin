@@ -34,7 +34,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 
 public class FtpOverrideParamPublishDefaults implements ParamPublishOptions, Describable<FtpOverrideParamPublishDefaults> {
 
-    final private String parameterName;
+    private final String parameterName;
 
     @DataBoundConstructor
     public FtpOverrideParamPublishDefaults(final String parameterName) {

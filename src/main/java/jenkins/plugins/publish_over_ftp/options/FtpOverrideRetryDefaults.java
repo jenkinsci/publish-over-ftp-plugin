@@ -22,55 +22,47 @@
  * THE SOFTWARE.
  */
 
-package jenkins.plugins.publish_over_ftp;
+package jenkins.plugins.publish_over_ftp.options;
 
 import hudson.Extension;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.util.FormValidation;
-import jenkins.plugins.publish_over.Retry;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import jenkins.plugins.publish_over.options.RetryOptions;
+import jenkins.plugins.publish_over_ftp.BapFtpRetry;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
-public class BapFtpRetry extends Retry implements Describable<BapFtpRetry> {
+public class FtpOverrideRetryDefaults implements RetryOptions, Describable<FtpOverrideRetryDefaults> {
 
-    private static final long serialVersionUID = 1L;
+    final private int retries;
+    final private long retryDelay;
 
     @DataBoundConstructor
-    public BapFtpRetry(final int retries, final long retryDelay) {
-        super(retries, retryDelay);
+    public FtpOverrideRetryDefaults(final int retries, final long retryDelay) {
+        this.retries = retries;
+        this.retryDelay = retryDelay;
     }
 
-    public BapFtpRetryDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpRetryDescriptor.class);
+    public int getRetries() {
+        return retries;
     }
 
-    public boolean equals(final Object that) {
-        if (this == that) return true;
-        if (that == null || getClass() != that.getClass()) return false;
-
-        return addToEquals(new EqualsBuilder(), (BapFtpRetry) that).isEquals();
+    public long getRetryDelay() {
+        return retryDelay;
     }
 
-    public int hashCode() {
-        return addToHashCode(new HashCodeBuilder()).toHashCode();
-    }
-
-    public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+    public FtpOverrideRetryDefaultsDescriptor getDescriptor() {
+        return Hudson.getInstance().getDescriptorByType(FtpOverrideRetryDefaultsDescriptor.class);
     }
 
     @Extension
-    public static class BapFtpRetryDescriptor extends Descriptor<BapFtpRetry> {
+    public static class FtpOverrideRetryDefaultsDescriptor extends Descriptor<FtpOverrideRetryDefaults> {
 
         @Override
         public String getDisplayName() {
-            return Messages.retry_descriptor_displayName();
+            return "FtpOverrideRetryDefaultsDescriptor - not visible ...";
         }
 
         public FormValidation doCheckRetries(@QueryParameter final String value) {
@@ -83,6 +75,10 @@ public class BapFtpRetry extends Retry implements Describable<BapFtpRetry> {
 
         public jenkins.plugins.publish_over.view_defaults.Retry.Messages getCommonFieldNames() {
             return new jenkins.plugins.publish_over.view_defaults.Retry.Messages();
+        }
+
+        public String getConfigPage() {
+            return getViewPage(BapFtpRetry.class, "config.jelly");
         }
 
     }

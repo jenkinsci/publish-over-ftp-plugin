@@ -32,14 +32,16 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import hudson.util.CopyOnWriteList;
 import hudson.util.FormValidation;
-import hudson.util.VersionNumber;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPInstanceConfig;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
+import jenkins.plugins.publish_over.JenkinsCapabilities;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.Messages;
+import jenkins.plugins.publish_over_ftp.options.FtpDefaults;
+import jenkins.plugins.publish_over_ftp.options.FtpPluginDefaults;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.StaplerResponse;
@@ -54,10 +56,17 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
     /** null - prevent complaints from xstream */
     private Class hostConfigClass;
     private final CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = new CopyOnWriteList<BapFtpHostConfiguration>();
+    private FtpDefaults defaults;
 
     public BapFtpPublisherPluginDescriptor() {
         super(BapFtpPublisherPlugin.class);
         load();
+        if (defaults == null)
+            defaults = new FtpPluginDefaults();
+    }
+
+    public FtpDefaults getDefaults() {
+        return defaults;
     }
 
     public String getDisplayName() {
@@ -83,16 +92,22 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
 
     public boolean configure(final StaplerRequest request, final JSONObject formData) {
         hostConfigurations.replaceBy(request.bindJSONToList(BapFtpHostConfiguration.class, formData.get("instance")));
+        if (isEnableOverrideDefaults())
+            defaults = request.bindJSON(FtpDefaults.class, formData.getJSONObject("defaults"));
         save();
         return true;
     }
 
     public boolean canSetMasterNodeName() {
-        return Hudson.getVersion().isOlderThan(new VersionNumber(BPInstanceConfig.MASTER_GETS_NODE_NAME_IN_VERSION));
+        return JenkinsCapabilities.missing(JenkinsCapabilities.MASTER_HAS_NODE_NAME);
     }
 
     public String getDefaultMasterNodeName() {
         return BPInstanceConfig.DEFAULT_MASTER_NODE_NAME;
+    }
+
+    public boolean isEnableOverrideDefaults() {
+        return JenkinsCapabilities.available(JenkinsCapabilities.SIMPLE_DESCRIPTOR_SELECTOR);
     }
 
     public BapFtpPublisherDescriptor getPublisherDescriptor() {
@@ -103,8 +118,16 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
         return Hudson.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
     }
 
+    public FtpPluginDefaults.FtpPluginDefaultsDescriptor getPluginDefaultsDescriptor() {
+        return Hudson.getInstance().getDescriptorByType(FtpPluginDefaults.FtpPluginDefaultsDescriptor.class);
+    }
+
     public jenkins.plugins.publish_over.view_defaults.BPInstanceConfig.Messages getCommonFieldNames() {
         return new jenkins.plugins.publish_over.view_defaults.BPInstanceConfig.Messages();
+    }
+
+    public jenkins.plugins.publish_over.view_defaults.manage_jenkins.Messages getCommonManageMessages() {
+        return new jenkins.plugins.publish_over.view_defaults.manage_jenkins.Messages();
     }
 
     public FormValidation doTestConnection(final StaplerRequest request, final StaplerResponse response) {
@@ -135,6 +158,8 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
         // nuke the legacy config
         msg = null;
         hostConfigClass = null;
+        if (defaults == null)
+            defaults = new FtpPluginDefaults();
         return this;
     }
 

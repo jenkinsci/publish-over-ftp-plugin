@@ -24,50 +24,35 @@
   ~ THE SOFTWARE.
   -->
 
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:poj="/pojelly">
+<j:jelly xmlns:j="jelly:core" xmlns:f="/lib/form" xmlns:poj="/pojelly">
 
     <poj:defaultMessages/>
     
-    <f:entry title="${m.sourceFiles()}" field="sourceFiles" help="${descriptor.getHelpFile((inPromotion and !matrixPromotion) ? 'sourceFilesForPromotion' : 'sourceFiles')}">
+    <f:entry title="${m.sourceFiles()}" field="sourceFiles">
         <f:textbox default="${defaults.transfer.sourceFiles}"/>
     </f:entry>
-
     <f:entry title="${m.removePrefix()}" field="removePrefix">
         <f:textbox default="${defaults.transfer.removePrefix}"/>
     </f:entry>
-
     <f:entry title="${m.remoteDirectory()}" field="remoteDirectory">
         <f:textbox default="${defaults.transfer.remoteDirectory}"/>
     </f:entry>
-
-    <f:description>
-        <j:out value='${m.transfers_envVars(rootURL)}'/>
-    </f:description>
-
-    <f:advanced>
-
-        <j:if test="${descriptor.canUseExcludes()}">
-            <f:entry title="${m.excludes()}" field="excludes">
-                <f:textbox default="${defaults.transfer.excludes}"/>
-            </f:entry>
-        </j:if>
-
-        <f:entry title="${m.flatten()}" field="flatten">
-            <f:checkbox default="${defaults.transfer.flatten}"/>
+    <j:if test="${descriptor.canUseExcludes()}">
+        <f:entry title="${m.excludes()}" field="excludes">
+            <f:textbox default="${defaults.transfer.excludes}"/>
         </f:entry>
-
-        <f:entry title="${m.remoteDirectorySDF()}" field="remoteDirectorySDF">
-            <f:checkbox default="${defaults.transfer.remoteDirectorySDF}"/>
-        </f:entry>
-
-        <f:entry title="${m.cleanRemote()}" field="cleanRemote">
-            <f:checkbox default="${defaults.transfer.cleanRemote}"/>
-        </f:entry>
-
-        <f:entry title="${%asciiMode}" field="asciiMode">
-            <f:checkbox default="${defaults.transfer.asciiMode}"/>
-        </f:entry>
-
-    </f:advanced>
+    </j:if>
+    <f:entry title="${m.flatten()}" field="flatten">
+        <f:checkbox default="${defaults.transfer.flatten}"/>
+    </f:entry>
+    <f:entry title="${m.remoteDirectorySDF()}" field="remoteDirectorySDF">
+        <f:checkbox default="${defaults.transfer.remoteDirectorySDF}"/>
+    </f:entry>
+    <f:entry title="${m.cleanRemote()}" field="cleanRemote">
+        <f:checkbox default="${defaults.transfer.cleanRemote}"/>
+    </f:entry>    
+    <f:entry title="${%asciiMode}" field="asciiMode">
+        <f:checkbox default="${defaults.transfer.asciiMode}"/>
+    </f:entry>
 
 </j:jelly>

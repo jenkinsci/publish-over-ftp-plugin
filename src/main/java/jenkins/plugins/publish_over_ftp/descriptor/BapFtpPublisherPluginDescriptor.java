@@ -91,6 +91,10 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
         return Hudson.getVersion().isOlderThan(new VersionNumber(BPInstanceConfig.MASTER_GETS_NODE_NAME_IN_VERSION));
     }
 
+    public String getDefaultMasterNodeName() {
+        return BPInstanceConfig.DEFAULT_MASTER_NODE_NAME;
+    }
+
     public BapFtpPublisherDescriptor getPublisherDescriptor() {
         return Hudson.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
     }

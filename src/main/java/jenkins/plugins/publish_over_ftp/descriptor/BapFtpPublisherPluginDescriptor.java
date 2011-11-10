@@ -132,7 +132,10 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
 
     public FormValidation doTestConnection(final StaplerRequest request, final StaplerResponse response) {
         final BapFtpHostConfiguration hostConfig = request.bindParameters(BapFtpHostConfiguration.class, "");
-        final BPBuildInfo buildInfo = createDummyBuildInfo();
+        return validateConnection(hostConfig, createDummyBuildInfo());
+    }
+
+    public static FormValidation validateConnection(final BapFtpHostConfiguration hostConfig, final BPBuildInfo buildInfo) {
         try {
             hostConfig.createClient(buildInfo).disconnect();
             return FormValidation.ok(Messages.descriptor_testConnection_ok());
@@ -144,7 +147,7 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
         }
     }
 
-    private BPBuildInfo createDummyBuildInfo() {
+    public static BPBuildInfo createDummyBuildInfo() {
         return new BPBuildInfo(
             TaskListener.NULL,
             "",

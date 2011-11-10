@@ -26,6 +26,7 @@ package jenkins.plugins.publish_over_ftp;
 
 import hudson.model.Describable;
 import hudson.model.Hudson;
+import hudson.util.Secret;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPHostConfiguration;
 import jenkins.plugins.publish_over.BapPublisherException;
@@ -78,7 +79,8 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         try {
             init(client);
         } catch (IOException ioe) {
-            throw new BapPublisherException(Messages.exception_failedToCreateClient(ioe.getLocalizedMessage()), ioe);
+            throw new BapPublisherException(Messages.exception_failedToCreateClient(
+                                                                    ioe.getClass().getName() + ": " + ioe.getLocalizedMessage()), ioe);
         }
         return client;
     }
@@ -133,8 +135,11 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
             buildInfo.println(Messages.console_logInHidingCommunication());
             ftpClient.removeProtocolCommandListener(commandListener);
         }
-        if (!ftpClient.login(getUsername(), getPassword())) {
-            exception(client, Messages.exception_logInFailed(getUsername()));
+        final BapFtpCredentials overrideCredentials = (BapFtpCredentials) buildInfo.get(BPBuildInfo.OVERRIDE_CREDENTIALS_CONTEXT_KEY);
+        final String username = overrideCredentials == null ? getUsername() : overrideCredentials.getUsername();
+        final String password = overrideCredentials == null ? getPassword() : Secret.toString(overrideCredentials.getPassword());
+        if (!ftpClient.login(username, password)) {
+            exception(client, Messages.exception_logInFailed(username));
         }
         if (commandListener != null) {
             buildInfo.println(Messages.console_loggedInShowingCommunication());

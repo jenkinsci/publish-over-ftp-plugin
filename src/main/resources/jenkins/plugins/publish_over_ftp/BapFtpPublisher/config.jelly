@@ -57,6 +57,7 @@
         <f:entry field="verbose">
             <poj:checkbox title="${m.verbose()}" default="${defaults.publisher.verbose}"/>
         </f:entry>
+        <f:optionalProperty title="${m.credentials()}" field="ftpCredentials"/>
         <f:optionalProperty title="${m.retry()}" field="ftpRetry"/>
         <f:optionalProperty title="${m.label()}" field="ftpLabel"/>
     </f:advanced>

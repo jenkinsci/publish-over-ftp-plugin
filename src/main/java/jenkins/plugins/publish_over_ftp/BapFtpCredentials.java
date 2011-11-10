@@ -24,62 +24,60 @@
 
 package jenkins.plugins.publish_over_ftp;
 
-import hudson.model.Describable;
 import hudson.model.Hudson;
-import jenkins.plugins.publish_over.BapPublisher;
-import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherDescriptor;
+import hudson.util.Secret;
+import jenkins.plugins.publish_over.Credentials;
+import jenkins.plugins.publish_over_ftp.descriptor.BapFtpCredentialsDescriptor;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import java.util.ArrayList;
-
-/**
- * Class required to enable stapler/DBC to bind to correct BPTransfer - BapFtpTransfer
- */
-@SuppressWarnings("PMD.LooseCoupling") // serializable
-public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Describable<BapFtpPublisher> {
+public class BapFtpCredentials implements Credentials<BapFtpCredentials> {
 
     private static final long serialVersionUID = 1L;
+    private final String username;
+    private final Secret password;
 
     @DataBoundConstructor
-    public BapFtpPublisher(final String configName, final boolean verbose, final ArrayList<BapFtpTransfer> transfers,
-                           final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp, final BapFtpRetry ftpRetry,
-                           final BapFtpPublisherLabel ftpLabel, final BapFtpCredentials ftpCredentials) {
-        super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp, ftpRetry, ftpLabel, ftpCredentials);
+    public BapFtpCredentials(final String username, final String password) {
+        this.username = username;
+        this.password = Secret.fromString(password);
     }
 
-    public BapFtpRetry getFtpRetry() {
-        return (BapFtpRetry) super.getRetry();
+    public String getUsername() {
+        return username;
     }
 
-    public BapFtpPublisherLabel getFtpLabel() {
-        return (BapFtpPublisherLabel) super.getLabel();
+    public Secret getPassword() {
+        return password;
     }
 
-    public BapFtpCredentials getFtpCredentials() {
-        return (BapFtpCredentials) getCredentials();
-    }
-
-    public BapFtpPublisherDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
+    public BapFtpCredentialsDescriptor getDescriptor() {
+        return Hudson.getInstance().getDescriptorByType(BapFtpCredentialsDescriptor.class);
     }
 
     public boolean equals(final Object that) {
         if (this == that) return true;
-        if (that == null || getClass() != that.getClass()) return false;
+        if (that == null || BapFtpCredentials.class != that.getClass()) return false;
 
-        return addToEquals(new EqualsBuilder(), (BapFtpPublisher) that).isEquals();
+        final BapFtpCredentials thatCreds = (BapFtpCredentials) that;
+        return new EqualsBuilder()
+                .append(username, thatCreds.username)
+                .append(password, thatCreds.password)
+                .isEquals();
     }
 
     public int hashCode() {
-        return addToHashCode(new HashCodeBuilder()).toHashCode();
+        return new HashCodeBuilder().append(username).append(password).toHashCode();
     }
 
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
+                .append("username", username)
+                .append("password", "***")
+                .toString();
     }
 
 }

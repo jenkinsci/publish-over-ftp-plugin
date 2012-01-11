@@ -64,7 +64,7 @@ public class IntegrationTest extends HudsonTestCase {
         final int port = 21;
         final int timeout = 3000;
         final BapFtpHostConfiguration testHostConfig = new BapFtpHostConfiguration("testConfig", "testHostname", "testUsername",
-                                                                        TEST_PASSWORD, "/testRemoteRoot", port, timeout, false) {
+                                                                        TEST_PASSWORD, "/testRemoteRoot", port, timeout, false, null) {
             @Override
             public FTPClient createFTPClient() {
                 return mockFTPClient;

@@ -24,6 +24,7 @@
 
 package jenkins.plugins.publish_over_ftp;
 
+import hudson.Util;
 import hudson.model.Describable;
 import hudson.model.Hudson;
 import hudson.util.Secret;
@@ -54,13 +55,16 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
     private int timeout;
     private boolean useActiveData;
+    private final String controlEncoding;
 
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
-                                   final String remoteRootDir, final int port, final int timeout, final boolean useActiveData) {
+                                   final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
+                                   final String controlEncoding) {
         super(name, hostname, username, encryptedPassword, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
+        this.controlEncoding = Util.fixEmptyAndTrim(controlEncoding);
     }
 
     protected final String getPassword() {
@@ -72,6 +76,10 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
     public boolean isUseActiveData() { return useActiveData; }
     public void setUseActiveData(final boolean useActiveData) { this.useActiveData = useActiveData; }
+
+    public String getControlEncoding() {
+        return controlEncoding;
+    }
 
     @Override
     public BapFtpClient createClient(final BPBuildInfo buildInfo) {
@@ -109,6 +117,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private void configureFTPClient(final FTPClient ftpClient) {
         ftpClient.setDefaultTimeout(timeout);
         ftpClient.setDataTimeout(timeout);
+        if (controlEncoding != null) ftpClient.setControlEncoding(controlEncoding);
     }
 
     private void setRootDirectoryInClient(final BapFtpClient client) throws IOException {
@@ -172,19 +181,22 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     protected HashCodeBuilder addToHashCode(final HashCodeBuilder builder) {
         return super.addToHashCode(builder)
                 .append(useActiveData)
-                .append(timeout);
+                .append(timeout)
+                .append(controlEncoding);
     }
 
     protected EqualsBuilder addToEquals(final EqualsBuilder builder, final BapFtpHostConfiguration that) {
         return super.addToEquals(builder, that)
                 .append(useActiveData, that.useActiveData)
-                .append(timeout, that.timeout);
+                .append(timeout, that.timeout)
+                .append(controlEncoding, that.controlEncoding);
     }
 
     protected ToStringBuilder addToToString(final ToStringBuilder builder) {
         return super.addToToString(builder)
                 .append("useActiveData", useActiveData)
-                .append("timeout", timeout);
+                .append("timeout", timeout)
+                .append("controlEncoding", controlEncoding);
     }
 
     public boolean equals(final Object that) {

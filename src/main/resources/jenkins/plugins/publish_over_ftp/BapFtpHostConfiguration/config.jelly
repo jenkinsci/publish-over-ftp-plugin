@@ -53,8 +53,11 @@
             <f:entry title="${%useActiveData}" field="useActiveData">
               <f:checkbox/>
             </f:entry>
+            <f:entry title="${%controlEncoding}" field="controlEncoding">
+              <f:textbox/>
+            </f:entry>
           </f:advanced>
           <f:validateButton title="${m.test_title()}" progress="${m.test_progress()}" method="testConnection"
-                            with="name,hostname,username,encryptedPassword,remoteRootDir,port,timeout,useActiveData"/>
+                            with="name,hostname,username,encryptedPassword,remoteRootDir,port,timeout,useActiveData,controlEncoding"/>
 
 </j:jelly>

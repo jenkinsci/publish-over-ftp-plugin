@@ -147,7 +147,7 @@ public class BapHostConfigurationTest {
         private static final String TEST_PASSWORD = "myTestPassword";
         private final transient FTPClient ftpClient;
         BapFtpHostConfigurationWithMockFTPClient(final FTPClient ftpClient) {
-            super(TEST_CFG_NAME, TEST_HOSTNAME, TEST_USERNAME, TEST_PASSWORD, "", DEFAULT_PORT, DEFAULT_TIMEOUT, false);
+            super(TEST_CFG_NAME, TEST_HOSTNAME, TEST_USERNAME, TEST_PASSWORD, "", DEFAULT_PORT, DEFAULT_TIMEOUT, false, null);
             this.ftpClient = ftpClient;
         }
         @Override

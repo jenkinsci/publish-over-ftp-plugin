@@ -42,13 +42,14 @@ public class BapFtpTransfer extends BPTransfer implements Describable<BapFtpTran
 
     public BapFtpTransfer(final String sourceFiles, final String remoteDirectory, final String removePrefix, final boolean asciiMode,
                           final boolean remoteDirectorySDF, final boolean flatten) {
-        this(sourceFiles, null, remoteDirectory, removePrefix, asciiMode, remoteDirectorySDF, flatten, false);
+        this(sourceFiles, null, remoteDirectory, removePrefix, asciiMode, remoteDirectorySDF, flatten, false, false);
     }
 
     @DataBoundConstructor
     public BapFtpTransfer(final String sourceFiles, final String excludes, final String remoteDirectory, final String removePrefix,
-                          final boolean asciiMode, final boolean remoteDirectorySDF, final boolean flatten, final boolean cleanRemote) {
-        super(sourceFiles, excludes, remoteDirectory, removePrefix, remoteDirectorySDF, flatten, cleanRemote);
+                          final boolean asciiMode, final boolean remoteDirectorySDF, final boolean flatten, final boolean cleanRemote,
+                          final boolean noDefaultExcludes) {
+        super(sourceFiles, excludes, remoteDirectory, removePrefix, remoteDirectorySDF, flatten, cleanRemote, noDefaultExcludes);
         this.asciiMode = asciiMode;
     }
 

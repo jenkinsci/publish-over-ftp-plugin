@@ -72,7 +72,7 @@ public class IntegrationTest extends HudsonTestCase {
         };
         new JenkinsTestHelper().setGlobalConfig(testHostConfig);
         final String dirToIgnore = "target";
-        final BapFtpTransfer transfer = new BapFtpTransfer("**/*", null, "sub-home", dirToIgnore, true, false, false, false);
+        final BapFtpTransfer transfer = new BapFtpTransfer("**/*", null, "sub-home", dirToIgnore, true, false, false, false, false);
         final ArrayList transfers = new ArrayList(Collections.singletonList(transfer));
         final BapFtpPublisher publisher = new BapFtpPublisher(testHostConfig.getName(), false, transfers, false, false, null, null, null);
         final ArrayList publishers = new ArrayList(Collections.singletonList(publisher));

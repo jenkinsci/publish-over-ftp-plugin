@@ -34,6 +34,10 @@ public class BapFtpTransferDescriptor extends Descriptor<BapFtpTransfer> {
         return BPTransfer.canUseExcludes();
     }
 
+    public boolean canUseNoDefaultExcludes() {
+        return BPTransfer.canUseNoDefaultExcludes();
+    }
+
     public jenkins.plugins.publish_over.view_defaults.BPTransfer.Messages getCommonFieldNames() {
         return new jenkins.plugins.publish_over.view_defaults.BPTransfer.Messages();
     }

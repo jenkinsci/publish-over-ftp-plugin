@@ -64,7 +64,7 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>publish-over</artifactId>
-            <version>0.13</version>
+            <version>0.15-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>

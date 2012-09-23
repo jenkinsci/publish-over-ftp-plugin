@@ -42,11 +42,13 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
     private final boolean flatten;
     private final boolean cleanRemote;
     private final boolean noDefaultExcludes;
+    private final boolean makeEmptyDirs;
 
     @DataBoundConstructor
     public FtpOverrideTransferDefaults(final String sourceFiles, final String excludes, final String removePrefix,
                                        final String remoteDirectory, final boolean flatten, boolean remoteDirectorySDF,
-                                       final boolean cleanRemote, final boolean asciiMode, final boolean noDefaultExcludes) {
+                                       final boolean cleanRemote, final boolean asciiMode, final boolean noDefaultExcludes,
+                                       final boolean makeEmptyDirs) {
         this.asciiMode = asciiMode;
         this.cleanRemote = cleanRemote;
         this.excludes = excludes;
@@ -56,6 +58,7 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
         this.removePrefix = removePrefix;
         this.sourceFiles = sourceFiles;
         this.noDefaultExcludes = noDefaultExcludes;
+        this.makeEmptyDirs = makeEmptyDirs;
     }
 
     public String getSourceFiles() {
@@ -94,6 +97,10 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
         return noDefaultExcludes;
     }
 
+    public boolean isMakeEmptyDirs() {
+        return makeEmptyDirs;
+    }
+
     public FtpOverrideTransferDefaultsDescriptor getDescriptor() {
         return Hudson.getInstance().getDescriptorByType(FtpOverrideTransferDefaultsDescriptor.class);
     }
@@ -104,14 +111,6 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
         @Override
         public String getDisplayName() {
             return "FtpOverrideTransferDefaultsDescriptor - not visible ...";
-        }
-
-        public boolean canUseExcludes() {
-            return BPTransfer.canUseExcludes();
-        }
-
-        public boolean canUseNoDefaultExcludes() {
-            return BPTransfer.canUseNoDefaultExcludes();
         }
 
         public jenkins.plugins.publish_over.view_defaults.BPTransfer.Messages getCommonFieldNames() {

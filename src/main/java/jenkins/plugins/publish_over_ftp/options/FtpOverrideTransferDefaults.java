@@ -43,12 +43,13 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
     private final boolean cleanRemote;
     private final boolean noDefaultExcludes;
     private final boolean makeEmptyDirs;
+    private final String patternSeparator;
 
     @DataBoundConstructor
     public FtpOverrideTransferDefaults(final String sourceFiles, final String excludes, final String removePrefix,
                                        final String remoteDirectory, final boolean flatten, boolean remoteDirectorySDF,
                                        final boolean cleanRemote, final boolean asciiMode, final boolean noDefaultExcludes,
-                                       final boolean makeEmptyDirs) {
+                                       final boolean makeEmptyDirs, final String patternSeparator) {
         this.asciiMode = asciiMode;
         this.cleanRemote = cleanRemote;
         this.excludes = excludes;
@@ -59,6 +60,7 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
         this.sourceFiles = sourceFiles;
         this.noDefaultExcludes = noDefaultExcludes;
         this.makeEmptyDirs = makeEmptyDirs;
+        this.patternSeparator = patternSeparator;
     }
 
     public String getSourceFiles() {
@@ -99,6 +101,10 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
 
     public boolean isMakeEmptyDirs() {
         return makeEmptyDirs;
+    }
+
+    public String getPatternSeparator() {
+        return patternSeparator;
     }
 
     public FtpOverrideTransferDefaultsDescriptor getDescriptor() {

@@ -52,13 +52,13 @@ public class LegacyConfigurationTest extends HudsonTestCase {
         assertEquals(createHostConfiguration("b", expectedConfigBPort, expectedConfigBTimeout, true), configurations.get(1));
 
         final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", null, "'helloo-${BUILD_NUMBER}'-MMDD", "target",
-                                                            true, true, true, false, false, false);
+                                                            true, true, true, false, false, false, null);
         final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<BapFtpTransfer>();
         transfers1.add(transfer1);
         final BapFtpPublisher publisher1 = new BapFtpPublisher("Config b", true, transfers1, false, false, null, null, null);
-        final BapFtpTransfer transfer21 = new BapFtpTransfer("target\\images\\*", null, "", "", false, false, false, false, false, false);
+        final BapFtpTransfer transfer21 = new BapFtpTransfer("target\\images\\*", null, "", "", false, false, false, false, false, false, null);
         final BapFtpTransfer transfer22 = new BapFtpTransfer("target\\logs\\**\\*", null, "serverlogs", "target\\logs",
-                                                             true, false, true, false, false, false);
+                                                             true, false, true, false, false, false, null);
         final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
         transfers2.add(transfer21);
         transfers2.add(transfer22);

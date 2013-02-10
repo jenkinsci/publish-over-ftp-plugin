@@ -5,6 +5,7 @@ import hudson.model.Descriptor;
 import hudson.model.Hudson;
 import hudson.util.FormValidation;
 import jenkins.plugins.publish_over.BPTransfer;
+import jenkins.plugins.publish_over.BPValidators;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
 import jenkins.plugins.publish_over_ftp.Messages;
@@ -28,6 +29,10 @@ public class BapFtpTransferDescriptor extends Descriptor<BapFtpTransfer> {
 
     public FormValidation doCheckSourceFiles(@QueryParameter final String value) {
         return FormValidation.validateRequired(value);
+    }
+
+    public FormValidation doCheckPatternSeparator(@QueryParameter final String value) {
+        return BPValidators.validateRegularExpression(value);
     }
 
     public jenkins.plugins.publish_over.view_defaults.BPTransfer.Messages getCommonFieldNames() {

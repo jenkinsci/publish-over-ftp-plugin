@@ -75,9 +75,9 @@ public class CurrentConfigurationTest extends HudsonTestCase {
 //    public void testConfigureGlobal() throws Exception {}
 
     private BapFtpPublisherPlugin createPlugin(final String config1, final String config2) {
-        final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", null, "/pub", "target", true, false, true, false, false, false);
-        final BapFtpTransfer transfer2 = new BapFtpTransfer("*", null, "", "WebApp", false, true, false, false, false, false);
-        final BapFtpTransfer transfer3 = new BapFtpTransfer("dave", null, "", "", false, true, true, false, false, false);
+        final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", null, "/pub", "target", true, false, true, false, false, false, null);
+        final BapFtpTransfer transfer2 = new BapFtpTransfer("*", null, "", "WebApp", false, true, false, false, false, false, null);
+        final BapFtpTransfer transfer3 = new BapFtpTransfer("dave", null, "", "", false, true, true, false, false, false, null);
         final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<BapFtpTransfer>();
         transfers1.add(transfer1);
         transfers1.add(transfer2);

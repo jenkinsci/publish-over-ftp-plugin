@@ -36,7 +36,7 @@
     <artifactId>publish-over-ftp</artifactId>
     <packaging>hpi</packaging>
     <name>Publish Over FTP</name>
-    <version>1.9-SNAPSHOT</version>
+    <version>1.9</version>
     <description>Send build artifacts over FTP</description>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+FTP+Plugin</url> 
 
@@ -64,7 +64,7 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>publish-over</artifactId>
-            <version>0.17-SNAPSHOT</version>
+            <version>0.17</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>

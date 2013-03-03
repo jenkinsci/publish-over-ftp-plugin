@@ -175,6 +175,20 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
+    @Test public void testMakeDirectoryWillAttemptNested() throws Exception {
+        expect(mockFTPClient.makeDirectory(DIRECTORY)).andReturn(false);
+        mockControl.replay();
+        assertFalse(bapFtpClient.makeDirectory(DIRECTORY));
+        mockControl.verify();
+    }
+
+    @Test public void testMakeDirectoryWillNotAttemptNested() throws Exception {
+        bapFtpClient.setDisableMakeNestedDirs(true);
+        mockControl.replay();
+        assertFalse(bapFtpClient.makeDirectory(DIRECTORY));
+        mockControl.verify();
+    }
+
     @Test public void testMakeDirectoryIOException() throws Exception {
         expect(mockFTPClient.makeDirectory(DIRECTORY)).andThrow(IO_EXCEPTION);
         mockControl.replay();

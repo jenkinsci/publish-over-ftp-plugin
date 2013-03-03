@@ -53,6 +53,9 @@
             <f:entry title="${%useActiveData}" field="useActiveData">
               <f:checkbox/>
             </f:entry>
+            <f:entry title="${%disableMakeNestedDirs}" field="disableMakeNestedDirs">
+              <f:checkbox/>
+            </f:entry>
             <f:entry title="${%controlEncoding}" field="controlEncoding">
               <f:textbox/>
             </f:entry>

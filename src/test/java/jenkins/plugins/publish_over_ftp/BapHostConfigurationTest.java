@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static org.easymock.EasyMock.expect;
 
 @SuppressWarnings({ "PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods" })
@@ -58,7 +59,7 @@ public class BapHostConfigurationTest {
     private final transient BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
     private final transient IMocksControl mockControl = EasyMock.createStrictControl();
     private final transient FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
-    private final transient BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
+    private transient BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
 
     @Test public void testChangeToRootDir() throws Exception {
         assertChangeToInitialDirectory("/");
@@ -119,6 +120,17 @@ public class BapHostConfigurationTest {
         assertCreateSession();
     }
 
+    @Test public void testDisableMakeNestedDirs() throws Exception {
+        bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient, true);
+        expectConnectAndLogin();
+        expect(mockFTPClient.printWorkingDirectory()).andReturn("/");
+        final BapFtpClient client = assertCreateSession();
+        mockControl.reset();
+        mockControl.replay();
+        assertFalse(client.makeDirectory("more/than/one"));
+        mockControl.verify();
+    }
+
     private void expectConnectAndLogin() throws Exception {
         mockFTPClient.setDefaultTimeout(bapFtpHostConfiguration.getTimeout());
         mockFTPClient.setDataTimeout(bapFtpHostConfiguration.getTimeout());
@@ -146,9 +158,12 @@ public class BapHostConfigurationTest {
         private static final String TEST_USERNAME = "myTestUsername";
         private static final String TEST_PASSWORD = "myTestPassword";
         private final transient FTPClient ftpClient;
-        BapFtpHostConfigurationWithMockFTPClient(final FTPClient ftpClient) {
-            super(TEST_CFG_NAME, TEST_HOSTNAME, TEST_USERNAME, TEST_PASSWORD, "", DEFAULT_PORT, DEFAULT_TIMEOUT, false, null);
+        BapFtpHostConfigurationWithMockFTPClient(final FTPClient ftpClient, final boolean disableMakeNestedDirs) {
+            super(TEST_CFG_NAME, TEST_HOSTNAME, TEST_USERNAME, TEST_PASSWORD, "", DEFAULT_PORT, DEFAULT_TIMEOUT, false, null, disableMakeNestedDirs);
             this.ftpClient = ftpClient;
+        }
+        BapFtpHostConfigurationWithMockFTPClient(final FTPClient ftpClient) {
+            this(ftpClient, false);
         }
         @Override
         public FTPClient createFTPClient() {

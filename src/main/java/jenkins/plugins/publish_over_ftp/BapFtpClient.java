@@ -44,10 +44,15 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
 
     private BPBuildInfo buildInfo;
     private FTPClient ftpClient;
+    private boolean disableMakeNestedDirs;
 
     public BapFtpClient(final FTPClient ftpClient, final BPBuildInfo buildInfo) {
         this.ftpClient = ftpClient;
         this.buildInfo = buildInfo;
+    }
+
+    public void setDisableMakeNestedDirs(final boolean disableMakeNestedDirs) {
+        this.disableMakeNestedDirs = disableMakeNestedDirs;
     }
 
     public FTPClient getFtpClient() { return ftpClient; }
@@ -66,6 +71,7 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
 
     public boolean makeDirectory(final String directory) {
         try {
+            if (disableMakeNestedDirs && directory.contains("/")) return false;
             return ftpClient.makeDirectory(directory);
         } catch (IOException ioe) {
             throw new BapPublisherException(Messages.exception_mkdirException(directory), ioe);

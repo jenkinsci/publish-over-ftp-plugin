@@ -56,15 +56,17 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private int timeout;
     private boolean useActiveData;
     private final String controlEncoding;
+    private final boolean disableMakeNestedDirs;
 
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
                                    final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
-                                   final String controlEncoding) {
+                                   final String controlEncoding, final boolean disableMakeNestedDirs) {
         super(name, hostname, username, encryptedPassword, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
         this.controlEncoding = Util.fixEmptyAndTrim(controlEncoding);
+        this.disableMakeNestedDirs = disableMakeNestedDirs;
     }
 
     protected final String getPassword() {
@@ -79,6 +81,10 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
     public String getControlEncoding() {
         return controlEncoding;
+    }
+
+    public boolean isDisableMakeNestedDirs() {
+        return disableMakeNestedDirs;
     }
 
     @Override
@@ -100,6 +106,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private void init(final BapFtpClient client) throws IOException {
         final FTPClient ftpClient = client.getFtpClient();
         final BPBuildInfo buildInfo = client.getBuildInfo();
+        client.setDisableMakeNestedDirs(disableMakeNestedDirs);
         PrintCommandListener commandPrinter = null;
         if (buildInfo.isVerbose()) {
             commandPrinter = new PrintCommandListener(new PrintWriter(buildInfo.getListener().getLogger()));

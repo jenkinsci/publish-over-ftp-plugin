@@ -28,10 +28,15 @@ import hudson.Util;
 import hudson.model.Describable;
 import hudson.model.Hudson;
 import hudson.util.Secret;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPHostConfiguration;
 import jenkins.plugins.publish_over.BapPublisherException;
 import jenkins.plugins.publish_over_ftp.descriptor.BapFtpHostConfigurationDescriptor;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -41,9 +46,6 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.kohsuke.stapler.DataBoundConstructor;
-
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @SuppressWarnings("PMD.TooManyMethods")
 public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> implements Describable<BapFtpHostConfiguration> {
@@ -60,8 +62,8 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
-                                   final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
-                                   final String controlEncoding, final boolean disableMakeNestedDirs) {
+            final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
+            final String controlEncoding, final boolean disableMakeNestedDirs) {
         super(name, hostname, username, encryptedPassword, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
@@ -69,6 +71,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         this.disableMakeNestedDirs = disableMakeNestedDirs;
     }
 
+    @Override
     protected final String getPassword() {
         return super.getPassword();
     }
@@ -94,7 +97,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
             init(client);
         } catch (IOException ioe) {
             throw new BapPublisherException(Messages.exception_failedToCreateClient(
-                                                                    ioe.getClass().getName() + ": " + ioe.getLocalizedMessage()), ioe);
+                    ioe.getClass().getName() + ": " + ioe.getLocalizedMessage()), ioe);
         }
         return client;
     }
@@ -185,6 +188,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         return Hudson.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
     }
 
+    @Override
     protected HashCodeBuilder addToHashCode(final HashCodeBuilder builder) {
         return super.addToHashCode(builder)
                 .append(useActiveData)
@@ -199,6 +203,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
                 .append(controlEncoding, that.controlEncoding);
     }
 
+    @Override
     protected ToStringBuilder addToToString(final ToStringBuilder builder) {
         return super.addToToString(builder)
                 .append("useActiveData", useActiveData)
@@ -206,6 +211,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
                 .append("controlEncoding", controlEncoding);
     }
 
+    @Override
     public boolean equals(final Object that) {
         if (this == that) return true;
         if (that == null || getClass() != that.getClass()) return false;
@@ -213,12 +219,18 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         return addToEquals(new EqualsBuilder(), (BapFtpHostConfiguration) that).isEquals();
     }
 
+    @Override
     public int hashCode() {
         return addToHashCode(new HashCodeBuilder()).toHashCode();
     }
 
+    @Override
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
     }
 
+    @Override
+    public Object readResolve() {
+        return super.readResolve();
+    }
 }

@@ -26,16 +26,18 @@ package jenkins.plugins.publish_over_ftp;
 
 import hudson.Extension;
 import hudson.model.Hudson;
+
+import java.util.ArrayList;
+
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
 import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherPluginDescriptor;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
-
-import java.util.ArrayList;
 
 @SuppressWarnings("PMD.LooseCoupling") // serializable
 public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClient, Object> {
@@ -44,8 +46,8 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
 
     @DataBoundConstructor
     public BapFtpPublisherPlugin(final ArrayList<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError,
-                                 final boolean alwaysPublishFromMaster, final String masterNodeName,
-                                 final BapFtpParamPublish paramPublish) {
+            final boolean alwaysPublishFromMaster, final String masterNodeName,
+            final BapFtpParamPublish paramPublish) {
         super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName,
                 paramPublish);
     }
@@ -54,6 +56,7 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         return (BapFtpParamPublish) getDelegate().getParamPublish();
     }
 
+    @Override
     public boolean equals(final Object that) {
         if (this == that) return true;
         if (that == null || getClass() != that.getClass()) return false;
@@ -61,10 +64,12 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         return addToEquals(new EqualsBuilder(), (BapFtpPublisherPlugin) that).isEquals();
     }
 
+    @Override
     public int hashCode() {
         return addToHashCode(new HashCodeBuilder()).toHashCode();
     }
 
+    @Override
     public String toString() {
         return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
     }
@@ -79,7 +84,12 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     }
 
     @Extension
-    public static class Descriptor extends BapFtpPublisherPluginDescriptor { }
+    public static class Descriptor extends BapFtpPublisherPluginDescriptor {
+        @Override
+        public Object readResolve() {
+            return super.readResolve();
+        }
+    }
 
     /** left in to prevent xstream noise */
     @Deprecated

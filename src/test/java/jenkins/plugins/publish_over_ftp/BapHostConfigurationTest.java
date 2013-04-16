@@ -24,72 +24,85 @@
 
 package jenkins.plugins.publish_over_ftp;
 
+import static org.easymock.EasyMock.expect;
 import hudson.FilePath;
 import hudson.model.TaskListener;
-import hudson.util.SecretHelper;
+
+import java.io.File;
+import java.io.IOException;
+
 import jenkins.plugins.publish_over.BPBuildInfo;
+
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static org.easymock.EasyMock.expect;
+import org.jvnet.hudson.test.HudsonTestCase;
 
 @SuppressWarnings({ "PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods" })
-public class BapHostConfigurationTest {
+public class BapHostConfigurationTest extends HudsonTestCase {
 
     @BeforeClass
     public static void before() {
-        SecretHelper.setSecretKey();
+        MySecretHelper.setSecretKey();
     }
 
     @AfterClass
     public static void after() {
-        SecretHelper.clearSecretKey();
+        MySecretHelper.clearSecretKey();
+    }
+
+    @Before
+    public void initializeHostConfig() {
+        this.bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
     }
 
     private final transient BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
     private final transient IMocksControl mockControl = EasyMock.createStrictControl();
     private final transient FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
-    private transient BapFtpHostConfiguration bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
+    private transient BapFtpHostConfiguration bapFtpHostConfiguration;
 
-    @Test public void testChangeToRootDir() throws Exception {
+    @Test
+    public void testChangeToRootDir() throws Exception {
         assertChangeToInitialDirectory("/");
     }
 
-    @Test public void testChangeToRootDirWin() throws Exception {
+    @Test
+    public void testChangeToRootDirWin() throws Exception {
         assertChangeToInitialDirectory("\\");
     }
 
-    @Test public void testChangeToRootDirLongerPath() throws Exception {
+    @Test
+    public void testChangeToRootDirLongerPath() throws Exception {
         assertChangeToInitialDirectory("/this/is/my/root");
     }
 
-    @Test public void testChangeToRootDirRelativePath() throws Exception {
+    @Test
+    public void testChangeToRootDirRelativePath() throws Exception {
         assertChangeToInitialDirectory("this/is/my/rel/root", true);
     }
 
-    @Test public void testNoChangeDirectoryRemoteDirNull() throws Exception {
+    @Test
+    public void testNoChangeDirectoryRemoteDirNull() throws Exception {
         assertNoChangeToInitialDirectory(null);
     }
 
-    @Test public void testNoChangeDirectoryRemoteDirEmptyString() throws Exception {
+    @Test
+    public void testNoChangeDirectoryRemoteDirEmptyString() throws Exception {
         assertNoChangeToInitialDirectory("");
     }
 
-    @Test public void testNoChangeDirectoryRemoteDirOnlySpaceInString() throws Exception {
+    @Test
+    public void testNoChangeDirectoryRemoteDirOnlySpaceInString() throws Exception {
         assertNoChangeToInitialDirectory("  ");
     }
 
     private void assertNoChangeToInitialDirectory(final String remoteRoot) throws Exception {
+        this.bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
         bapFtpHostConfiguration.setRemoteRootDir(remoteRoot);
         expectConnectAndLogin();
         expect(mockFTPClient.printWorkingDirectory()).andReturn("/pub");
@@ -103,6 +116,7 @@ public class BapHostConfigurationTest {
     }
 
     private void assertChangeToInitialDirectory(final String remoteRoot, final boolean expectPwd) throws Exception {
+        this.bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
         bapFtpHostConfiguration.setRemoteRootDir(remoteRoot);
         expectConnectAndLogin();
         expect(mockFTPClient.changeWorkingDirectory(remoteRoot)).andReturn(true);
@@ -113,14 +127,17 @@ public class BapHostConfigurationTest {
             assertEquals(remoteRoot, client.getAbsoluteRemoteRoot());
     }
 
-    @Test public void testSetActive() throws Exception {
+    @Test
+    public void testSetActive() throws Exception {
+        this.bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
         bapFtpHostConfiguration.setUseActiveData(true);
         expectConnectAndLogin();
         expect(mockFTPClient.printWorkingDirectory()).andReturn("/");
         assertCreateSession();
     }
 
-    @Test public void testDisableMakeNestedDirs() throws Exception {
+    @Test
+    public void testDisableMakeNestedDirs() throws Exception {
         bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient, true);
         expectConnectAndLogin();
         expect(mockFTPClient.printWorkingDirectory()).andReturn("/");
@@ -158,16 +175,24 @@ public class BapHostConfigurationTest {
         private static final String TEST_USERNAME = "myTestUsername";
         private static final String TEST_PASSWORD = "myTestPassword";
         private final transient FTPClient ftpClient;
+
         BapFtpHostConfigurationWithMockFTPClient(final FTPClient ftpClient, final boolean disableMakeNestedDirs) {
             super(TEST_CFG_NAME, TEST_HOSTNAME, TEST_USERNAME, TEST_PASSWORD, "", DEFAULT_PORT, DEFAULT_TIMEOUT, false, null, disableMakeNestedDirs);
             this.ftpClient = ftpClient;
         }
+
         BapFtpHostConfigurationWithMockFTPClient(final FTPClient ftpClient) {
             this(ftpClient, false);
         }
+
         @Override
         public FTPClient createFTPClient() {
             return ftpClient;
+        }
+
+        @Override
+        public Object readResolve() {
+            return super.readResolve();
         }
     }
 

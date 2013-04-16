@@ -27,9 +27,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.jvnet.hudson.plugins</groupId>
+        <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>1.388</version>
+        <version>1.510</version>
     </parent>
 
     <groupId>org.jenkins-ci.plugins</groupId>    
@@ -74,7 +74,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.8.1</version>
+            <version>4.9</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -117,17 +117,57 @@
     </distributionManagement>
     
     <build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>2.5.1</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.12.4</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>1.1</version>
+				</plugin>
+			</plugins>		
+		</pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.jenkins-ci.tools</groupId>
                 <artifactId>maven-hpi-plugin</artifactId>
-                <version>1.67</version>
+				<!--  <version>1.67</version> -->
                 <extensions>true</extensions>
                 <configuration>
                     <compatibleSinceVersion>0.2</compatibleSinceVersion>
                 </configuration>
             </plugin>
-        </plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<!--  <version>1.7</version> -->
+				<executions>
+					<execution>
+						<id>add-eclipse-sources</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/target/generated-sources/groovy-stubs/main</source>
+								<source>${basedir}/target/generated-sources/localizer</source>
+								<source>${basedir}/target/generated-sources/taglib-interface</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
     </build>
     
     <profiles>
@@ -194,6 +234,11 @@
         <repository>
             <id>repo.jenkins-ci.org</id>
             <url>http://repo.jenkins-ci.org/public/</url>
+        </repository>
+        <repository>
+			<id>releases</id>
+			<name>Releases</name>
+			<url>https://oss.sonatype.org/content/repositories/releases</url>
         </repository>
     </repositories>
 

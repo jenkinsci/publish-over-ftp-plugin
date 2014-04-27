@@ -55,6 +55,13 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
         this.disableMakeNestedDirs = disableMakeNestedDirs;
     }
 
+    public void setDisableRemoteVerification(final boolean DisableRemoteVerification) {
+        if(DisableRemoteVerification)
+        {
+            ftpClient.setRemoteVerificationEnabled(false);
+        }
+    }
+
     public FTPClient getFtpClient() { return ftpClient; }
     public void setFtpClient(final FTPClient ftpClient) { this.ftpClient = ftpClient; }
 

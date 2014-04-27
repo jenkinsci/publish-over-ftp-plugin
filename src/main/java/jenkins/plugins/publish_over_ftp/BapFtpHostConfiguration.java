@@ -59,16 +59,17 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private boolean useActiveData;
     private final String controlEncoding;
     private final boolean disableMakeNestedDirs;
-
+    private final boolean disableRemoteVerification;
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
-            final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
-            final String controlEncoding, final boolean disableMakeNestedDirs) {
+                                   final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
+                                   final String controlEncoding, final boolean disableMakeNestedDirs, boolean disableRemoteVerification) {
         super(name, hostname, username, encryptedPassword, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
         this.controlEncoding = Util.fixEmptyAndTrim(controlEncoding);
         this.disableMakeNestedDirs = disableMakeNestedDirs;
+        this.disableRemoteVerification = disableRemoteVerification;
     }
 
     @Override
@@ -90,6 +91,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         return disableMakeNestedDirs;
     }
 
+    public boolean isDisableRemoteVerification() { return disableRemoteVerification; }
     @Override
     public BapFtpClient createClient(final BPBuildInfo buildInfo) {
         final BapFtpClient client = new BapFtpClient(createFTPClient(), buildInfo);
@@ -110,6 +112,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         final FTPClient ftpClient = client.getFtpClient();
         final BPBuildInfo buildInfo = client.getBuildInfo();
         client.setDisableMakeNestedDirs(disableMakeNestedDirs);
+        client.setDisableRemoteVerification(disableRemoteVerification);
         PrintCommandListener commandPrinter = null;
         if (buildInfo.isVerbose()) {
             commandPrinter = new PrintCommandListener(new PrintWriter(buildInfo.getListener().getLogger()));

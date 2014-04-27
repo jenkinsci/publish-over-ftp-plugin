@@ -52,8 +52,8 @@ public class CurrentConfigurationTest extends HudsonTestCase {
     }
 //    @TODO figure out why this no longer works
     public void dontTestRoundTrip() throws Exception {
-        final BapFtpHostConfiguration configA = new BapFtpHostConfiguration("host A", "", "", "", "", 0, 0, false, null, false);
-        final BapFtpHostConfiguration configB = new BapFtpHostConfiguration("host B", "", "", "", "", 0, 0, false, null, false);
+        final BapFtpHostConfiguration configA = new BapFtpHostConfiguration("host A", "", "", "", "", 0, 0, false, null, false, false);
+        final BapFtpHostConfiguration configB = new BapFtpHostConfiguration("host B", "", "", "", "", 0, 0, false, null, false, false);
         final FreeStyleProject project = createFreeStyleProject();
         new JenkinsTestHelper().setGlobalConfig(configA, configB);
         final BapFtpPublisherPlugin plugin = createPlugin(configA.getName(), configB.getName());

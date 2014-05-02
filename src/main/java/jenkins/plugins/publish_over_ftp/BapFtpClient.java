@@ -34,7 +34,6 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPListParseEngine;
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -55,9 +54,8 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
         this.disableMakeNestedDirs = disableMakeNestedDirs;
     }
 
-    public void setDisableRemoteVerification(final boolean DisableRemoteVerification) {
-        if(DisableRemoteVerification)
-        {
+    public void setDisableRemoteVerification(final boolean disableRemoteVerification) {
+        if(disableRemoteVerification){
             ftpClient.setRemoteVerificationEnabled(false);
         }
     }

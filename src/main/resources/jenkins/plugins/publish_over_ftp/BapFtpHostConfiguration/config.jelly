@@ -59,6 +59,9 @@
             <f:entry title="${%controlEncoding}" field="controlEncoding">
               <f:textbox/>
             </f:entry>
+             <f:entry title="${%disableRemoteVerification}" field="disableRemoteVerification">
+               <f:checkbox/>
+             </f:entry>
           </f:advanced>
           <f:validateButton title="${m.test_title()}" progress="${m.test_progress()}" method="testConnection"
                             with="name,hostname,username,encryptedPassword,remoteRootDir,port,timeout,useActiveData,controlEncoding"/>

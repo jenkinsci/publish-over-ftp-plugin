@@ -45,6 +45,8 @@ import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.apache.commons.net.ftp.FTPSClient;
+import org.apache.commons.net.util.TrustManagerUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 @SuppressWarnings("PMD.TooManyMethods")
@@ -60,16 +62,19 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private final String controlEncoding;
     private final boolean disableMakeNestedDirs;
     private final boolean disableRemoteVerification;
+    private final boolean useFtpOverTls;
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
                                    final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
-                                   final String controlEncoding, final boolean disableMakeNestedDirs, boolean disableRemoteVerification) {
+                                   final String controlEncoding, final boolean disableMakeNestedDirs, boolean disableRemoteVerification,
+                                   final boolean useFtpOverTls) {
         super(name, hostname, username, encryptedPassword, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
         this.controlEncoding = Util.fixEmptyAndTrim(controlEncoding);
         this.disableMakeNestedDirs = disableMakeNestedDirs;
         this.disableRemoteVerification = disableRemoteVerification;
+        this.useFtpOverTls = useFtpOverTls;
     }
 
     @Override
@@ -92,6 +97,11 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     }
 
     public boolean isDisableRemoteVerification() { return disableRemoteVerification; }
+
+    public boolean isUseFtpOverTls() {
+        return useFtpOverTls;
+    }
+
     @Override
     public BapFtpClient createClient(final BPBuildInfo buildInfo) {
         final BapFtpClient client = new BapFtpClient(createFTPClient(), buildInfo);
@@ -105,6 +115,11 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     }
 
     public FTPClient createFTPClient() {
+        if (useFtpOverTls) {
+            FTPSClient c = new FTPSClient(false);
+            c.setTrustManager(TrustManagerUtils.getAcceptAllTrustManager());
+            return c;
+        }
         return new FTPClient();
     }
 

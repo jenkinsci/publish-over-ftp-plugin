@@ -32,7 +32,6 @@
         <version>1.580.1</version>
     </parent>
 
-    <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>publish-over-ftp</artifactId>
     <packaging>hpi</packaging>
     <name>Publish Over FTP</name>

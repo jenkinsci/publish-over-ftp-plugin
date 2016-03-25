@@ -86,7 +86,7 @@ public class LegacyConfigurationTest extends HudsonTestCase {
     public BapFtpHostConfiguration createHostConfiguration(final String suffix, final int port,
                                                            final int timeout, final boolean useActiveData) {
         return new BapFtpHostConfiguration("Config " + suffix, "hostname." + suffix, "username." + suffix,
-            "password." + suffix, "remoteRoot." + suffix, port, timeout, useActiveData, null, false, false, false);
+            "password." + suffix, "remoteRoot." + suffix, port, timeout, useActiveData, null, false, false, false, "");
     }
 
 }

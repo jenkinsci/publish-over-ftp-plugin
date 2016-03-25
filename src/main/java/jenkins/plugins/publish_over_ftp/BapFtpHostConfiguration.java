@@ -24,12 +24,16 @@
 
 package jenkins.plugins.publish_over_ftp;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -66,11 +70,13 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private final boolean disableMakeNestedDirs;
     private final boolean disableRemoteVerification;
     private final boolean useFtpOverTls;
+    private final String trustedCertificate;
+
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
                                    final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
                                    final String controlEncoding, final boolean disableMakeNestedDirs, boolean disableRemoteVerification,
-                                   final boolean useFtpOverTls) {
+                                   final boolean useFtpOverTls, final String trustedCertificate) {
         super(name, hostname, username, encryptedPassword, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
@@ -78,6 +84,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         this.disableMakeNestedDirs = disableMakeNestedDirs;
         this.disableRemoteVerification = disableRemoteVerification;
         this.useFtpOverTls = useFtpOverTls;
+        this.trustedCertificate = Util.fixEmptyAndTrim(trustedCertificate);
     }
 
     @Override
@@ -105,6 +112,10 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         return useFtpOverTls;
     }
 
+    public String getTrustedCertificate() {
+        return trustedCertificate;
+    }
+
     @Override
     public BapFtpClient createClient(final BPBuildInfo buildInfo) {
         final BapFtpClient client;
@@ -121,11 +132,25 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     public FTPClient createFTPClient() throws GeneralSecurityException, FileNotFoundException, IOException {
         if (useFtpOverTls) {
             FTPSClient c = new FTPSClient(false);
+
             System.getProperty("javax.net.ssl.trustStorePassword");
             KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
-            ts.load(new FileInputStream(System.getProperty("javax.net.ssl.trustStore")),
-                    System.getProperty("javax.net.ssl.trustStorePassword").toCharArray());
+            String trustStorePath = System.getProperty("javax.net.ssl.trustStore");
+            if (trustStorePath != null) {
+                ts.load(new FileInputStream(trustStorePath),
+                        System.getProperty("javax.net.ssl.trustStorePassword").toCharArray());
+            } else {
+                ts.load(null);
+            }
+
+            if (trustedCertificate != null) {
+                InputStream certStream = new ByteArrayInputStream(trustedCertificate.getBytes());
+                X509Certificate x509certificate = (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(certStream);
+                ts.setCertificateEntry(x509certificate.getSubjectDN().getName(), x509certificate);
+            }
+
             c.setTrustManager(TrustManagerUtils.getDefaultTrustManager(ts));
+
             return c;
         }
         return new FTPClient();

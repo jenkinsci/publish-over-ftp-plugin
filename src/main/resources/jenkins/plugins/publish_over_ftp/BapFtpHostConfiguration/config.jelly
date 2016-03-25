@@ -65,8 +65,11 @@
             <f:entry title="${%useFtpOverTls}" field="useFtpOverTls">
               <f:checkbox/>
             </f:entry>
+            <f:entry title="${%trustedCertificate}" field="trustedCertificate">
+              <f:textarea/>
+            </f:entry>
           </f:advanced>
           <f:validateButton title="${m.test_title()}" progress="${m.test_progress()}" method="testConnection"
-                            with="name,hostname,username,encryptedPassword,remoteRootDir,port,timeout,useActiveData,controlEncoding,disableRemoteVerification,useFtpOverTls"/>
+                            with="name,hostname,username,encryptedPassword,remoteRootDir,port,timeout,useActiveData,controlEncoding,disableRemoteVerification,useFtpOverTls,trustedCertificate"/>
 
 </j:jelly>

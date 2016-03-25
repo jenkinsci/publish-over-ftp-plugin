@@ -24,18 +24,12 @@
 
 package jenkins.plugins.publish_over_ftp;
 
-import hudson.Util;
-import hudson.model.Describable;
-import hudson.model.Hudson;
-import hudson.util.Secret;
-
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import jenkins.plugins.publish_over.BPBuildInfo;
-import jenkins.plugins.publish_over.BPHostConfiguration;
-import jenkins.plugins.publish_over.BapPublisherException;
-import jenkins.plugins.publish_over_ftp.descriptor.BapFtpHostConfigurationDescriptor;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -48,6 +42,15 @@ import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.util.TrustManagerUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
+
+import hudson.Util;
+import hudson.model.Describable;
+import hudson.model.Hudson;
+import hudson.util.Secret;
+import jenkins.plugins.publish_over.BPBuildInfo;
+import jenkins.plugins.publish_over.BPHostConfiguration;
+import jenkins.plugins.publish_over.BapPublisherException;
+import jenkins.plugins.publish_over_ftp.descriptor.BapFtpHostConfigurationDescriptor;
 
 @SuppressWarnings("PMD.TooManyMethods")
 public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> implements Describable<BapFtpHostConfiguration> {
@@ -104,20 +107,25 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
     @Override
     public BapFtpClient createClient(final BPBuildInfo buildInfo) {
-        final BapFtpClient client = new BapFtpClient(createFTPClient(), buildInfo);
+        final BapFtpClient client;
         try {
+            client = new BapFtpClient(createFTPClient(), buildInfo);
             init(client);
-        } catch (IOException ioe) {
+        } catch (Exception e) {
             throw new BapPublisherException(Messages.exception_failedToCreateClient(
-                    ioe.getClass().getName() + ": " + ioe.getLocalizedMessage()), ioe);
+                    e.getClass().getName() + ": " + e.getLocalizedMessage()), e);
         }
         return client;
     }
 
-    public FTPClient createFTPClient() {
+    public FTPClient createFTPClient() throws GeneralSecurityException, FileNotFoundException, IOException {
         if (useFtpOverTls) {
             FTPSClient c = new FTPSClient(false);
-            c.setTrustManager(TrustManagerUtils.getAcceptAllTrustManager());
+            System.getProperty("javax.net.ssl.trustStorePassword");
+            KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
+            ts.load(new FileInputStream(System.getProperty("javax.net.ssl.trustStore")),
+                    System.getProperty("javax.net.ssl.trustStorePassword").toCharArray());
+            c.setTrustManager(TrustManagerUtils.getDefaultTrustManager(ts));
             return c;
         }
         return new FTPClient();

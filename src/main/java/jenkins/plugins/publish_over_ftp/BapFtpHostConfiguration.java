@@ -24,6 +24,11 @@
 
 package jenkins.plugins.publish_over_ftp;
 
+import hudson.Util;
+import hudson.model.Describable;
+import hudson.model.Hudson;
+import hudson.util.Secret;
+
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -34,6 +39,11 @@ import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+
+import jenkins.plugins.publish_over.BPBuildInfo;
+import jenkins.plugins.publish_over.BPHostConfiguration;
+import jenkins.plugins.publish_over.BapPublisherException;
+import jenkins.plugins.publish_over_ftp.descriptor.BapFtpHostConfigurationDescriptor;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -46,15 +56,6 @@ import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.util.TrustManagerUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
-
-import hudson.Util;
-import hudson.model.Describable;
-import hudson.model.Hudson;
-import hudson.util.Secret;
-import jenkins.plugins.publish_over.BPBuildInfo;
-import jenkins.plugins.publish_over.BPHostConfiguration;
-import jenkins.plugins.publish_over.BapPublisherException;
-import jenkins.plugins.publish_over_ftp.descriptor.BapFtpHostConfigurationDescriptor;
 
 @SuppressWarnings("PMD.TooManyMethods")
 public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> implements Describable<BapFtpHostConfiguration> {

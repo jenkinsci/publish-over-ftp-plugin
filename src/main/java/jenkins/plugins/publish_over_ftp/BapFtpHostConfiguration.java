@@ -56,6 +56,7 @@ import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.util.TrustManagerUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 
 @SuppressWarnings("PMD.TooManyMethods")
 public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> implements Describable<BapFtpHostConfiguration> {
@@ -70,21 +71,28 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private final String controlEncoding;
     private final boolean disableMakeNestedDirs;
     private final boolean disableRemoteVerification;
-    private final boolean useFtpOverTls;
-    private final String trustedCertificate;
+    private boolean useFtpOverTls;
+    private String trustedCertificate;
 
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
                                    final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
-                                   final String controlEncoding, final boolean disableMakeNestedDirs, boolean disableRemoteVerification,
-                                   final boolean useFtpOverTls, final String trustedCertificate) {
+                                   final String controlEncoding, final boolean disableMakeNestedDirs, boolean disableRemoteVerification) {
         super(name, hostname, username, encryptedPassword, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
         this.controlEncoding = Util.fixEmptyAndTrim(controlEncoding);
         this.disableMakeNestedDirs = disableMakeNestedDirs;
         this.disableRemoteVerification = disableRemoteVerification;
+    }
+
+    @DataBoundSetter
+    public void setUseFtpOverTls(final boolean useFtpOverTls) {
         this.useFtpOverTls = useFtpOverTls;
+    }
+
+    @DataBoundSetter
+    public void setTrustedCertificate(final String trustedCertificate) {
         this.trustedCertificate = Util.fixEmptyAndTrim(trustedCertificate);
     }
 

@@ -29,8 +29,16 @@ import hudson.model.Describable;
 import hudson.model.Hudson;
 import hudson.util.Secret;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.security.GeneralSecurityException;
+import java.security.KeyStore;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPHostConfiguration;
@@ -45,7 +53,10 @@ import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.apache.commons.net.ftp.FTPSClient;
+import org.apache.commons.net.util.TrustManagerUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.DataBoundSetter;
 
 @SuppressWarnings("PMD.TooManyMethods")
 public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> implements Describable<BapFtpHostConfiguration> {
@@ -60,6 +71,9 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private final String controlEncoding;
     private final boolean disableMakeNestedDirs;
     private final boolean disableRemoteVerification;
+    private boolean useFtpOverTls;
+    private String trustedCertificate;
+
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
                                    final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
@@ -70,6 +84,16 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         this.controlEncoding = Util.fixEmptyAndTrim(controlEncoding);
         this.disableMakeNestedDirs = disableMakeNestedDirs;
         this.disableRemoteVerification = disableRemoteVerification;
+    }
+
+    @DataBoundSetter
+    public void setUseFtpOverTls(final boolean useFtpOverTls) {
+        this.useFtpOverTls = useFtpOverTls;
+    }
+
+    @DataBoundSetter
+    public void setTrustedCertificate(final String trustedCertificate) {
+        this.trustedCertificate = Util.fixEmptyAndTrim(trustedCertificate);
     }
 
     @Override
@@ -92,19 +116,55 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     }
 
     public boolean isDisableRemoteVerification() { return disableRemoteVerification; }
+
+    public boolean isUseFtpOverTls() {
+        return useFtpOverTls;
+    }
+
+    public String getTrustedCertificate() {
+        return trustedCertificate;
+    }
+
     @Override
     public BapFtpClient createClient(final BPBuildInfo buildInfo) {
-        final BapFtpClient client = new BapFtpClient(createFTPClient(), buildInfo);
+        final BapFtpClient client;
         try {
+            client = new BapFtpClient(createFTPClient(), buildInfo);
             init(client);
-        } catch (IOException ioe) {
+        } catch (Exception e) {
             throw new BapPublisherException(Messages.exception_failedToCreateClient(
-                    ioe.getClass().getName() + ": " + ioe.getLocalizedMessage()), ioe);
+                    e.getClass().getName() + ": " + e.getLocalizedMessage()), e);
         }
         return client;
     }
 
-    public FTPClient createFTPClient() {
+    public FTPClient createFTPClient() throws GeneralSecurityException, FileNotFoundException, IOException {
+        if (useFtpOverTls) {
+            FTPSClient c = new FTPSClient(false);
+
+            KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
+            String trustStorePath = System.getProperty("javax.net.ssl.trustStore");
+            if (trustStorePath != null) {
+                String trustStorePassword = System.getProperty("javax.net.ssl.trustStorePassword");
+                if (trustStorePassword != null) {
+                    ts.load(new FileInputStream(trustStorePath), trustStorePassword.toCharArray());
+                } else {
+                    ts.load(new FileInputStream(trustStorePath), null);
+                }
+            } else {
+                ts.load(null);
+            }
+
+            if (trustedCertificate != null) {
+                InputStream certStream = new ByteArrayInputStream(trustedCertificate.getBytes());
+                X509Certificate x509certificate = (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(certStream);
+                ts.setCertificateEntry(x509certificate.getSubjectDN().getName(), x509certificate);
+            }
+
+            c.setTrustManager(TrustManagerUtils.getDefaultTrustManager(ts));
+
+            return c;
+        }
         return new FTPClient();
     }
 

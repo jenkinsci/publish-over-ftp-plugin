@@ -29,29 +29,28 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>1.532.1</version>
+        <version>1.580.1</version>
     </parent>
 
-    <groupId>org.jenkins-ci.plugins</groupId>    
     <artifactId>publish-over-ftp</artifactId>
     <packaging>hpi</packaging>
     <name>Publish Over FTP</name>
     <version>1.12-SNAPSHOT</version>
     <description>Send build artifacts over FTP</description>
-    <url>http://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+FTP+Plugin</url> 
+    <url>http://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+FTP+Plugin</url>
 
     <properties>
-        <java.net.id>bap</java.net.id>                
+        <java.net.id>bap</java.net.id>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
+
     <licenses>
         <license>
             <name>The MIT license</name>
             <comments>All source code is under the MIT license.</comments>
         </license>
     </licenses>
-    
+
     <developers>
         <developer>
             <id>bap</id>
@@ -69,7 +68,7 @@
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>2.2</version>
+            <version>3.4</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -95,28 +94,28 @@
             <version>2.4</version>
             <scope>test</scope>
         </dependency>
-        
+
     </dependencies>
 
     <scm>
-        <url>https://github.com/jenkinsci/publish-over-ftp-plugin</url>        
+        <url>https://github.com/jenkinsci/publish-over-ftp-plugin</url>
         <connection>scm:git:git://github.com/jenkinsci/publish-over-ftp-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/publish-over-ftp-plugin.git</developerConnection>
       <tag>HEAD</tag>
   </scm>
-    
+
     <issueManagement>
         <system>JIRA</system>
         <url>http://issues.jenkins-ci.org/</url>
     </issueManagement>
-    
+
     <distributionManagement>
         <repository>
             <id>maven.jenkins-ci.org</id>
             <url>http://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
         </repository>
     </distributionManagement>
-    
+
     <build>
 		<pluginManagement>
 			<plugins>
@@ -135,7 +134,7 @@
 					<artifactId>maven-enforcer-plugin</artifactId>
 					<version>1.1</version>
 				</plugin>
-			</plugins>		
+			</plugins>
 		</pluginManagement>
         <plugins>
             <plugin>
@@ -170,7 +169,7 @@
 			</plugin>
 		</plugins>
     </build>
-    
+
     <profiles>
         <profile>
             <!-- mvn clean test emma:emma findbugs:findbugs checkstyle:checkstyle pmd:pmd pmd:cpd -->
@@ -229,7 +228,6 @@
             </build>
         </profile>
     </profiles>
-    
 
     <repositories>
         <repository>
@@ -249,7 +247,4 @@
             <url>http://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
-</project>  
-  
-
-
+</project>

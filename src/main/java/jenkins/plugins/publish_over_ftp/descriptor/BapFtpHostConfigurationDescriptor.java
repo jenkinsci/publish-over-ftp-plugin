@@ -26,8 +26,8 @@ package jenkins.plugins.publish_over_ftp.descriptor;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
 import hudson.util.FormValidation;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPValidators;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
@@ -73,7 +73,7 @@ public class BapFtpHostConfigurationDescriptor extends Descriptor<BapFtpHostConf
     }
 
     public FormValidation doTestConnection(final StaplerRequest request, final StaplerResponse response) {
-        final BapFtpPublisherPlugin.Descriptor pluginDescriptor = Hudson.getInstance().getDescriptorByType(
+        final BapFtpPublisherPlugin.Descriptor pluginDescriptor = Jenkins.getInstance().getDescriptorByType(
                 BapFtpPublisherPlugin.Descriptor.class);
         return pluginDescriptor.doTestConnection(request, response);
     }

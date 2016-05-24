@@ -27,8 +27,8 @@ package jenkins.plugins.publish_over_ftp.options;
 import hudson.Extension;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
 import hudson.util.FormValidation;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.options.RetryOptions;
 import jenkins.plugins.publish_over_ftp.BapFtpRetry;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -54,7 +54,7 @@ public class FtpOverrideRetryDefaults implements RetryOptions, Describable<FtpOv
     }
 
     public FtpOverrideRetryDefaultsDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(FtpOverrideRetryDefaultsDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(FtpOverrideRetryDefaultsDescriptor.class);
     }
 
     @Extension

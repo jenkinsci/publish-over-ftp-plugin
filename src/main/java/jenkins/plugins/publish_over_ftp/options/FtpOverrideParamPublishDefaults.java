@@ -27,7 +27,7 @@ package jenkins.plugins.publish_over_ftp.options;
 import hudson.Extension;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.options.ParamPublishOptions;
 import jenkins.plugins.publish_over_ftp.BapFtpParamPublish;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -46,7 +46,7 @@ public class FtpOverrideParamPublishDefaults implements ParamPublishOptions, Des
     }
 
     public FtpOverrideParamPublishDefaultsDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(FtpOverrideParamPublishDefaultsDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(FtpOverrideParamPublishDefaultsDescriptor.class);
     }
 
     @Extension

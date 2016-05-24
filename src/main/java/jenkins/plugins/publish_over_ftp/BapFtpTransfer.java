@@ -25,7 +25,7 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.model.Describable;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPTransfer;
 import jenkins.plugins.publish_over_ftp.descriptor.BapFtpTransferDescriptor;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -57,7 +57,7 @@ public class BapFtpTransfer extends BPTransfer implements Describable<BapFtpTran
     public void setAsciiMode(final boolean asciiMode) { this.asciiMode = asciiMode; }
 
     public BapFtpTransferDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpTransferDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpTransferDescriptor.class);
     }
     protected HashCodeBuilder addToHashCode(final HashCodeBuilder builder) {
         return super.addToHashCode(builder).append(asciiMode);

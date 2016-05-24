@@ -26,8 +26,8 @@ package jenkins.plugins.publish_over_ftp.descriptor;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
 import hudson.util.FormValidation;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over_ftp.BapFtpCredentials;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
@@ -59,7 +59,7 @@ public class BapFtpCredentialsDescriptor extends Descriptor<BapFtpCredentials> {
         final BapFtpCredentials credentials = new BapFtpCredentials(username, password);
         final BPBuildInfo buildInfo = BapFtpPublisherPluginDescriptor.createDummyBuildInfo();
         buildInfo.put(BPBuildInfo.OVERRIDE_CREDENTIALS_CONTEXT_KEY, credentials);
-        final BapFtpPublisherPlugin.Descriptor pluginDescriptor = Hudson.getInstance().getDescriptorByType(
+        final BapFtpPublisherPlugin.Descriptor pluginDescriptor = Jenkins.getInstance().getDescriptorByType(
                 BapFtpPublisherPlugin.Descriptor.class);
         final BapFtpHostConfiguration hostConfig = pluginDescriptor.getConfiguration(configName);
         return BapFtpPublisherPluginDescriptor.validateConnection(hostConfig, buildInfo);

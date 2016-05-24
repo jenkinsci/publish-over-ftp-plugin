@@ -26,7 +26,6 @@ package jenkins.plugins.publish_over_ftp;
 
 import hudson.Util;
 import hudson.model.Describable;
-import hudson.model.Hudson;
 import hudson.util.Secret;
 
 import java.io.ByteArrayInputStream;
@@ -40,6 +39,7 @@ import java.security.KeyStore;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPHostConfiguration;
 import jenkins.plugins.publish_over.BapPublisherException;
@@ -248,7 +248,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     }
 
     public BapFtpHostConfigurationDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
     }
 
     @Override

@@ -130,8 +130,15 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
         return new jenkins.plugins.publish_over.view_defaults.manage_jenkins.Messages();
     }
 
-    public FormValidation doTestConnection(final StaplerRequest request, final StaplerResponse response) {
-        final BapFtpHostConfiguration hostConfig = request.bindParameters(BapFtpHostConfiguration.class, "");
+    public FormValidation doTestConnection(final String name, final String hostname, final String username,
+            final String encryptedPassword, final String remoteRootDir, final int port, final int timeout,
+            final boolean useActiveData, final String controlEncoding, final boolean disableMakeNestedDirs,
+            final boolean disableRemoteVerification, final boolean useFtpOverTls, final String trustedCertificate) {
+        final BapFtpHostConfiguration hostConfig = new BapFtpHostConfiguration(name, hostname, username,
+                encryptedPassword, remoteRootDir, port, timeout, useActiveData, controlEncoding,
+                disableMakeNestedDirs, disableRemoteVerification);
+        hostConfig.setUseFtpOverTls(useFtpOverTls);
+        hostConfig.setTrustedCertificate(trustedCertificate);
         return validateConnection(hostConfig, createDummyBuildInfo());
     }
 

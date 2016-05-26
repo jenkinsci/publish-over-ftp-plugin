@@ -77,7 +77,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
                                    final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
-                                   final String controlEncoding, final boolean disableMakeNestedDirs, boolean disableRemoteVerification) {
+                                   final String controlEncoding, final boolean disableMakeNestedDirs, final boolean disableRemoteVerification) {
         super(name, hostname, username, encryptedPassword, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;

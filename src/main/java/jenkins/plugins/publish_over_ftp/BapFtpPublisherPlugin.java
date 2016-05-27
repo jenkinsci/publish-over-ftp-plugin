@@ -25,10 +25,10 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.Extension;
-import hudson.model.Hudson;
 
 import java.util.ArrayList;
 
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
 import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherPluginDescriptor;
@@ -76,7 +76,7 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
 
     @Override
     public Descriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(Descriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(Descriptor.class);
     }
 
     public BapFtpHostConfiguration getConfiguration(final String name) {

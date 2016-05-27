@@ -27,7 +27,7 @@ package jenkins.plugins.publish_over_ftp.options;
 import hudson.Extension;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPTransfer;
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -108,7 +108,7 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
     }
 
     public FtpOverrideTransferDefaultsDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(FtpOverrideTransferDefaultsDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(FtpOverrideTransferDefaultsDescriptor.class);
     }
 
     @Extension

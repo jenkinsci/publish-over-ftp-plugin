@@ -27,7 +27,7 @@ package jenkins.plugins.publish_over_ftp.options;
 import hudson.Extension;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.options.PublisherLabelOptions;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherLabel;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -46,7 +46,7 @@ public class FtpOverridePublisherLabelDefaults implements PublisherLabelOptions,
     }
 
     public FtpOverridePublisherLabelDefaultsDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(FtpOverridePublisherLabelDefaultsDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(FtpOverridePublisherLabelDefaultsDescriptor.class);
     }
 
     @Extension

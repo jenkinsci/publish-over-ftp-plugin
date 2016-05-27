@@ -25,7 +25,7 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.model.Describable;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BapPublisher;
 import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherDescriptor;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -64,7 +64,7 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Des
     }
 
     public BapFtpPublisherDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
     }
 
     public boolean equals(final Object that) {

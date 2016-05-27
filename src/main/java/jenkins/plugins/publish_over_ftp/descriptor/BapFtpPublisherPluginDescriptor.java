@@ -26,12 +26,12 @@ package jenkins.plugins.publish_over_ftp.descriptor;
 
 import hudson.Util;
 import hudson.model.AbstractProject;
-import hudson.model.Hudson;
 import hudson.model.TaskListener;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import hudson.util.CopyOnWriteList;
 import hudson.util.FormValidation;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPInstanceConfig;
 import jenkins.plugins.publish_over.BPPlugin;
@@ -111,15 +111,15 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
     }
 
     public BapFtpPublisherDescriptor getPublisherDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpPublisherDescriptor.class);
     }
 
     public BapFtpHostConfigurationDescriptor getHostConfigurationDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
     }
 
     public FtpPluginDefaults.FtpPluginDefaultsDescriptor getPluginDefaultsDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(FtpPluginDefaults.FtpPluginDefaultsDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(FtpPluginDefaults.FtpPluginDefaultsDescriptor.class);
     }
 
     public jenkins.plugins.publish_over.view_defaults.BPInstanceConfig.Messages getCommonFieldNames() {
@@ -130,8 +130,15 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
         return new jenkins.plugins.publish_over.view_defaults.manage_jenkins.Messages();
     }
 
-    public FormValidation doTestConnection(final StaplerRequest request, final StaplerResponse response) {
-        final BapFtpHostConfiguration hostConfig = request.bindParameters(BapFtpHostConfiguration.class, "");
+    public FormValidation doTestConnection(final String name, final String hostname, final String username,
+            final String encryptedPassword, final String remoteRootDir, final int port, final int timeout,
+            final boolean useActiveData, final String controlEncoding, final boolean disableMakeNestedDirs,
+            final boolean disableRemoteVerification, final boolean useFtpOverTls, final String trustedCertificate) {
+        final BapFtpHostConfiguration hostConfig = new BapFtpHostConfiguration(name, hostname, username,
+                encryptedPassword, remoteRootDir, port, timeout, useActiveData, controlEncoding,
+                disableMakeNestedDirs, disableRemoteVerification);
+        hostConfig.setUseFtpOverTls(useFtpOverTls);
+        hostConfig.setTrustedCertificate(trustedCertificate);
         return validateConnection(hostConfig, createDummyBuildInfo());
     }
 
@@ -151,7 +158,7 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
         return new BPBuildInfo(
             TaskListener.NULL,
             "",
-            Hudson.getInstance().getRootPath(),
+            Jenkins.getInstance().getRootPath(),
             null,
             null
         );

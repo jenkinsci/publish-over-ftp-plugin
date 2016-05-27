@@ -26,8 +26,8 @@ package jenkins.plugins.publish_over_ftp.descriptor;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
 import hudson.util.FormValidation;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPValidators;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
@@ -72,10 +72,18 @@ public class BapFtpHostConfigurationDescriptor extends Descriptor<BapFtpHostConf
         return FormValidation.validateNonNegativeInteger(value);
     }
 
-    public FormValidation doTestConnection(final StaplerRequest request, final StaplerResponse response) {
-        final BapFtpPublisherPlugin.Descriptor pluginDescriptor = Hudson.getInstance().getDescriptorByType(
+    public FormValidation doTestConnection(@QueryParameter final String name, @QueryParameter final String hostname,
+            @QueryParameter final String username, @QueryParameter final String encryptedPassword,
+            @QueryParameter final String remoteRootDir, @QueryParameter final int port,
+            @QueryParameter final int timeout, @QueryParameter final boolean useActiveData,
+            @QueryParameter final String controlEncoding, @QueryParameter final boolean disableMakeNestedDirs,
+            @QueryParameter final boolean disableRemoteVerification, @QueryParameter final boolean useFtpOverTls,
+            @QueryParameter final String trustedCertificate) {
+        final BapFtpPublisherPlugin.Descriptor pluginDescriptor = Jenkins.getInstance().getDescriptorByType(
                 BapFtpPublisherPlugin.Descriptor.class);
-        return pluginDescriptor.doTestConnection(request, response);
+        return pluginDescriptor.doTestConnection(name, hostname, username, encryptedPassword, remoteRootDir, port,
+                timeout, useActiveData, controlEncoding, disableMakeNestedDirs, disableRemoteVerification,
+                useFtpOverTls, trustedCertificate);
     }
 
     public jenkins.plugins.publish_over.view_defaults.HostConfiguration.Messages getCommonFieldNames() {

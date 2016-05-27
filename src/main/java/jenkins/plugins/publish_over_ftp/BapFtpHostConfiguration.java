@@ -26,7 +26,6 @@ package jenkins.plugins.publish_over_ftp;
 
 import hudson.Util;
 import hudson.model.Describable;
-import hudson.model.Hudson;
 import hudson.util.Secret;
 
 import java.io.ByteArrayInputStream;
@@ -40,6 +39,7 @@ import java.security.KeyStore;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPHostConfiguration;
 import jenkins.plugins.publish_over.BapPublisherException;
@@ -77,7 +77,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     @DataBoundConstructor
     public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
                                    final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
-                                   final String controlEncoding, final boolean disableMakeNestedDirs, boolean disableRemoteVerification) {
+                                   final String controlEncoding, final boolean disableMakeNestedDirs, final boolean disableRemoteVerification) {
         super(name, hostname, username, encryptedPassword, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
@@ -248,7 +248,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     }
 
     public BapFtpHostConfigurationDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpHostConfigurationDescriptor.class);
     }
 
     @Override

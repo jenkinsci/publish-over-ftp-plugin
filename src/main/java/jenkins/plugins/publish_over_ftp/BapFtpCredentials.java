@@ -24,8 +24,8 @@
 
 package jenkins.plugins.publish_over_ftp;
 
-import hudson.model.Hudson;
 import hudson.util.Secret;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.Credentials;
 import jenkins.plugins.publish_over_ftp.descriptor.BapFtpCredentialsDescriptor;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -55,7 +55,7 @@ public class BapFtpCredentials implements Credentials<BapFtpCredentials> {
     }
 
     public BapFtpCredentialsDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpCredentialsDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpCredentialsDescriptor.class);
     }
 
     public boolean equals(final Object that) {

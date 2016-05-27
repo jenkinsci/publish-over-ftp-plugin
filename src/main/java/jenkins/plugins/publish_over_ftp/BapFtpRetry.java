@@ -27,8 +27,8 @@ package jenkins.plugins.publish_over_ftp;
 import hudson.Extension;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
 import hudson.util.FormValidation;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.Retry;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -47,7 +47,7 @@ public class BapFtpRetry extends Retry implements Describable<BapFtpRetry> {
     }
 
     public BapFtpRetryDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpRetryDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpRetryDescriptor.class);
     }
 
     public boolean equals(final Object that) {

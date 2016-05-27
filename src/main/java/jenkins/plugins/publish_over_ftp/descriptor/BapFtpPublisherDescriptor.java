@@ -26,7 +26,7 @@ package jenkins.plugins.publish_over_ftp.descriptor;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.Messages;
@@ -44,11 +44,11 @@ public class BapFtpPublisherDescriptor extends Descriptor<BapFtpPublisher> {
     }
 
     public BapFtpPublisherPlugin.Descriptor getPublisherPluginDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
     }
 
     public BapFtpTransferDescriptor getTransferDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpTransferDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpTransferDescriptor.class);
     }
 
     public jenkins.plugins.publish_over.view_defaults.BapPublisher.Messages getCommonFieldNames() {

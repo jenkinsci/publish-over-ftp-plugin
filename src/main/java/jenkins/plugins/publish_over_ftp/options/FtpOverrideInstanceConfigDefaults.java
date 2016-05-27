@@ -27,7 +27,7 @@ package jenkins.plugins.publish_over_ftp.options;
 import hudson.Extension;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.options.InstanceConfigOptions;
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -58,7 +58,7 @@ public class FtpOverrideInstanceConfigDefaults implements InstanceConfigOptions,
     }
 
     public FtpOverrideInstanceConfigDefaultsDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(FtpOverrideInstanceConfigDefaultsDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(FtpOverrideInstanceConfigDefaultsDescriptor.class);
     }
 
     @Extension

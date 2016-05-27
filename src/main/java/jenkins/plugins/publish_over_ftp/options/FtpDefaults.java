@@ -28,16 +28,16 @@ import hudson.DescriptorExtensionList;
 import hudson.ExtensionPoint;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 
 public abstract class FtpDefaults implements Describable<FtpDefaults>, ExtensionPoint, FtpOptions {
 
     public static DescriptorExtensionList<FtpDefaults, FtpDefaultsDescriptor> all() {
-        return Hudson.getInstance().<FtpDefaults, FtpDefaultsDescriptor>getDescriptorList(FtpDefaults.class);
+        return Jenkins.getInstance().<FtpDefaults, FtpDefaultsDescriptor>getDescriptorList(FtpDefaults.class);
     }
 
     public FtpDefaultsDescriptor getDescriptor() {
-        return (FtpDefaultsDescriptor) Hudson.getInstance().getDescriptor(getClass());
+        return (FtpDefaultsDescriptor) Jenkins.getInstance().getDescriptor(getClass());
     }
 
     public abstract static class FtpDefaultsDescriptor extends Descriptor<FtpDefaults> {

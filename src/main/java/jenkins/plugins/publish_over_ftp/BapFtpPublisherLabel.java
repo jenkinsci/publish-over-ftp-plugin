@@ -27,7 +27,7 @@ package jenkins.plugins.publish_over_ftp;
 import hudson.Extension;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.PublisherLabel;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -45,7 +45,7 @@ public class BapFtpPublisherLabel extends PublisherLabel implements Describable<
     }
 
     public BapFtpPublisherLabelDescriptor getDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpPublisherLabelDescriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpPublisherLabelDescriptor.class);
     }
 
     public boolean equals(final Object that) {

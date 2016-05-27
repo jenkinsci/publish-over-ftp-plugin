@@ -2,8 +2,8 @@ package jenkins.plugins.publish_over_ftp.descriptor;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
-import hudson.model.Hudson;
 import hudson.util.FormValidation;
+import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPTransfer;
 import jenkins.plugins.publish_over.BPValidators;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
@@ -24,7 +24,7 @@ public class BapFtpTransferDescriptor extends Descriptor<BapFtpTransfer> {
     }
 
     public BapFtpPublisherPlugin.Descriptor getPublisherPluginDescriptor() {
-        return Hudson.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
+        return Jenkins.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
     }
 
     public FormValidation doCheckSourceFiles(@QueryParameter final String value) {

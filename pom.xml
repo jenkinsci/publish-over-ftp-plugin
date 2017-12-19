@@ -29,7 +29,7 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>1.580.1</version>
+        <version>2.32</version>
     </parent>
 
     <artifactId>publish-over-ftp</artifactId>
@@ -40,7 +40,6 @@
     <url>http://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+FTP+Plugin</url>
 
     <properties>
-        <java.net.id>bap</java.net.id>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -63,24 +62,36 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>publish-over</artifactId>
-            <version>0.18</version>
+            <version>0.20</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>3.4</version>
+            <version>3.6</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.9</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>1.8.5</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.easymock</groupId>
@@ -101,8 +112,8 @@
         <url>https://github.com/jenkinsci/publish-over-ftp-plugin</url>
         <connection>scm:git:git://github.com/jenkinsci/publish-over-ftp-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/publish-over-ftp-plugin.git</developerConnection>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <issueManagement>
         <system>JIRA</system>
@@ -112,127 +123,14 @@
     <distributionManagement>
         <repository>
             <id>maven.jenkins-ci.org</id>
-            <url>http://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
+            <url>https://repo.jenkins-ci.org/releases</url>
         </repository>
     </distributionManagement>
-
-    <build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.5.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>2.12.4</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-enforcer-plugin</artifactId>
-					<version>1.1</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-        <plugins>
-            <plugin>
-                <groupId>org.jenkins-ci.tools</groupId>
-                <artifactId>maven-hpi-plugin</artifactId>
-				<!--  <version>1.67</version> -->
-                <extensions>true</extensions>
-                <configuration>
-                    <compatibleSinceVersion>0.2</compatibleSinceVersion>
-                </configuration>
-            </plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<!--  <version>1.7</version> -->
-				<executions>
-					<execution>
-						<id>add-eclipse-sources</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${basedir}/target/generated-sources/groovy-stubs/main</source>
-								<source>${basedir}/target/generated-sources/localizer</source>
-								<source>${basedir}/target/generated-sources/taglib-interface</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-    </build>
-
-    <profiles>
-        <profile>
-            <!-- mvn clean test emma:emma findbugs:findbugs checkstyle:checkstyle pmd:pmd pmd:cpd -->
-            <id>metrics</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>emma-maven-plugin</artifactId>
-                        <version>1.0-alpha-3</version>
-                        <configuration>
-                            <filters>
-                                <filter>-*.Messages</filter>
-                            </filters>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <version>2.3.1</version>
-                        <configuration>
-                            <effort>Max</effort>
-                            <threshold>Low</threshold>
-                            <xmlOutput>true</xmlOutput>
-                            <includeTests>true</includeTests>
-                            <excludeFilterFile>src/metrics/findBugs_excludes.xml</excludeFilterFile>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-pmd-plugin</artifactId>
-                        <version>2.5</version>
-                        <configuration>
-                            <targetJdk>1.5</targetJdk>
-                            <includeTests>true</includeTests>
-                            <rulesets>
-                                <ruleset>src/metrics/pmd_rules.xml</ruleset>
-                            </rulesets>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-checkstyle-plugin</artifactId>
-                        <version>2.6</version>
-                        <configuration>
-                            <configLocation>src/metrics/checkstyle_rules.xml</configLocation>
-                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.1</version>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <repositories>
         <repository>
             <id>repo.jenkins-ci.org</id>
-            <url>http://repo.jenkins-ci.org/public/</url>
+            <url>https://repo.jenkins-ci.org/public/</url>
         </repository>
         <repository>
 			<id>releases</id>
@@ -244,7 +142,7 @@
     <pluginRepositories>
         <pluginRepository>
             <id>repo.jenkins-ci.org</id>
-            <url>http://repo.jenkins-ci.org/public/</url>
+            <url>https://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
 </project>

@@ -89,11 +89,18 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
     }
 
     private void delete() throws IOException {
-        final FTPListParseEngine listParser = ftpClient.initiateListParsing();
-        if (listParser == null)
-            throw new BapPublisherException(Messages.exception_client_listParserNull());
-        while (listParser.hasNext())
-            delete(listParser.getNext(1)[0]);
+        // use the extension if available
+        if(ftpClient.hasFeature("MLST")) {
+            for(FTPFile file : ftpClient.mlistDir()) {
+                delete(file);
+            }
+        } else {
+            final FTPListParseEngine listParser = ftpClient.initiateListParsing();
+            if (listParser == null)
+                throw new BapPublisherException(Messages.exception_client_listParserNull());
+            while (listParser.hasNext())
+                delete(listParser.getNext(1)[0]);
+        }
     }
 
     private void delete(final FTPFile ftpFile) throws IOException {

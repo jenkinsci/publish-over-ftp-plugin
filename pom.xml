@@ -41,6 +41,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <findbugs.failOnError>false</findbugs.failOnError>
     </properties>
 
     <licenses>
@@ -51,6 +52,11 @@
     </licenses>
 
     <developers>
+        <developer>
+            <id>slide_o_mix</id>
+            <name>Alex Earl</name>
+            <email>slide.o.mix@gmail.com</email>
+        </developer>
         <developer>
             <id>bap</id>
             <name>Bap</name>

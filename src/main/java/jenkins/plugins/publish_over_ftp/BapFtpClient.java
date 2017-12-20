@@ -90,7 +90,7 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
 
     private void delete() throws IOException {
         // use the extension if available
-        if(ftpClient.hasFeature("MLSD")) {
+        if(ftpClient.hasFeature("MLST")) {
             for(FTPFile file : ftpClient.mlistDir()) {
                 delete(file);
             }

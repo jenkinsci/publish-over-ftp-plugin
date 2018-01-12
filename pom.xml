@@ -35,7 +35,7 @@
     <artifactId>publish-over-ftp</artifactId>
     <packaging>hpi</packaging>
     <name>Publish Over FTP</name>
-    <version>1.13</version>
+    <version>1.14-SNAPSHOT</version>
     <description>Send build artifacts over FTP</description>
     <url>http://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+FTP+Plugin</url>
 
@@ -118,7 +118,7 @@
         <url>https://github.com/jenkinsci/publish-over-ftp-plugin</url>
         <connection>scm:git:git://github.com/jenkinsci/publish-over-ftp-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:jenkinsci/publish-over-ftp-plugin.git</developerConnection>
-        <tag>publish-over-ftp-1.13</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>

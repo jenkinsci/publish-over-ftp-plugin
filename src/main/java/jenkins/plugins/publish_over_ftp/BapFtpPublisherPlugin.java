@@ -27,6 +27,7 @@ package jenkins.plugins.publish_over_ftp;
 import hudson.Extension;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPPlugin;
@@ -37,6 +38,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 @SuppressWarnings("PMD.LooseCoupling") // serializable
@@ -50,6 +52,26 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
             final BapFtpParamPublish paramPublish) {
         super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName,
                 paramPublish);
+    }
+
+    public List<BapFtpPublisher> getPublishers() {
+        return this.getDelegate().getPublishers();
+    }
+
+    public boolean isContinueOnError() {
+        return this.getDelegate().isContinueOnError();
+    }
+
+    public boolean isFailOnError() {
+        return this.getDelegate().isFailOnError();
+    }
+
+    public boolean isAlwaysPublishFromMaster() {
+        return this.getDelegate().isAlwaysPublishFromMaster();
+    }
+
+    public String getMasterNodeName() {
+        return this.getDelegate().getMasterNodeName();
     }
 
     public BapFtpParamPublish getParamPublish() {
@@ -84,6 +106,7 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     }
 
     @Extension
+    @Symbol("ftpPublisher")
     public static class Descriptor extends BapFtpPublisherPluginDescriptor {
         @Override
         public Object readResolve() {

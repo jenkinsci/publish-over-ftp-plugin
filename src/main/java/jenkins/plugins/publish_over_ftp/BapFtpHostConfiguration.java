@@ -72,6 +72,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private final boolean disableMakeNestedDirs;
     private final boolean disableRemoteVerification;
     private boolean useFtpOverTls;
+    private boolean useImplicitTls;
     private String trustedCertificate;
 
     @DataBoundConstructor
@@ -89,6 +90,11 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     @DataBoundSetter
     public void setUseFtpOverTls(final boolean useFtpOverTls) {
         this.useFtpOverTls = useFtpOverTls;
+    }
+
+    @DataBoundSetter
+    public void setUseImplicitTls(final boolean useImplicitTls) {
+        this.useImplicitTls = useImplicitTls;
     }
 
     @DataBoundSetter
@@ -121,6 +127,10 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         return useFtpOverTls;
     }
 
+    public boolean isUseImplicitTls() {
+        return useImplicitTls;
+    }
+
     public String getTrustedCertificate() {
         return trustedCertificate;
     }
@@ -140,7 +150,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
     public FTPClient createFTPClient() throws GeneralSecurityException, FileNotFoundException, IOException {
         if (useFtpOverTls) {
-            FTPSClient c = new FTPSClient(false);
+            FTPSClient c = new FTPSClient(useImplicitTls);
 
             KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
             String trustStorePath = System.getProperty("javax.net.ssl.trustStore");

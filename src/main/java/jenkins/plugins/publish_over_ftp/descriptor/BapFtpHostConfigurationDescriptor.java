@@ -78,12 +78,12 @@ public class BapFtpHostConfigurationDescriptor extends Descriptor<BapFtpHostConf
             @QueryParameter final int timeout, @QueryParameter final boolean useActiveData,
             @QueryParameter final String controlEncoding, @QueryParameter final boolean disableMakeNestedDirs,
             @QueryParameter final boolean disableRemoteVerification, @QueryParameter final boolean useFtpOverTls,
-            @QueryParameter final String trustedCertificate) {
+            @QueryParameter final boolean useImplicitTls, @QueryParameter final String trustedCertificate) {
         final BapFtpPublisherPlugin.Descriptor pluginDescriptor = Jenkins.getInstance().getDescriptorByType(
                 BapFtpPublisherPlugin.Descriptor.class);
         return pluginDescriptor.doTestConnection(name, hostname, username, encryptedPassword, remoteRootDir, port,
                 timeout, useActiveData, controlEncoding, disableMakeNestedDirs, disableRemoteVerification,
-                useFtpOverTls, trustedCertificate);
+                useFtpOverTls, useImplicitTls, trustedCertificate);
     }
 
     public jenkins.plugins.publish_over.view_defaults.HostConfiguration.Messages getCommonFieldNames() {

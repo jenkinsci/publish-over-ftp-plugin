@@ -247,6 +247,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
             exception(client, Messages.exception_connectFailed(getHostnameTrimmed(), getPort(), responseCode));
         }
         setDataTransferMode(ftpClient);
+        setDataChannelProtection(ftpClient);
     }
 
     private void setDataTransferMode(final FTPClient ftpClient) {
@@ -254,6 +255,14 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
             ftpClient.enterLocalActiveMode();
         } else {
             ftpClient.enterLocalPassiveMode();
+        }
+    }
+
+    private void setDataChannelProtection(FTPClient ftpClient) throws IOException {
+        if (useImplicitTls && ftpClient instanceof FTPSClient) {
+            FTPSClient ftpsClient = (FTPSClient) ftpClient;
+            ftpsClient.execPBSZ(0);
+            ftpsClient.execPROT("P");
         }
     }
 

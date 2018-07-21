@@ -36,7 +36,6 @@ import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPInstanceConfig;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
-import jenkins.plugins.publish_over.JenkinsCapabilities;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.Messages;
@@ -99,7 +98,7 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
     }
 
     public boolean canSetMasterNodeName() {
-        return JenkinsCapabilities.missing(JenkinsCapabilities.MASTER_HAS_NODE_NAME);
+        return false;
     }
 
     public String getDefaultMasterNodeName() {
@@ -107,7 +106,7 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
     }
 
     public boolean isEnableOverrideDefaults() {
-        return JenkinsCapabilities.available(JenkinsCapabilities.SIMPLE_DESCRIPTOR_SELECTOR);
+        return true;
     }
 
     public BapFtpPublisherDescriptor getPublisherDescriptor() {

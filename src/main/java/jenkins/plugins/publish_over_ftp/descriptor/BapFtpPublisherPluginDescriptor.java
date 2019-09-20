@@ -49,10 +49,10 @@ import java.util.List;
 @SuppressWarnings("PMD.TooManyMethods")
 public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publisher> {
 
-    /** null - prevent complaints from xstream */
-    private BPPluginDescriptor.BPDescriptorMessages msg;
-    /** null - prevent complaints from xstream */
-    private Class hostConfigClass;
+    /** prevent complaints from XStream */
+    @Deprecated private transient BPPluginDescriptor.BPDescriptorMessages msg;
+    /** prevent complaints from XStream */
+    @Deprecated private transient Class hostConfigClass;
     private final CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = new CopyOnWriteList<>();
     private FtpDefaults defaults;
 
@@ -165,9 +165,6 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
     }
 
     public Object readResolve() {
-        // nuke the legacy config
-        msg = null;
-        hostConfigClass = null;
         if (defaults == null)
             defaults = new FtpPluginDefaults();
         return this;

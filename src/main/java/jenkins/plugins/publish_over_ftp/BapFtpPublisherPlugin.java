@@ -114,7 +114,7 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
         }
     }
 
-    /** left in to prevent xstream noise */
+    /** prevent complaints from XStream */
     @Deprecated
     public static class DescriptorMessages implements BPPluginDescriptor.BPDescriptorMessages { }
 

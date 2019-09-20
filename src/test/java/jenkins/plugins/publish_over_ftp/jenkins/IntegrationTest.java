@@ -36,8 +36,9 @@ import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.junit.Rule;
 import org.junit.Test;
-import org.jvnet.hudson.test.HudsonTestCase;
+import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.TestBuilder;
 
 import java.io.IOException;
@@ -51,7 +52,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-public class IntegrationTest extends HudsonTestCase {
+public class IntegrationTest {
+
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
 
     private static final String TEST_PASSWORD = "testPassword";
 
@@ -77,7 +81,7 @@ public class IntegrationTest extends HudsonTestCase {
         final ArrayList publishers = new ArrayList(Collections.singletonList(publisher));
         final BapFtpPublisherPlugin plugin = new BapFtpPublisherPlugin(publishers, false, false, false, "master", null);
 
-        final FreeStyleProject project = createFreeStyleProject();
+        final FreeStyleProject project = j.createFreeStyleProject();
         project.getPublishersList().add(plugin);
         final String buildDirectory = "build-dir";
         final String buildFileName = "file.txt";
@@ -103,7 +107,7 @@ public class IntegrationTest extends HudsonTestCase {
         when(mockFTPClient.makeDirectory(buildDirectory)).thenReturn(true);
         when(mockFTPClient.storeFile(eq(buildFileName), anyObject())).thenReturn(true);
 
-        assertBuildStatusSuccess(project.scheduleBuild2(0).get());
+        j.assertBuildStatusSuccess(project.scheduleBuild2(0).get());
 
         verify(mockFTPClient).connect(testHostConfig.getHostname(), testHostConfig.getPort());
         verify(mockFTPClient).storeFile(eq(buildFileName), anyObject());

@@ -24,19 +24,26 @@
 
 package jenkins.plugins.publish_over_ftp.jenkins;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import hudson.model.Project;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
+import org.junit.Rule;
 import org.junit.Test;
-import org.jvnet.hudson.test.HudsonTestCase;
+import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.recipes.LocalData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LegacyConfigurationTest extends HudsonTestCase {
+public class LegacyConfigurationTest {
+
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
 
     @LocalData
     @Test
@@ -70,11 +77,11 @@ public class LegacyConfigurationTest extends HudsonTestCase {
     }
 
     private BapFtpPublisherPlugin.Descriptor getPublisherPluginDescriptor() {
-        return hudson.getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
+        return j.jenkins.getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
     }
 
     private BapFtpPublisherPlugin getConfiguredPlugin() {
-        for (Project project : hudson.getProjects()) {
+        for (Project project : j.jenkins.getAllItems(Project.class)) {
             if (project.getPublisher(getPublisherPluginDescriptor()) != null)
                 return (BapFtpPublisherPlugin) project.getPublisher(getPublisherPluginDescriptor());
         }

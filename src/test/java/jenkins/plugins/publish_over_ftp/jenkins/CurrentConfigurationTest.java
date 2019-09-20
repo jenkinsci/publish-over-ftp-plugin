@@ -24,6 +24,9 @@
 
 package jenkins.plugins.publish_over_ftp.jenkins;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+
 import hudson.model.FreeStyleProject;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpParamPublish;
@@ -32,13 +35,17 @@ import jenkins.plugins.publish_over_ftp.BapFtpPublisherLabel;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpRetry;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
+import org.junit.Rule;
 import org.junit.Test;
-import org.jvnet.hudson.test.HudsonTestCase;
+import org.jvnet.hudson.test.JenkinsRule;
 
 import java.util.ArrayList;
 
 @SuppressWarnings({ "PMD.SystemPrintln", "PMD.SignatureDeclareThrowsException" })
-public class CurrentConfigurationTest extends HudsonTestCase {
+public class CurrentConfigurationTest {
+
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
 
     @Test
     public void testTestsAreDisabled() throws Exception {
@@ -54,15 +61,15 @@ public class CurrentConfigurationTest extends HudsonTestCase {
     public void dontTestRoundTrip() throws Exception {
         final BapFtpHostConfiguration configA = new BapFtpHostConfiguration("host A", "", "", "", "", 0, 0, false, null, false, false);
         final BapFtpHostConfiguration configB = new BapFtpHostConfiguration("host B", "", "", "", "", 0, 0, false, null, false, false);
-        final FreeStyleProject project = createFreeStyleProject();
+        final FreeStyleProject project = j.createFreeStyleProject();
         new JenkinsTestHelper().setGlobalConfig(configA, configB);
         final BapFtpPublisherPlugin plugin = createPlugin(configA.getName(), configB.getName());
         project.getPublishersList().add(plugin);
 
-        submit(new WebClient().getPage(project, "configure").getFormByName("config"));
+        j.submit(j.createWebClient().getPage(project, "configure").getFormByName("config"));
 
         final BapFtpPublisherPlugin configured = (BapFtpPublisherPlugin) project.getPublisher(
-                                                                    hudson.getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class));
+                                                                    j.jenkins.getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class));
         System.out.println(" pre:" + plugin);
         System.out.println("post:" + configured);
         assertNotSame(plugin, configured);

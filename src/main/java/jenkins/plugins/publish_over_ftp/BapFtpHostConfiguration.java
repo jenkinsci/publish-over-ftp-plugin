@@ -156,10 +156,12 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
             String trustStorePath = System.getProperty("javax.net.ssl.trustStore");
             if (trustStorePath != null) {
                 String trustStorePassword = System.getProperty("javax.net.ssl.trustStorePassword");
-                if (trustStorePassword != null) {
-                    ts.load(new FileInputStream(trustStorePath), trustStorePassword.toCharArray());
-                } else {
-                    ts.load(new FileInputStream(trustStorePath), null);
+                try (FileInputStream stream = new FileInputStream(trustStorePath)) {
+                    if (trustStorePassword != null) {
+                        ts.load(stream, trustStorePassword.toCharArray());
+                    } else {
+                        ts.load(stream, null);
+                    }
                 }
             } else {
                 ts.load(null);

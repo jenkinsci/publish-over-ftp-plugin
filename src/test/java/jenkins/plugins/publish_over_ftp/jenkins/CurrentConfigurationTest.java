@@ -78,16 +78,16 @@ public class CurrentConfigurationTest extends HudsonTestCase {
         final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", null, "/pub", "target", true, false, true, false, false, false, null);
         final BapFtpTransfer transfer2 = new BapFtpTransfer("*", null, "", "WebApp", false, true, false, false, false, false, null);
         final BapFtpTransfer transfer3 = new BapFtpTransfer("dave", null, "", "", false, true, true, false, false, false, null);
-        final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<BapFtpTransfer>();
+        final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<>();
         transfers1.add(transfer1);
         transfers1.add(transfer2);
-        final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
+        final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<>();
         transfers2.add(transfer3);
         final BapFtpPublisher publisher1 = new BapFtpPublisher(config1, true, transfers1, false, false, null, null, null);
         // @TODO when tests re-enabled, last arg needs to be credentials
         final BapFtpPublisher publisher2 = new BapFtpPublisher(config2, false, transfers2, false, false, new BapFtpRetry(5, 100L),
                                                                new BapFtpPublisherLabel("RELEASE"), null);
-        final ArrayList<BapFtpPublisher> publishers = new ArrayList<BapFtpPublisher>();
+        final ArrayList<BapFtpPublisher> publishers = new ArrayList<>();
         publishers.add(publisher1);
         publishers.add(publisher2);
         return new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER", new BapFtpParamPublish("(^RELEASE)"));

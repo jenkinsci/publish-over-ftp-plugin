@@ -53,7 +53,7 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
     private BPPluginDescriptor.BPDescriptorMessages msg;
     /** null - prevent complaints from xstream */
     private Class hostConfigClass;
-    private final CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = new CopyOnWriteList<BapFtpHostConfiguration>();
+    private final CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = new CopyOnWriteList<>();
     private FtpDefaults defaults;
 
     public BapFtpPublisherPluginDescriptor() {

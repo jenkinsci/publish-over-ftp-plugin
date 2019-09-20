@@ -41,7 +41,6 @@ import org.jvnet.hudson.test.HudsonTestCase;
 import org.jvnet.hudson.test.TestBuilder;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -102,12 +101,12 @@ public class IntegrationTest extends HudsonTestCase {
         when(mockFTPClient.makeDirectory(transfer.getRemoteDirectory())).thenReturn(true);
         when(mockFTPClient.changeWorkingDirectory(buildDirectory)).thenReturn(false).thenReturn(true);
         when(mockFTPClient.makeDirectory(buildDirectory)).thenReturn(true);
-        when(mockFTPClient.storeFile(eq(buildFileName), (InputStream) anyObject())).thenReturn(true);
+        when(mockFTPClient.storeFile(eq(buildFileName), anyObject())).thenReturn(true);
 
         assertBuildStatusSuccess(project.scheduleBuild2(0).get());
 
         verify(mockFTPClient).connect(testHostConfig.getHostname(), testHostConfig.getPort());
-        verify(mockFTPClient).storeFile(eq(buildFileName), (InputStream) anyObject());
+        verify(mockFTPClient).storeFile(eq(buildFileName), anyObject());
         verify(mockFTPClient).setDefaultTimeout(testHostConfig.getTimeout());
         verify(mockFTPClient).setDataTimeout(testHostConfig.getTimeout());
     }

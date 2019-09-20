@@ -36,12 +36,11 @@ import org.jvnet.hudson.test.recipes.LocalData;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("PMD.SignatureDeclareThrowsException")
 public class LegacyConfigurationTest extends HudsonTestCase {
 
     @LocalData
     @Test
-    public void testLoadR0x1() throws Exception {
+    public void testLoadR0x1() {
         final List<BapFtpHostConfiguration> configurations = getPublisherPluginDescriptor().getHostConfigurations();
         assertEquals(2, configurations.size());
         final int expectedConfigAPort = 21;
@@ -53,17 +52,17 @@ public class LegacyConfigurationTest extends HudsonTestCase {
 
         final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", null, "'helloo-${BUILD_NUMBER}'-MMDD", "target",
                                                             true, true, true, false, false, false, null);
-        final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<BapFtpTransfer>();
+        final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<>();
         transfers1.add(transfer1);
         final BapFtpPublisher publisher1 = new BapFtpPublisher("Config b", true, transfers1, false, false, null, null, null);
         final BapFtpTransfer transfer21 = new BapFtpTransfer("target\\images\\*", null, "", "", false, false, false, false, false, false, null);
         final BapFtpTransfer transfer22 = new BapFtpTransfer("target\\logs\\**\\*", null, "serverlogs", "target\\logs",
                                                              true, false, true, false, false, false, null);
-        final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<BapFtpTransfer>();
+        final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<>();
         transfers2.add(transfer21);
         transfers2.add(transfer22);
         final BapFtpPublisher publisher2 = new BapFtpPublisher("Config a", false, transfers2, false, false, null, null, null);
-        final ArrayList<BapFtpPublisher> publishers = new ArrayList<BapFtpPublisher>();
+        final ArrayList<BapFtpPublisher> publishers = new ArrayList<>();
         publishers.add(publisher1);
         publishers.add(publisher2);
         final BapFtpPublisherPlugin expectedPlugin = new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER", null);

@@ -400,8 +400,8 @@ public class BapFtpClientTest {
         }
         expect(mockFTPClient.hasFeature("MLST")).andReturn(true);
         expect(mockFTPClient.mlistDir()).andReturn(files);
-        for(int i = 0; i < fileNames.length; i++) {
-            expect(mockFTPClient.deleteFile(fileNames[i])).andReturn(true);
+        for (String fileName : fileNames) {
+            expect(mockFTPClient.deleteFile(fileName)).andReturn(true);
         }
         mockControl.replay();
         bapFtpClient.deleteTree();

@@ -43,7 +43,6 @@ import jenkins.plugins.publish_over_ftp.options.FtpDefaults;
 import jenkins.plugins.publish_over_ftp.options.FtpPluginDefaults;
 import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
-import org.kohsuke.stapler.StaplerResponse;
 
 import java.util.List;
 

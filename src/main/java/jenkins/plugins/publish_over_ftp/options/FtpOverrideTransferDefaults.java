@@ -28,7 +28,6 @@ import hudson.Extension;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
 import jenkins.model.Jenkins;
-import jenkins.plugins.publish_over.BPTransfer;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describable<FtpOverrideTransferDefaults> {

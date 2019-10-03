@@ -33,7 +33,7 @@ import jenkins.model.Jenkins;
 public abstract class FtpDefaults implements Describable<FtpDefaults>, ExtensionPoint, FtpOptions {
 
     public static DescriptorExtensionList<FtpDefaults, FtpDefaultsDescriptor> all() {
-        return Jenkins.getInstance().<FtpDefaults, FtpDefaultsDescriptor>getDescriptorList(FtpDefaults.class);
+        return Jenkins.getInstance().getDescriptorList(FtpDefaults.class);
     }
 
     public FtpDefaultsDescriptor getDescriptor() {

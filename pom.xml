@@ -29,7 +29,7 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>2.32</version>
+        <version>3.50</version>
     </parent>
 
     <artifactId>publish-over-ftp</artifactId>
@@ -40,8 +40,9 @@
     <url>http://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+FTP+Plugin</url>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <findbugs.failOnError>false</findbugs.failOnError>
+        <jenkins.version>2.60.3</jenkins.version>
+        <java.level>8</java.level>
     </properties>
 
     <licenses>
@@ -68,7 +69,7 @@
         <dependency>
             <groupId>org.jenkins-ci.plugins</groupId>
             <artifactId>publish-over</artifactId>
-            <version>0.21</version>
+            <version>0.22</version>
         </dependency>
         <dependency>
             <groupId>commons-net</groupId>
@@ -83,7 +84,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.9</version>
+            <version>4.12</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -95,7 +96,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>1.8.5</version>
+            <version>1.10.19</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -107,16 +108,15 @@
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymock</artifactId>
-            <version>2.4</version>
+            <version>2.5.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.easymock</groupId>
             <artifactId>easymockclassextension</artifactId>
-            <version>2.4</version>
+            <version>2.5.2</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 
     <scm>
@@ -142,11 +142,6 @@
         <repository>
             <id>repo.jenkins-ci.org</id>
             <url>https://repo.jenkins-ci.org/public/</url>
-        </repository>
-        <repository>
-			<id>releases</id>
-			<name>Releases</name>
-			<url>https://oss.sonatype.org/content/repositories/releases</url>
         </repository>
     </repositories>
 

@@ -25,6 +25,9 @@
 package jenkins.plugins.publish_over_ftp;
 
 import static org.easymock.EasyMock.expect;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import hudson.FilePath;
 import hudson.model.TaskListener;
 
@@ -40,11 +43,15 @@ import org.easymock.classextension.IMocksControl;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
-import org.jvnet.hudson.test.HudsonTestCase;
+import org.jvnet.hudson.test.JenkinsRule;
 
 @SuppressWarnings({ "PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods" })
-public class BapHostConfigurationTest extends HudsonTestCase {
+public class BapHostConfigurationTest {
+
+    @Rule
+    public JenkinsRule j = new JenkinsRule();
 
     @BeforeClass
     public static void before() {

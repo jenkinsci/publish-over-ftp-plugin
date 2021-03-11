@@ -1,4 +1,25 @@
-# Change log
+# Release Notes
+
+#### 1.16 (03/11/2021)
+
+* [JENKINS-64341](https://issues.jenkins-ci.org/browse/JENKINS-64341) -
+  Make the plugin compatible with the new configuration layouts in Jenkins 2.266 and above -
+  [#9](https://github.com/jenkinsci/publish-over-ftp-plugin/pull/9)
+  by [Darío Villadiego
+](https://github.com/dariver)
+  and [Brandon Bergren](https://github.com/bdragon28)
+* Set proper data channel protection for Implicit FTPS -
+  [#6](https://github.com/jenkinsci/publish-over-ftp-plugin/pull/6) by
+  [Christian Janz](https://github.com/cjanz)
+* Code cleanup and refresh -
+  [#7](https://github.com/jenkinsci/publish-over-ftp-plugin/pull/7)
+  by [René Scheibe](https://github.com/darxriggs)
+
+#### 1.10 .. 1.15
+
+Changelog is missing. See the commit history
+
+<!-- TODO: Changelog is missing -->
 
 #### 1.9 (03/03/2013)
 

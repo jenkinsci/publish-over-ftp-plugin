@@ -37,7 +37,7 @@
     <name>Publish Over FTP</name>
     <version>1.17-SNAPSHOT</version>
     <description>Send build artifacts over FTP</description>
-    <url>http://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+FTP+Plugin</url>
+    <url>https://github.com/jenkinsci/publish-over-ftp-plugin</url>
 
     <properties>
         <findbugs.failOnError>false</findbugs.failOnError>

@@ -1,0 +1,2 @@
+_extends: .github
+tag-template: publish-over-ftp-$NEXT_MINOR_VERSION

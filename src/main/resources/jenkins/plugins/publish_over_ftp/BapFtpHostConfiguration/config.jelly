@@ -68,11 +68,14 @@
             <f:entry title="${%useImplicitTls}" field="useImplicitTls">
               <f:checkbox/>
             </f:entry>
+            <f:entry title="${%useDataChannelProtection}" field="useDataChannelProtection">
+              <f:checkbox/>
+            </f:entry>
             <f:entry title="${%trustedCertificate}" field="trustedCertificate">
               <f:textarea/>
             </f:entry>
           </f:advanced>
           <f:validateButton title="${m.test_title()}" progress="${m.test_progress()}" method="testConnection"
-                            with="name,hostname,username,encryptedPassword,remoteRootDir,port,timeout,useActiveData,controlEncoding,disableRemoteVerification,useFtpOverTls,useImplicitTls,trustedCertificate"/>
+                            with="name,hostname,username,encryptedPassword,remoteRootDir,port,timeout,useActiveData,controlEncoding,disableRemoteVerification,useFtpOverTls,useImplicitTls,useDataChannelProtection,trustedCertificate"/>
 
 </j:jelly>

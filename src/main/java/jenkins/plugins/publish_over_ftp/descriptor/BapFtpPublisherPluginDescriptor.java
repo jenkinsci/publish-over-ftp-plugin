@@ -132,12 +132,13 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
             final String encryptedPassword, final String remoteRootDir, final int port, final int timeout,
             final boolean useActiveData, final String controlEncoding, final boolean disableMakeNestedDirs,
             final boolean disableRemoteVerification, final boolean useFtpOverTls, final boolean useImplicitTls,
-            final String trustedCertificate) {
+            final boolean useDataChannelProtection, final String trustedCertificate) {
         final BapFtpHostConfiguration hostConfig = new BapFtpHostConfiguration(name, hostname, username,
                 encryptedPassword, remoteRootDir, port, timeout, useActiveData, controlEncoding,
                 disableMakeNestedDirs, disableRemoteVerification);
         hostConfig.setUseFtpOverTls(useFtpOverTls);
         hostConfig.setUseImplicitTls(useImplicitTls);
+        hostConfig.setUseDataChannelProtection(useDataChannelProtection);
         hostConfig.setTrustedCertificate(trustedCertificate);
         return validateConnection(hostConfig, createDummyBuildInfo());
     }

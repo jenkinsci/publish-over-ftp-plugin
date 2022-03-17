@@ -73,6 +73,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private final boolean disableRemoteVerification;
     private boolean useFtpOverTls;
     private boolean useImplicitTls;
+    private boolean useDataChannelProtection;
     private String trustedCertificate;
 
     @DataBoundConstructor
@@ -95,6 +96,11 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     @DataBoundSetter
     public void setUseImplicitTls(final boolean useImplicitTls) {
         this.useImplicitTls = useImplicitTls;
+    }
+
+    @DataBoundSetter
+    public void setUseDataChannelProtection(final boolean useDataChannelProtection) {
+        this.useDataChannelProtection = useDataChannelProtection;
     }
 
     @DataBoundSetter
@@ -129,6 +135,10 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
     public boolean isUseImplicitTls() {
         return useImplicitTls;
+    }
+
+    public boolean isUseDataChannelProtection() {
+      return useDataChannelProtection;
     }
 
     public String getTrustedCertificate() {
@@ -261,7 +271,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     }
 
     private void setDataChannelProtection(FTPClient ftpClient) throws IOException {
-        if (useImplicitTls && ftpClient instanceof FTPSClient) {
+        if ((useImplicitTls | useDataChannelProtection) && ftpClient instanceof FTPSClient) {
             FTPSClient ftpsClient = (FTPSClient) ftpClient;
             ftpsClient.execPBSZ(0);
             ftpsClient.execPROT("P");

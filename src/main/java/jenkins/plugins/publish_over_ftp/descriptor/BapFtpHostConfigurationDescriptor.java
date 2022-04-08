@@ -33,6 +33,7 @@ import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.Messages;
 import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.interceptor.RequirePOST;
 
 @Extension
 public class BapFtpHostConfigurationDescriptor extends Descriptor<BapFtpHostConfiguration> {
@@ -70,6 +71,7 @@ public class BapFtpHostConfigurationDescriptor extends Descriptor<BapFtpHostConf
         return FormValidation.validateNonNegativeInteger(value);
     }
 
+    @RequirePOST
     public FormValidation doTestConnection(@QueryParameter final String name, @QueryParameter final String hostname,
             @QueryParameter final String username, @QueryParameter final String encryptedPassword,
             @QueryParameter final String remoteRootDir, @QueryParameter final int port,

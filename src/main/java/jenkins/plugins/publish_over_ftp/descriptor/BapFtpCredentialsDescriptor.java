@@ -26,6 +26,7 @@ package jenkins.plugins.publish_over_ftp.descriptor;
 
 import hudson.Extension;
 import hudson.model.Descriptor;
+import hudson.model.Item;
 import hudson.util.FormValidation;
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPBuildInfo;
@@ -33,6 +34,8 @@ import jenkins.plugins.publish_over_ftp.BapFtpCredentials;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import org.kohsuke.stapler.QueryParameter;
+import org.kohsuke.stapler.interceptor.RequirePOST;
+import org.kohsuke.stapler.AncestorInPath;
 
 @Extension
 public class BapFtpCredentialsDescriptor extends Descriptor<BapFtpCredentials> {
@@ -54,8 +57,14 @@ public class BapFtpCredentialsDescriptor extends Descriptor<BapFtpCredentials> {
         return FormValidation.validateRequired(value);
     }
 
+    @RequirePOST
     public FormValidation doTestConnection(@QueryParameter final String configName, @QueryParameter final String username,
-                                           @QueryParameter final String password) {
+                                           @QueryParameter final String password, @AncestorInPath Item item) {
+            if (item == null) {
+                Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+            } else {
+                item.checkPermission(Item.CONFIGURE);
+            }
         final BapFtpCredentials credentials = new BapFtpCredentials(username, password);
         final BPBuildInfo buildInfo = BapFtpPublisherPluginDescriptor.createDummyBuildInfo();
         buildInfo.put(BPBuildInfo.OVERRIDE_CREDENTIALS_CONTEXT_KEY, credentials);

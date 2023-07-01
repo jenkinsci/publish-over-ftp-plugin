@@ -43,7 +43,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import javax.annotation.Nonnull;
+import edu.umd.cs.findbugs.annotations.NonNull;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -65,7 +65,7 @@ public class BapFtpPromotionPublisherPlugin extends Notifier implements SimpleBu
     }
 
     @Override
-    public void perform(@Nonnull Run<?, ?> run, @Nonnull FilePath ws, @Nonnull Launcher launcher, @Nonnull TaskListener listener)
+    public void perform(@NonNull Run<?, ?> run, @NonNull FilePath ws, @NonNull Launcher launcher, @NonNull TaskListener listener)
                     throws InterruptedException, IOException {
         delegate.perform(run, ws, launcher, listener);
     }

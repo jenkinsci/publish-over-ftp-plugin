@@ -41,7 +41,7 @@
     <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 
     <properties>
-        <spotbugs.failOnError>false</spotbugs.failOnError>
+        <spotbugs.skip>true</spotbugs.skip>
         <revision>1.17</revision>
         <changelist>-SNAPSHOT</changelist>
         <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>

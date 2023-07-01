@@ -36,7 +36,7 @@
     <artifactId>publish-over-ftp</artifactId>
     <packaging>hpi</packaging>
     <name>Publish Over FTP</name>
-    <version>1.17-SNAPSHOT</version>
+    <version>1.18-SNAPSHOT</version>
     <description>Send build artifacts over FTP</description>
     <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 

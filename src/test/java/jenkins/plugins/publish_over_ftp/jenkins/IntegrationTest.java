@@ -45,8 +45,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -105,12 +106,12 @@ public class IntegrationTest {
         when(mockFTPClient.makeDirectory(transfer.getRemoteDirectory())).thenReturn(true);
         when(mockFTPClient.changeWorkingDirectory(buildDirectory)).thenReturn(false).thenReturn(true);
         when(mockFTPClient.makeDirectory(buildDirectory)).thenReturn(true);
-        when(mockFTPClient.storeFile(eq(buildFileName), anyObject())).thenReturn(true);
+        when(mockFTPClient.storeFile(eq(buildFileName), any())).thenReturn(true);
 
         j.assertBuildStatusSuccess(project.scheduleBuild2(0).get());
 
         verify(mockFTPClient).connect(testHostConfig.getHostname(), testHostConfig.getPort());
-        verify(mockFTPClient).storeFile(eq(buildFileName), anyObject());
+        verify(mockFTPClient).storeFile(eq(buildFileName), any());
         verify(mockFTPClient).setDefaultTimeout(testHostConfig.getTimeout());
         verify(mockFTPClient).setDataTimeout(testHostConfig.getTimeout());
     }

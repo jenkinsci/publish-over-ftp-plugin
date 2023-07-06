@@ -29,7 +29,8 @@
     <parent>
         <groupId>org.jenkins-ci.plugins</groupId>
         <artifactId>plugin</artifactId>
-        <version>4.19</version>
+        <version>4.69</version>
+        <relativePath />
     </parent>
 
     <artifactId>publish-over-ftp</artifactId>
@@ -37,19 +38,21 @@
     <name>Publish Over FTP</name>
     <version>1.18-SNAPSHOT</version>
     <description>Send build artifacts over FTP</description>
-    <url>https://github.com/jenkinsci/publish-over-ftp-plugin</url>
+    <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 
     <properties>
-        <findbugs.failOnError>false</findbugs.failOnError>
         <spotbugs.skip>true</spotbugs.skip>
-        <jenkins.version>2.289.1</jenkins.version>
-        <java.level>8</java.level>
+        <revision>1.17</revision>
+        <changelist>-SNAPSHOT</changelist>
+        <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
+        <jenkins.version>2.361.4</jenkins.version>
     </properties>
 
     <licenses>
         <license>
             <name>The MIT license</name>
             <comments>All source code is under the MIT license.</comments>
+            <url>https://opensource.org/license/mit/</url>
         </license>
     </licenses>
 
@@ -70,8 +73,8 @@
         <dependencies>
             <dependency>
                 <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.289.x</artifactId>
-                <version>1148.v7261f385f859</version>
+                <artifactId>bom-2.361.x</artifactId>
+                <version>2102.v854b_fec19c92</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
@@ -100,7 +103,7 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
+                    <artifactId>hamcrest</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

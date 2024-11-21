@@ -85,6 +85,7 @@
     <changelist>-SNAPSHOT</changelist>
     <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
     <jenkins.version>2.361.4</jenkins.version>
+    <spotless.check.skip>false</spotless.check.skip>
   </properties>
 
   <dependencyManagement>

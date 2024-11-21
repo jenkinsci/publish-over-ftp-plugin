@@ -54,5 +54,4 @@ public class BapFtpPublisherDescriptor extends Descriptor<BapFtpPublisher> {
     public jenkins.plugins.publish_over.view_defaults.BapPublisher.Messages getCommonFieldNames() {
         return new jenkins.plugins.publish_over.view_defaults.BapPublisher.Messages();
     }
-
 }

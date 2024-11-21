@@ -79,5 +79,4 @@ public class BapFtpCredentials implements Credentials<BapFtpCredentials> {
                 .append("password", "***")
                 .toString();
     }
-
 }

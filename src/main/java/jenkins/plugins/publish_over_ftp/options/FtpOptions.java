@@ -33,10 +33,14 @@ import jenkins.plugins.publish_over.options.RetryOptions;
 public interface FtpOptions {
 
     InstanceConfigOptions getInstanceConfig();
-    ParamPublishOptions getParamPublish();
-    PublisherOptions getPublisher();
-    PublisherLabelOptions getPublisherLabel();
-    RetryOptions getRetry();
-    FtpTransferOptions getTransfer();
 
+    ParamPublishOptions getParamPublish();
+
+    PublisherOptions getPublisher();
+
+    PublisherLabelOptions getPublisherLabel();
+
+    RetryOptions getRetry();
+
+    FtpTransferOptions getTransfer();
 }

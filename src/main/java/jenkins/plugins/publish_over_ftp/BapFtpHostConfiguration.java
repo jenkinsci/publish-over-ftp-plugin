@@ -27,7 +27,6 @@ package jenkins.plugins.publish_over_ftp;
 import hudson.Util;
 import hudson.model.Describable;
 import hudson.util.Secret;
-
 import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,13 +37,11 @@ import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPHostConfiguration;
 import jenkins.plugins.publish_over.BapPublisherException;
 import jenkins.plugins.publish_over_ftp.descriptor.BapFtpHostConfigurationDescriptor;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -59,7 +56,8 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
 @SuppressWarnings("PMD.TooManyMethods")
-public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object> implements Describable<BapFtpHostConfiguration> {
+public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object>
+        implements Describable<BapFtpHostConfiguration> {
 
     private static final long serialVersionUID = 1L;
 
@@ -76,9 +74,18 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
     private String trustedCertificate;
 
     @DataBoundConstructor
-    public BapFtpHostConfiguration(final String name, final String hostname, final String username, final String encryptedPassword,
-                                   final String remoteRootDir, final int port, final int timeout, final boolean useActiveData,
-                                   final String controlEncoding, final boolean disableMakeNestedDirs, final boolean disableRemoteVerification) {
+    public BapFtpHostConfiguration(
+            final String name,
+            final String hostname,
+            final String username,
+            final String encryptedPassword,
+            final String remoteRootDir,
+            final int port,
+            final int timeout,
+            final boolean useActiveData,
+            final String controlEncoding,
+            final boolean disableMakeNestedDirs,
+            final boolean disableRemoteVerification) {
         super(name, hostname, username, encryptedPassword, remoteRootDir, port);
         this.timeout = timeout;
         this.useActiveData = useActiveData;
@@ -107,11 +114,21 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         return super.getPassword();
     }
 
-    public int getTimeout() { return timeout; }
-    public void setTimeout(final int timeout) { this.timeout = timeout; }
+    public int getTimeout() {
+        return timeout;
+    }
 
-    public boolean isUseActiveData() { return useActiveData; }
-    public void setUseActiveData(final boolean useActiveData) { this.useActiveData = useActiveData; }
+    public void setTimeout(final int timeout) {
+        this.timeout = timeout;
+    }
+
+    public boolean isUseActiveData() {
+        return useActiveData;
+    }
+
+    public void setUseActiveData(final boolean useActiveData) {
+        this.useActiveData = useActiveData;
+    }
 
     public String getControlEncoding() {
         return controlEncoding;
@@ -121,7 +138,9 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         return disableMakeNestedDirs;
     }
 
-    public boolean isDisableRemoteVerification() { return disableRemoteVerification; }
+    public boolean isDisableRemoteVerification() {
+        return disableRemoteVerification;
+    }
 
     public boolean isUseFtpOverTls() {
         return useFtpOverTls;
@@ -142,8 +161,9 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
             client = new BapFtpClient(createFTPClient(), buildInfo);
             init(client);
         } catch (Exception e) {
-            throw new BapPublisherException(Messages.exception_failedToCreateClient(
-                    e.getClass().getName() + ": " + e.getLocalizedMessage()), e);
+            throw new BapPublisherException(
+                    Messages.exception_failedToCreateClient(e.getClass().getName() + ": " + e.getLocalizedMessage()),
+                    e);
         }
         return client;
     }
@@ -169,7 +189,8 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
             if (trustedCertificate != null) {
                 InputStream certStream = new ByteArrayInputStream(trustedCertificate.getBytes());
-                X509Certificate x509certificate = (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(certStream);
+                X509Certificate x509certificate = (X509Certificate)
+                        CertificateFactory.getInstance("X.509").generateCertificate(certStream);
                 ts.setCertificateEntry(x509certificate.getSubjectDN().getName(), x509certificate);
             }
 
@@ -187,7 +208,8 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         client.setDisableRemoteVerification(disableRemoteVerification);
         PrintCommandListener commandPrinter = null;
         if (buildInfo.isVerbose()) {
-            commandPrinter = new PrintCommandListener(new PrintWriter(buildInfo.getListener().getLogger()));
+            commandPrinter = new PrintCommandListener(
+                    new PrintWriter(buildInfo.getListener().getLogger()));
             ftpClient.addProtocolCommandListener(commandPrinter);
         }
         configureFTPClient(ftpClient);
@@ -217,8 +239,7 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
         final BPBuildInfo buildInfo = client.getBuildInfo();
         buildInfo.printIfVerbose(Messages.console_usingPwd());
         final String pwd = client.getFtpClient().printWorkingDirectory();
-        if (!isDirectoryAbsolute(pwd))
-            exception(client, Messages.exception_pwdNotAbsolute(pwd));
+        if (!isDirectoryAbsolute(pwd)) exception(client, Messages.exception_pwdNotAbsolute(pwd));
         return pwd;
     }
 
@@ -229,9 +250,11 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
             buildInfo.println(Messages.console_logInHidingCommunication());
             ftpClient.removeProtocolCommandListener(commandListener);
         }
-        final BapFtpCredentials overrideCredentials = (BapFtpCredentials) buildInfo.get(BPBuildInfo.OVERRIDE_CREDENTIALS_CONTEXT_KEY);
+        final BapFtpCredentials overrideCredentials =
+                (BapFtpCredentials) buildInfo.get(BPBuildInfo.OVERRIDE_CREDENTIALS_CONTEXT_KEY);
         final String username = overrideCredentials == null ? getUsername() : overrideCredentials.getUsername();
-        final String password = overrideCredentials == null ? getPassword() : Secret.toString(overrideCredentials.getPassword());
+        final String password =
+                overrideCredentials == null ? getPassword() : Secret.toString(overrideCredentials.getPassword());
         if (!ftpClient.login(username, password)) {
             exception(client, Messages.exception_logInFailed(username));
         }
@@ -310,7 +333,8 @@ public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, O
 
     @Override
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
+                .toString();
     }
 
     @Override

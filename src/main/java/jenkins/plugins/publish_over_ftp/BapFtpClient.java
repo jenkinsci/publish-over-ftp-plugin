@@ -25,6 +25,8 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.FilePath;
+import java.io.IOException;
+import java.io.InputStream;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPDefaultClient;
 import jenkins.plugins.publish_over.BapPublisherException;
@@ -34,8 +36,6 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPListParseEngine;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
 
@@ -55,16 +55,26 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
     }
 
     public void setDisableRemoteVerification(final boolean disableRemoteVerification) {
-        if(disableRemoteVerification){
+        if (disableRemoteVerification) {
             ftpClient.setRemoteVerificationEnabled(false);
         }
     }
 
-    public FTPClient getFtpClient() { return ftpClient; }
-    public void setFtpClient(final FTPClient ftpClient) { this.ftpClient = ftpClient; }
+    public FTPClient getFtpClient() {
+        return ftpClient;
+    }
 
-    public BPBuildInfo getBuildInfo() { return buildInfo; }
-    public void setBuildInfo(final BPBuildInfo buildInfo) { this.buildInfo = buildInfo; }
+    public void setFtpClient(final FTPClient ftpClient) {
+        this.ftpClient = ftpClient;
+    }
+
+    public BPBuildInfo getBuildInfo() {
+        return buildInfo;
+    }
+
+    public void setBuildInfo(final BPBuildInfo buildInfo) {
+        this.buildInfo = buildInfo;
+    }
 
     public boolean changeDirectory(final String directory) {
         try {
@@ -90,31 +100,26 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
 
     private void delete() throws IOException {
         // use the extension if available
-        if(ftpClient.hasFeature("MLST")) {
-            for(FTPFile file : ftpClient.mlistDir()) {
+        if (ftpClient.hasFeature("MLST")) {
+            for (FTPFile file : ftpClient.mlistDir()) {
                 delete(file);
             }
         } else {
             final FTPListParseEngine listParser = ftpClient.initiateListParsing();
-            if (listParser == null)
-                throw new BapPublisherException(Messages.exception_client_listParserNull());
-            while (listParser.hasNext())
-                delete(listParser.getNext(1)[0]);
+            if (listParser == null) throw new BapPublisherException(Messages.exception_client_listParserNull());
+            while (listParser.hasNext()) delete(listParser.getNext(1)[0]);
         }
     }
 
     private void delete(final FTPFile ftpFile) throws IOException {
-        if (ftpFile == null)
-            throw new BapPublisherException(Messages.exception_client_fileIsNull());
+        if (ftpFile == null) throw new BapPublisherException(Messages.exception_client_fileIsNull());
         final String entryName = ftpFile.getName();
-        if (".".equals(entryName) || "..".equals(entryName))
-            return;
+        if (".".equals(entryName) || "..".equals(entryName)) return;
         if (ftpFile.isDirectory()) {
             if (!changeDirectory(entryName))
                 throw new BapPublisherException(Messages.exception_cwdException(entryName));
             delete();
-            if (!ftpClient.changeToParentDirectory())
-                throw new BapPublisherException(Messages.exception_client_cdup());
+            if (!ftpClient.changeToParentDirectory()) throw new BapPublisherException(Messages.exception_client_cdup());
             if (!ftpClient.removeDirectory(entryName))
                 throw new BapPublisherException(Messages.exception_client_rmdir(entryName));
         } else {
@@ -124,8 +129,7 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
     }
 
     public void beginTransfers(final BapFtpTransfer transfer) {
-        if (!transfer.hasConfiguredSourceFiles())
-            throw new BapPublisherException(Messages.exception_noSourceFiles());
+        if (!transfer.hasConfiguredSourceFiles()) throw new BapPublisherException(Messages.exception_noSourceFiles());
         try {
             if (!setTransferMode(transfer))
                 throw new BapPublisherException(Messages.exception_failedToSetTransferMode(ftpClient.getReplyString()));
@@ -134,7 +138,8 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
         }
     }
 
-    public void transferFile(final BapFtpTransfer client, final FilePath filePath, final InputStream content) throws IOException {
+    public void transferFile(final BapFtpTransfer client, final FilePath filePath, final InputStream content)
+            throws IOException {
         if (!ftpClient.storeFile(filePath.getName(), content))
             throw new BapPublisherException(Messages.exception_failedToStoreFile(ftpClient.getReplyString()));
     }
@@ -144,7 +149,8 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
             try {
                 ftpClient.disconnect();
             } catch (IOException ioe) {
-                throw new BapPublisherException(Messages.exception_exceptionOnDisconnect(ioe.getLocalizedMessage()), ioe);
+                throw new BapPublisherException(
+                        Messages.exception_exceptionOnDisconnect(ioe.getLocalizedMessage()), ioe);
             }
         }
     }
@@ -161,5 +167,4 @@ public class BapFtpClient extends BPDefaultClient<BapFtpTransfer> {
         final int fileType = transfer.isAsciiMode() ? FTP.ASCII_FILE_TYPE : FTP.BINARY_FILE_TYPE;
         return ftpClient.setFileType(fileType);
     }
-
 }

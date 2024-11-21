@@ -24,6 +24,7 @@
 
 package jenkins.plugins.publish_over_ftp;
 
+import edu.umd.cs.findbugs.annotations.NonNull;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
@@ -34,6 +35,8 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
 import hudson.tasks.Publisher;
+import java.io.IOException;
+import java.util.ArrayList;
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.tasks.SimpleBuildStep;
@@ -43,21 +46,21 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import edu.umd.cs.findbugs.annotations.NonNull;
-import java.io.IOException;
-import java.util.ArrayList;
-
 @SuppressWarnings("PMD.LooseCoupling") // serializable
 public class BapFtpPromotionPublisherPlugin extends Notifier implements SimpleBuildStep {
 
     private final BapFtpPublisherPlugin delegate;
 
     @DataBoundConstructor
-    public BapFtpPromotionPublisherPlugin(final ArrayList<BapFtpPublisher> publishers, final boolean continueOnError,
-                                          final boolean failOnError, final boolean alwaysPublishFromMaster, final String masterNodeName,
-                                          final BapFtpParamPublish paramPublish) {
-        this.delegate = new BapFtpPublisherPlugin(publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName,
-                                                  paramPublish);
+    public BapFtpPromotionPublisherPlugin(
+            final ArrayList<BapFtpPublisher> publishers,
+            final boolean continueOnError,
+            final boolean failOnError,
+            final boolean alwaysPublishFromMaster,
+            final String masterNodeName,
+            final BapFtpParamPublish paramPublish) {
+        this.delegate = new BapFtpPublisherPlugin(
+                publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName, paramPublish);
     }
 
     public BapFtpPublisherPlugin getDelegate() {
@@ -65,8 +68,9 @@ public class BapFtpPromotionPublisherPlugin extends Notifier implements SimpleBu
     }
 
     @Override
-    public void perform(@NonNull Run<?, ?> run, @NonNull FilePath ws, @NonNull Launcher launcher, @NonNull TaskListener listener)
-                    throws InterruptedException, IOException {
+    public void perform(
+            @NonNull Run<?, ?> run, @NonNull FilePath ws, @NonNull Launcher launcher, @NonNull TaskListener listener)
+            throws InterruptedException, IOException {
         delegate.perform(run, ws, launcher, listener);
     }
 
@@ -90,7 +94,8 @@ public class BapFtpPromotionPublisherPlugin extends Notifier implements SimpleBu
         if (this == that) return true;
         if (that == null || getClass() != that.getClass()) return false;
 
-        return addToEquals(new EqualsBuilder(), (BapFtpPromotionPublisherPlugin) that).isEquals();
+        return addToEquals(new EqualsBuilder(), (BapFtpPromotionPublisherPlugin) that)
+                .isEquals();
     }
 
     public int hashCode() {
@@ -98,7 +103,8 @@ public class BapFtpPromotionPublisherPlugin extends Notifier implements SimpleBu
     }
 
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
+                .toString();
     }
 
     @Extension
@@ -106,12 +112,13 @@ public class BapFtpPromotionPublisherPlugin extends Notifier implements SimpleBu
         public boolean isApplicable(final Class<? extends AbstractProject> aClass) {
             return BPPlugin.PROMOTION_JOB_TYPE.equals(aClass.getCanonicalName());
         }
+
         public String getDisplayName() {
             return Messages.promotion_descriptor_displayName();
         }
+
         public BapFtpPublisherPlugin.Descriptor getPublisherDescriptor() {
             return Jenkins.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
         }
     }
-
 }

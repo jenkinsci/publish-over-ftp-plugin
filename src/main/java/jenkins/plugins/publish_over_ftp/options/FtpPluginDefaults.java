@@ -25,6 +25,7 @@
 package jenkins.plugins.publish_over_ftp.options;
 
 import hudson.Extension;
+import java.lang.reflect.Proxy;
 import jenkins.plugins.publish_over.options.GlobalDefaults;
 import jenkins.plugins.publish_over.options.InstanceConfigOptions;
 import jenkins.plugins.publish_over.options.ParamPublishOptions;
@@ -34,8 +35,6 @@ import jenkins.plugins.publish_over.options.RetryOptions;
 import jenkins.plugins.publish_over.view_defaults.manage_jenkins.Messages;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import java.lang.reflect.Proxy;
-
 public final class FtpPluginDefaults extends FtpDefaults {
 
     public static final GlobalDefaults GLOBAL_DEFAULTS = new GlobalDefaults();
@@ -44,12 +43,12 @@ public final class FtpPluginDefaults extends FtpDefaults {
     static {
         TRANSFER_DEFAULTS = (FtpTransferOptions) Proxy.newProxyInstance(
                 FtpTransferOptions.class.getClassLoader(),
-                new Class[]{FtpTransferOptions.class},
+                new Class[] {FtpTransferOptions.class},
                 new FtpPluginDefaultsHandler());
     }
 
     @DataBoundConstructor
-    public FtpPluginDefaults() { }
+    public FtpPluginDefaults() {}
 
     public InstanceConfigOptions getInstanceConfig() {
         return GLOBAL_DEFAULTS;
@@ -82,7 +81,5 @@ public final class FtpPluginDefaults extends FtpDefaults {
         public String getDisplayName() {
             return Messages.defaults_pluginDefaults();
         }
-
     }
-
 }

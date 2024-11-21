@@ -31,6 +31,8 @@ import hudson.model.AbstractProject;
 import hudson.model.BuildListener;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Builder;
+import java.io.IOException;
+import java.util.ArrayList;
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPPlugin;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -39,19 +41,21 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
 @SuppressWarnings("PMD.LooseCoupling") // serializable
 public class BapFtpBuilder extends Builder {
 
     private final BapFtpPublisherPlugin delegate;
 
     @DataBoundConstructor
-    public BapFtpBuilder(final ArrayList<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError,
-                         final boolean alwaysPublishFromMaster, final String masterNodeName, final BapFtpParamPublish paramPublish) {
-        this.delegate = new BapFtpPublisherPlugin(publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName,
-                                                  paramPublish);
+    public BapFtpBuilder(
+            final ArrayList<BapFtpPublisher> publishers,
+            final boolean continueOnError,
+            final boolean failOnError,
+            final boolean alwaysPublishFromMaster,
+            final String masterNodeName,
+            final BapFtpParamPublish paramPublish) {
+        this.delegate = new BapFtpPublisherPlugin(
+                publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName, paramPublish);
     }
 
     public BapFtpPublisherPlugin getDelegate() {
@@ -60,7 +64,7 @@ public class BapFtpBuilder extends Builder {
 
     @Override
     public boolean perform(final AbstractBuild<?, ?> build, final Launcher launcher, final BuildListener listener)
-                    throws InterruptedException, IOException {
+            throws InterruptedException, IOException {
         return delegate.perform(build, launcher, listener);
     }
 
@@ -88,7 +92,8 @@ public class BapFtpBuilder extends Builder {
     }
 
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
+                .toString();
     }
 
     @Extension
@@ -96,12 +101,13 @@ public class BapFtpBuilder extends Builder {
         public boolean isApplicable(final Class<? extends AbstractProject> aClass) {
             return !BPPlugin.PROMOTION_JOB_TYPE.equals(aClass.getCanonicalName());
         }
+
         public String getDisplayName() {
             return Messages.builder_descriptor_displayName();
         }
+
         public BapFtpPublisherPlugin.Descriptor getPublisherDescriptor() {
             return Jenkins.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
         }
     }
-
 }

@@ -72,22 +72,41 @@ public class BapFtpHostConfigurationDescriptor extends Descriptor<BapFtpHostConf
     }
 
     @RequirePOST
-    public FormValidation doTestConnection(@QueryParameter final String name, @QueryParameter final String hostname,
-            @QueryParameter final String username, @QueryParameter final String encryptedPassword,
-            @QueryParameter final String remoteRootDir, @QueryParameter final int port,
-            @QueryParameter final int timeout, @QueryParameter final boolean useActiveData,
-            @QueryParameter final String controlEncoding, @QueryParameter final boolean disableMakeNestedDirs,
-            @QueryParameter final boolean disableRemoteVerification, @QueryParameter final boolean useFtpOverTls,
-            @QueryParameter final boolean useImplicitTls, @QueryParameter final String trustedCertificate) {
-        final BapFtpPublisherPlugin.Descriptor pluginDescriptor = Jenkins.getInstance().getDescriptorByType(
-                BapFtpPublisherPlugin.Descriptor.class);
-        return pluginDescriptor.doTestConnection(name, hostname, username, encryptedPassword, remoteRootDir, port,
-                timeout, useActiveData, controlEncoding, disableMakeNestedDirs, disableRemoteVerification,
-                useFtpOverTls, useImplicitTls, trustedCertificate);
+    public FormValidation doTestConnection(
+            @QueryParameter final String name,
+            @QueryParameter final String hostname,
+            @QueryParameter final String username,
+            @QueryParameter final String encryptedPassword,
+            @QueryParameter final String remoteRootDir,
+            @QueryParameter final int port,
+            @QueryParameter final int timeout,
+            @QueryParameter final boolean useActiveData,
+            @QueryParameter final String controlEncoding,
+            @QueryParameter final boolean disableMakeNestedDirs,
+            @QueryParameter final boolean disableRemoteVerification,
+            @QueryParameter final boolean useFtpOverTls,
+            @QueryParameter final boolean useImplicitTls,
+            @QueryParameter final String trustedCertificate) {
+        final BapFtpPublisherPlugin.Descriptor pluginDescriptor =
+                Jenkins.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
+        return pluginDescriptor.doTestConnection(
+                name,
+                hostname,
+                username,
+                encryptedPassword,
+                remoteRootDir,
+                port,
+                timeout,
+                useActiveData,
+                controlEncoding,
+                disableMakeNestedDirs,
+                disableRemoteVerification,
+                useFtpOverTls,
+                useImplicitTls,
+                trustedCertificate);
     }
 
     public jenkins.plugins.publish_over.view_defaults.HostConfiguration.Messages getCommonFieldNames() {
         return new jenkins.plugins.publish_over.view_defaults.HostConfiguration.Messages();
     }
-
 }

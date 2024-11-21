@@ -25,6 +25,7 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.model.Describable;
+import java.util.ArrayList;
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BapPublisher;
 import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherDescriptor;
@@ -33,8 +34,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.kohsuke.stapler.DataBoundConstructor;
-
-import java.util.ArrayList;
 
 /**
  * Class required to enable stapler/DBC to bind to correct BPTransfer - BapFtpTransfer
@@ -45,10 +44,24 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Des
     private static final long serialVersionUID = 1L;
 
     @DataBoundConstructor
-    public BapFtpPublisher(final String configName, final boolean verbose, final ArrayList<BapFtpTransfer> transfers,
-                           final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp, final BapFtpRetry ftpRetry,
-                           final BapFtpPublisherLabel ftpLabel, final BapFtpCredentials ftpCredentials) {
-        super(configName, verbose, transfers, useWorkspaceInPromotion, usePromotionTimestamp, ftpRetry, ftpLabel, ftpCredentials);
+    public BapFtpPublisher(
+            final String configName,
+            final boolean verbose,
+            final ArrayList<BapFtpTransfer> transfers,
+            final boolean useWorkspaceInPromotion,
+            final boolean usePromotionTimestamp,
+            final BapFtpRetry ftpRetry,
+            final BapFtpPublisherLabel ftpLabel,
+            final BapFtpCredentials ftpCredentials) {
+        super(
+                configName,
+                verbose,
+                transfers,
+                useWorkspaceInPromotion,
+                usePromotionTimestamp,
+                ftpRetry,
+                ftpLabel,
+                ftpCredentials);
     }
 
     public BapFtpRetry getFtpRetry() {
@@ -79,7 +92,7 @@ public class BapFtpPublisher extends BapPublisher<BapFtpTransfer> implements Des
     }
 
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
+                .toString();
     }
-
 }

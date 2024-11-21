@@ -24,25 +24,6 @@
 
 package jenkins.plugins.publish_over_ftp;
 
-import hudson.FilePath;
-import jenkins.plugins.publish_over.BapPublisherException;
-import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
-import org.apache.commons.net.ftp.FTPListParseEngine;
-import org.easymock.classextension.EasyMock;
-import org.easymock.classextension.IMocksControl;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
@@ -55,7 +36,25 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings({ "PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods" })
+import hudson.FilePath;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jenkins.plugins.publish_over.BapPublisherException;
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+import org.apache.commons.net.ftp.FTPListParseEngine;
+import org.easymock.classextension.EasyMock;
+import org.easymock.classextension.IMocksControl;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods"})
 public class BapFtpClientTest {
 
     private static final Logger BFTP_CLIENT_LOGGER = Logger.getLogger(BapFtpClient.class.getCanonicalName());
@@ -85,21 +84,24 @@ public class BapFtpClientTest {
         bapFtpClient.setAbsoluteRemoteRoot(REMOTE_ROOT);
     }
 
-    @Test public void testChangeToInitialDirectorySuccess() throws Exception {
+    @Test
+    public void testChangeToInitialDirectorySuccess() throws Exception {
         expect(mockFTPClient.changeWorkingDirectory(REMOTE_ROOT)).andReturn(true);
         mockControl.replay();
         assertTrue(bapFtpClient.changeToInitialDirectory());
         mockControl.verify();
     }
 
-    @Test public void testChangeToInitialDirectoryFail() throws Exception {
+    @Test
+    public void testChangeToInitialDirectoryFail() throws Exception {
         expect(mockFTPClient.changeWorkingDirectory(REMOTE_ROOT)).andReturn(false);
         mockControl.replay();
         assertFalse(bapFtpClient.changeToInitialDirectory());
         mockControl.verify();
     }
 
-    @Test public void testChangeToInitialDirectoryIOException() throws Exception {
+    @Test
+    public void testChangeToInitialDirectoryIOException() throws Exception {
         expect(mockFTPClient.changeWorkingDirectory(REMOTE_ROOT)).andThrow(IO_EXCEPTION);
         mockControl.replay();
         try {
@@ -112,7 +114,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testChangeToInitialDirectoryRuntimeException() throws Exception {
+    @Test
+    public void testChangeToInitialDirectoryRuntimeException() throws Exception {
         expect(mockFTPClient.changeWorkingDirectory(REMOTE_ROOT)).andThrow(RUNTIME_EXCEPTION);
         mockControl.replay();
         try {
@@ -124,21 +127,24 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testChangeDirectorySuccess() throws Exception {
+    @Test
+    public void testChangeDirectorySuccess() throws Exception {
         expect(mockFTPClient.changeWorkingDirectory(DIRECTORY)).andReturn(true);
         mockControl.replay();
         assertTrue(bapFtpClient.changeDirectory(DIRECTORY));
         mockControl.verify();
     }
 
-    @Test public void testChangeDirectoryFail() throws Exception {
+    @Test
+    public void testChangeDirectoryFail() throws Exception {
         expect(mockFTPClient.changeWorkingDirectory(DIRECTORY)).andReturn(false);
         mockControl.replay();
         assertFalse(bapFtpClient.changeDirectory(DIRECTORY));
         mockControl.verify();
     }
 
-    @Test public void testChangeDirectoryIOException() throws Exception {
+    @Test
+    public void testChangeDirectoryIOException() throws Exception {
         expect(mockFTPClient.changeWorkingDirectory(DIRECTORY)).andThrow(IO_EXCEPTION);
         mockControl.replay();
         try {
@@ -151,7 +157,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testChangeDirectoryRuntimeException() throws Exception {
+    @Test
+    public void testChangeDirectoryRuntimeException() throws Exception {
         expect(mockFTPClient.changeWorkingDirectory(DIRECTORY)).andThrow(RUNTIME_EXCEPTION);
         mockControl.replay();
         try {
@@ -163,35 +170,40 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testMakeDirectorySuccess() throws Exception {
+    @Test
+    public void testMakeDirectorySuccess() throws Exception {
         expect(mockFTPClient.makeDirectory(DIRECTORY)).andReturn(true);
         mockControl.replay();
         assertTrue(bapFtpClient.makeDirectory(DIRECTORY));
         mockControl.verify();
     }
 
-    @Test public void testMakeDirectoryFail() throws Exception {
+    @Test
+    public void testMakeDirectoryFail() throws Exception {
         expect(mockFTPClient.makeDirectory(DIRECTORY)).andReturn(false);
         mockControl.replay();
         assertFalse(bapFtpClient.makeDirectory(DIRECTORY));
         mockControl.verify();
     }
 
-    @Test public void testMakeDirectoryWillAttemptNested() throws Exception {
+    @Test
+    public void testMakeDirectoryWillAttemptNested() throws Exception {
         expect(mockFTPClient.makeDirectory(DIRECTORY)).andReturn(false);
         mockControl.replay();
         assertFalse(bapFtpClient.makeDirectory(DIRECTORY));
         mockControl.verify();
     }
 
-    @Test public void testMakeDirectoryWillNotAttemptNested() throws Exception {
+    @Test
+    public void testMakeDirectoryWillNotAttemptNested() throws Exception {
         bapFtpClient.setDisableMakeNestedDirs(true);
         mockControl.replay();
         assertFalse(bapFtpClient.makeDirectory(DIRECTORY));
         mockControl.verify();
     }
 
-    @Test public void testMakeDirectoryIOException() throws Exception {
+    @Test
+    public void testMakeDirectoryIOException() throws Exception {
         expect(mockFTPClient.makeDirectory(DIRECTORY)).andThrow(IO_EXCEPTION);
         mockControl.replay();
         try {
@@ -204,7 +216,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testMakeDirectoryRuntimeException() throws Exception {
+    @Test
+    public void testMakeDirectoryRuntimeException() throws Exception {
         expect(mockFTPClient.makeDirectory(DIRECTORY)).andThrow(RUNTIME_EXCEPTION);
         mockControl.replay();
         try {
@@ -216,21 +229,24 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testBeginTransfersAscii() throws Exception {
+    @Test
+    public void testBeginTransfersAscii() throws Exception {
         expect(mockFTPClient.setFileType(FTP.ASCII_FILE_TYPE)).andReturn(true);
         mockControl.replay();
         bapFtpClient.beginTransfers(new BapFtpTransfer("*", "", "", true, false, false));
         mockControl.verify();
     }
 
-    @Test public void testBeginTransfersBinary() throws Exception {
+    @Test
+    public void testBeginTransfersBinary() throws Exception {
         expect(mockFTPClient.setFileType(FTP.BINARY_FILE_TYPE)).andReturn(true);
         mockControl.replay();
         bapFtpClient.beginTransfers(new BapFtpTransfer("*", "", "", false, false, false));
         mockControl.verify();
     }
 
-    @Test public void testBeginTransfersFail() throws Exception {
+    @Test
+    public void testBeginTransfersFail() throws Exception {
         final String why = "123 Something went wrong!";
         expect(mockFTPClient.setFileType(FTP.BINARY_FILE_TYPE)).andReturn(false);
         expect(mockFTPClient.getReplyString()).andReturn(why);
@@ -244,7 +260,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testBeginTransfersIOException() throws Exception {
+    @Test
+    public void testBeginTransfersIOException() throws Exception {
         expect(mockFTPClient.setFileType(FTP.BINARY_FILE_TYPE)).andThrow(IO_EXCEPTION);
         mockControl.replay();
         try {
@@ -256,7 +273,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testBeginTransfersRuntimeException() throws Exception {
+    @Test
+    public void testBeginTransfersRuntimeException() throws Exception {
         expect(mockFTPClient.setFileType(FTP.BINARY_FILE_TYPE)).andThrow(RUNTIME_EXCEPTION);
         mockControl.replay();
         try {
@@ -268,7 +286,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testSetBeginTransfersFailIfNoSourceFiles() throws Exception {
+    @Test
+    public void testSetBeginTransfersFailIfNoSourceFiles() throws Exception {
         try {
             bapFtpClient.beginTransfers(new BapFtpTransfer("", "", "", false, false, false));
             fail();
@@ -277,18 +296,22 @@ public class BapFtpClientTest {
         }
     }
 
-    @Test public void testTransferFileSuccess() throws Exception {
+    @Test
+    public void testTransferFileSuccess() throws Exception {
         final TransferFileArgs args = createTestArgs();
-        expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream))).andReturn(true);
+        expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream)))
+                .andReturn(true);
         mockControl.replay();
         bapFtpClient.transferFile(args.bapFtpTransfer, args.filePath, args.inputStream);
         mockControl.verify();
     }
 
-    @Test public void testTransferFileFail() throws Exception {
+    @Test
+    public void testTransferFileFail() throws Exception {
         final String why = "123 Something went wrong!";
         final TransferFileArgs args = createTestArgs();
-        expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream))).andReturn(false);
+        expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream)))
+                .andReturn(false);
         expect(mockFTPClient.getReplyString()).andReturn(why);
         mockControl.replay();
         try {
@@ -300,9 +323,11 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testTransferFileIOException() throws Exception {
+    @Test
+    public void testTransferFileIOException() throws Exception {
         final TransferFileArgs args = createTestArgs();
-        expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream))).andThrow(IO_EXCEPTION);
+        expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream)))
+                .andThrow(IO_EXCEPTION);
         mockControl.replay();
         try {
             bapFtpClient.transferFile(args.bapFtpTransfer, args.filePath, args.inputStream);
@@ -313,9 +338,11 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testTransferFileRuntimeException() throws Exception {
+    @Test
+    public void testTransferFileRuntimeException() throws Exception {
         final TransferFileArgs args = createTestArgs();
-        expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream))).andThrow(RUNTIME_EXCEPTION);
+        expect(mockFTPClient.storeFile(eq(args.filePath.getName()), same(args.inputStream)))
+                .andThrow(RUNTIME_EXCEPTION);
         mockControl.replay();
         try {
             bapFtpClient.transferFile(args.bapFtpTransfer, args.filePath, args.inputStream);
@@ -326,14 +353,16 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testDisconnectDoesNothingIfNotConnected() {
+    @Test
+    public void testDisconnectDoesNothingIfNotConnected() {
         expect(mockFTPClient.isConnected()).andReturn(false);
         mockControl.replay();
         bapFtpClient.disconnect();
         mockControl.verify();
     }
 
-    @Test public void testDisconnectSuccess() throws Exception {
+    @Test
+    public void testDisconnectSuccess() throws Exception {
         expect(mockFTPClient.isConnected()).andReturn(true);
         mockFTPClient.disconnect();
         mockControl.replay();
@@ -341,7 +370,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testDisconnectIOException() throws Exception {
+    @Test
+    public void testDisconnectIOException() throws Exception {
         expect(mockFTPClient.isConnected()).andReturn(true);
         mockFTPClient.disconnect();
         expectLastCall().andThrow(IO_EXCEPTION);
@@ -355,7 +385,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testDisconnectRuntimeException() throws Exception {
+    @Test
+    public void testDisconnectRuntimeException() throws Exception {
         expect(mockFTPClient.isConnected()).andReturn(true);
         mockFTPClient.disconnect();
         expectLastCall().andThrow(RUNTIME_EXCEPTION);
@@ -369,7 +400,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testDisconnectQuietly() throws Exception {
+    @Test
+    public void testDisconnectQuietly() throws Exception {
         expect(mockFTPClient.isConnected()).andReturn(true);
         mockFTPClient.disconnect();
         expectLastCall().andThrow(IO_EXCEPTION);
@@ -378,7 +410,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testDeleteTreeDeletesFiles() throws Exception {
+    @Test
+    public void testDeleteTreeDeletesFiles() throws Exception {
         mockFTPClient.setListHiddenFiles(true);
         final FTPListParseEngine mockListEngine = mockControl.createMock(FTPListParseEngine.class);
         expect(mockFTPClient.hasFeature("MLST")).andReturn(false);
@@ -390,11 +423,12 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testDeleteTreeDeletesFilesMLST() throws Exception {
+    @Test
+    public void testDeleteTreeDeletesFilesMLST() throws Exception {
         mockFTPClient.setListHiddenFiles(true);
         final FTPFile[] files = new FTPFile[3];
-        final String[] fileNames = new String[] { "file1", "file2", "anotherOne" };
-        for(int i = 0; i < files.length; i++) {
+        final String[] fileNames = new String[] {"file1", "file2", "anotherOne"};
+        for (int i = 0; i < files.length; i++) {
             files[i] = mock(FTPFile.class);
             when(files[i].getName()).thenReturn(fileNames[i]);
         }
@@ -408,7 +442,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testDeleteTreeIgnoresCurrentDirAndParentDirEntries() throws Exception {
+    @Test
+    public void testDeleteTreeIgnoresCurrentDirAndParentDirEntries() throws Exception {
         mockFTPClient.setListHiddenFiles(true);
         final FTPListParseEngine mockListEngine = mockControl.createMock(FTPListParseEngine.class);
         expect(mockFTPClient.hasFeature("MLST")).andReturn(false);
@@ -422,7 +457,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    @Test public void testDeleteTreeDeletesDirectoryWithFiles() throws Exception {
+    @Test
+    public void testDeleteTreeDeletesDirectoryWithFiles() throws Exception {
         mockFTPClient.setListHiddenFiles(true);
         final FTPListParseEngine mockListEngine = mockControl.createMock(FTPListParseEngine.class);
         expect(mockFTPClient.hasFeature("MLST")).andReturn(false);
@@ -445,7 +481,8 @@ public class BapFtpClientTest {
         mockControl.verify();
     }
 
-    private void expectDeleteFiles(final FTPListParseEngine mockListEngine, final String... filenames) throws Exception {
+    private void expectDeleteFiles(final FTPListParseEngine mockListEngine, final String... filenames)
+            throws Exception {
         for (final String filename : filenames) {
             expectFile(mockListEngine, filename);
             expect(mockFTPClient.deleteFile(filename)).andReturn(true);
@@ -467,7 +504,7 @@ public class BapFtpClientTest {
     private FTPFile expectFtpFile(final FTPListParseEngine mockListEngine, final String filename) {
         expect(mockListEngine.hasNext()).andReturn(true);
         final FTPFile file = mockControl.createMock(FTPFile.class);
-        expect(mockListEngine.getNext(1)).andReturn(new FTPFile[]{file});
+        expect(mockListEngine.getNext(1)).andReturn(new FTPFile[] {file});
         expect(file.getName()).andReturn(filename);
         return file;
     }
@@ -481,5 +518,4 @@ public class BapFtpClientTest {
         private final InputStream inputStream = mockControl.createMock(InputStream.class);
         private final FilePath filePath = new FilePath(new File("myFile"));
     }
-
 }

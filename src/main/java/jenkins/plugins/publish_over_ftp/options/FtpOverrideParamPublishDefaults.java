@@ -32,7 +32,8 @@ import jenkins.plugins.publish_over.options.ParamPublishOptions;
 import jenkins.plugins.publish_over_ftp.BapFtpParamPublish;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-public class FtpOverrideParamPublishDefaults implements ParamPublishOptions, Describable<FtpOverrideParamPublishDefaults> {
+public class FtpOverrideParamPublishDefaults
+        implements ParamPublishOptions, Describable<FtpOverrideParamPublishDefaults> {
 
     private final String parameterName;
 
@@ -64,7 +65,5 @@ public class FtpOverrideParamPublishDefaults implements ParamPublishOptions, Des
         public String getConfigPage() {
             return getViewPage(BapFtpParamPublish.class, "config.jelly");
         }
-
     }
-
 }

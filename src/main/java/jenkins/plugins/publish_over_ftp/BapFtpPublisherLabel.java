@@ -60,7 +60,8 @@ public class BapFtpPublisherLabel extends PublisherLabel implements Describable<
     }
 
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
+                .toString();
     }
 
     @Extension
@@ -74,7 +75,5 @@ public class BapFtpPublisherLabel extends PublisherLabel implements Describable<
         public jenkins.plugins.publish_over.view_defaults.PublisherLabel.Messages getCommonFieldNames() {
             return new jenkins.plugins.publish_over.view_defaults.PublisherLabel.Messages();
         }
-
     }
-
 }

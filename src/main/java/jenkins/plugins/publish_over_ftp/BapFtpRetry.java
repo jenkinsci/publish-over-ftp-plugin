@@ -62,7 +62,8 @@ public class BapFtpRetry extends Retry implements Describable<BapFtpRetry> {
     }
 
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
+                .toString();
     }
 
     @Extension
@@ -84,7 +85,5 @@ public class BapFtpRetry extends Retry implements Describable<BapFtpRetry> {
         public jenkins.plugins.publish_over.view_defaults.Retry.Messages getCommonFieldNames() {
             return new jenkins.plugins.publish_over.view_defaults.Retry.Messages();
         }
-
     }
-
 }

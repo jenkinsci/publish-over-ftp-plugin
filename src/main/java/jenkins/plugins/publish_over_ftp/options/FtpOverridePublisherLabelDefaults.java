@@ -32,7 +32,8 @@ import jenkins.plugins.publish_over.options.PublisherLabelOptions;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherLabel;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-public class FtpOverridePublisherLabelDefaults implements PublisherLabelOptions, Describable<FtpOverridePublisherLabelDefaults> {
+public class FtpOverridePublisherLabelDefaults
+        implements PublisherLabelOptions, Describable<FtpOverridePublisherLabelDefaults> {
 
     private final String label;
 
@@ -50,7 +51,8 @@ public class FtpOverridePublisherLabelDefaults implements PublisherLabelOptions,
     }
 
     @Extension
-    public static class FtpOverridePublisherLabelDefaultsDescriptor extends Descriptor<FtpOverridePublisherLabelDefaults> {
+    public static class FtpOverridePublisherLabelDefaultsDescriptor
+            extends Descriptor<FtpOverridePublisherLabelDefaults> {
 
         @Override
         public String getDisplayName() {
@@ -64,7 +66,5 @@ public class FtpOverridePublisherLabelDefaults implements PublisherLabelOptions,
         public String getConfigPage() {
             return getViewPage(BapFtpPublisherLabel.class, "config.jelly");
         }
-
     }
-
 }

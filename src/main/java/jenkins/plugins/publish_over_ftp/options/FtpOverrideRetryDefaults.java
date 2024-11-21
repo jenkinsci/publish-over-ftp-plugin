@@ -80,7 +80,5 @@ public class FtpOverrideRetryDefaults implements RetryOptions, Describable<FtpOv
         public String getConfigPage() {
             return getViewPage(BapFtpRetry.class, "config.jelly");
         }
-
     }
-
 }

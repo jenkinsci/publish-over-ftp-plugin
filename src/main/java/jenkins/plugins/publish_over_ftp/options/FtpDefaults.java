@@ -42,8 +42,6 @@ public abstract class FtpDefaults implements Describable<FtpDefaults>, Extension
 
     public abstract static class FtpDefaultsDescriptor extends Descriptor<FtpDefaults> {
 
-        protected FtpDefaultsDescriptor() { }
-
+        protected FtpDefaultsDescriptor() {}
     }
-
 }

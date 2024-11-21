@@ -31,15 +31,16 @@ import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.options.InstanceConfigOptions;
 import org.kohsuke.stapler.DataBoundConstructor;
 
-public class FtpOverrideInstanceConfigDefaults implements InstanceConfigOptions, Describable<FtpOverrideInstanceConfigDefaults> {
+public class FtpOverrideInstanceConfigDefaults
+        implements InstanceConfigOptions, Describable<FtpOverrideInstanceConfigDefaults> {
 
     private final boolean continueOnError;
     private final boolean failOnError;
     private final boolean alwaysPublishFromMaster;
 
     @DataBoundConstructor
-    public FtpOverrideInstanceConfigDefaults(final boolean alwaysPublishFromMaster, final boolean continueOnError,
-                                             final boolean failOnError) {
+    public FtpOverrideInstanceConfigDefaults(
+            final boolean alwaysPublishFromMaster, final boolean continueOnError, final boolean failOnError) {
         this.alwaysPublishFromMaster = alwaysPublishFromMaster;
         this.continueOnError = continueOnError;
         this.failOnError = failOnError;
@@ -62,7 +63,8 @@ public class FtpOverrideInstanceConfigDefaults implements InstanceConfigOptions,
     }
 
     @Extension
-    public static class FtpOverrideInstanceConfigDefaultsDescriptor extends Descriptor<FtpOverrideInstanceConfigDefaults> {
+    public static class FtpOverrideInstanceConfigDefaultsDescriptor
+            extends Descriptor<FtpOverrideInstanceConfigDefaults> {
 
         @Override
         public String getDisplayName() {
@@ -72,7 +74,5 @@ public class FtpOverrideInstanceConfigDefaults implements InstanceConfigOptions,
         public jenkins.plugins.publish_over.view_defaults.BPInstanceConfig.Messages getCommonFieldNames() {
             return new jenkins.plugins.publish_over.view_defaults.BPInstanceConfig.Messages();
         }
-
     }
-
 }

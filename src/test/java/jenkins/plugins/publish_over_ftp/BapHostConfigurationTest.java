@@ -30,12 +30,9 @@ import static org.junit.Assert.assertFalse;
 
 import hudson.FilePath;
 import hudson.model.TaskListener;
-
 import java.io.File;
 import java.io.IOException;
-
 import jenkins.plugins.publish_over.BPBuildInfo;
-
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.easymock.classextension.EasyMock;
@@ -47,7 +44,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 
-@SuppressWarnings({ "PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods" })
+@SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods"})
 public class BapHostConfigurationTest {
 
     @Rule
@@ -68,7 +65,8 @@ public class BapHostConfigurationTest {
         this.bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
     }
 
-    private final transient BPBuildInfo buildInfo = new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
+    private final transient BPBuildInfo buildInfo =
+            new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
     private final transient IMocksControl mockControl = EasyMock.createStrictControl();
     private final transient FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
     private transient BapFtpHostConfiguration bapFtpHostConfiguration;
@@ -127,11 +125,9 @@ public class BapHostConfigurationTest {
         bapFtpHostConfiguration.setRemoteRootDir(remoteRoot);
         expectConnectAndLogin();
         expect(mockFTPClient.changeWorkingDirectory(remoteRoot)).andReturn(true);
-        if (expectPwd)
-            expect(mockFTPClient.printWorkingDirectory()).andReturn("/" + remoteRoot);
+        if (expectPwd) expect(mockFTPClient.printWorkingDirectory()).andReturn("/" + remoteRoot);
         final BapFtpClient client = assertCreateSession();
-        if (!expectPwd)
-            assertEquals(remoteRoot, client.getAbsoluteRemoteRoot());
+        if (!expectPwd) assertEquals(remoteRoot, client.getAbsoluteRemoteRoot());
     }
 
     @Test
@@ -165,7 +161,8 @@ public class BapHostConfigurationTest {
         } else {
             mockFTPClient.enterLocalPassiveMode();
         }
-        expect(mockFTPClient.login(bapFtpHostConfiguration.getUsername(), bapFtpHostConfiguration.getPassword())).andReturn(true);
+        expect(mockFTPClient.login(bapFtpHostConfiguration.getUsername(), bapFtpHostConfiguration.getPassword()))
+                .andReturn(true);
     }
 
     private BapFtpClient assertCreateSession() throws IOException {
@@ -184,7 +181,18 @@ public class BapHostConfigurationTest {
         private final transient FTPClient ftpClient;
 
         BapFtpHostConfigurationWithMockFTPClient(final FTPClient ftpClient, final boolean disableMakeNestedDirs) {
-            super(TEST_CFG_NAME, TEST_HOSTNAME, TEST_USERNAME, TEST_PASSWORD, "", DEFAULT_PORT, DEFAULT_TIMEOUT, false, null, disableMakeNestedDirs, false);
+            super(
+                    TEST_CFG_NAME,
+                    TEST_HOSTNAME,
+                    TEST_USERNAME,
+                    TEST_PASSWORD,
+                    "",
+                    DEFAULT_PORT,
+                    DEFAULT_TIMEOUT,
+                    false,
+                    null,
+                    disableMakeNestedDirs,
+                    false);
             this.ftpClient = ftpClient;
         }
 
@@ -202,5 +210,4 @@ public class BapHostConfigurationTest {
             return super.readResolve();
         }
     }
-
 }

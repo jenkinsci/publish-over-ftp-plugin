@@ -29,5 +29,4 @@ import jenkins.plugins.publish_over.options.TransferOptions;
 public interface FtpTransferOptions extends TransferOptions {
 
     boolean isAsciiMode();
-
 }

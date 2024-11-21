@@ -40,37 +40,76 @@ public class BapFtpTransfer extends BPTransfer implements Describable<BapFtpTran
 
     private boolean asciiMode;
 
-    public BapFtpTransfer(final String sourceFiles, final String remoteDirectory, final String removePrefix, final boolean asciiMode,
-                          final boolean remoteDirectorySDF, final boolean flatten) {
-        this(sourceFiles, null, remoteDirectory, removePrefix, asciiMode, remoteDirectorySDF, flatten, false, false, false, null);
+    public BapFtpTransfer(
+            final String sourceFiles,
+            final String remoteDirectory,
+            final String removePrefix,
+            final boolean asciiMode,
+            final boolean remoteDirectorySDF,
+            final boolean flatten) {
+        this(
+                sourceFiles,
+                null,
+                remoteDirectory,
+                removePrefix,
+                asciiMode,
+                remoteDirectorySDF,
+                flatten,
+                false,
+                false,
+                false,
+                null);
     }
 
     @DataBoundConstructor
-    public BapFtpTransfer(final String sourceFiles, final String excludes, final String remoteDirectory, final String removePrefix,
-                          final boolean asciiMode, final boolean remoteDirectorySDF, final boolean flatten, final boolean cleanRemote,
-                          final boolean noDefaultExcludes, final boolean makeEmptyDirs, final String patternSeparator) {
-        super(sourceFiles, excludes, remoteDirectory, removePrefix, remoteDirectorySDF, flatten, cleanRemote, noDefaultExcludes, makeEmptyDirs, patternSeparator);
+    public BapFtpTransfer(
+            final String sourceFiles,
+            final String excludes,
+            final String remoteDirectory,
+            final String removePrefix,
+            final boolean asciiMode,
+            final boolean remoteDirectorySDF,
+            final boolean flatten,
+            final boolean cleanRemote,
+            final boolean noDefaultExcludes,
+            final boolean makeEmptyDirs,
+            final String patternSeparator) {
+        super(
+                sourceFiles,
+                excludes,
+                remoteDirectory,
+                removePrefix,
+                remoteDirectorySDF,
+                flatten,
+                cleanRemote,
+                noDefaultExcludes,
+                makeEmptyDirs,
+                patternSeparator);
         this.asciiMode = asciiMode;
     }
 
-    public boolean isAsciiMode() { return asciiMode; }
-    public void setAsciiMode(final boolean asciiMode) { this.asciiMode = asciiMode; }
+    public boolean isAsciiMode() {
+        return asciiMode;
+    }
+
+    public void setAsciiMode(final boolean asciiMode) {
+        this.asciiMode = asciiMode;
+    }
 
     public BapFtpTransferDescriptor getDescriptor() {
         return Jenkins.getInstance().getDescriptorByType(BapFtpTransferDescriptor.class);
     }
+
     protected HashCodeBuilder addToHashCode(final HashCodeBuilder builder) {
         return super.addToHashCode(builder).append(asciiMode);
     }
 
     protected EqualsBuilder addToEquals(final EqualsBuilder builder, final BapFtpTransfer that) {
-        return super.addToEquals(builder, that)
-                .append(asciiMode, that.asciiMode);
+        return super.addToEquals(builder, that).append(asciiMode, that.asciiMode);
     }
 
     protected ToStringBuilder addToToString(final ToStringBuilder builder) {
-        return super.addToToString(builder)
-                .append("asciiMode", asciiMode);
+        return super.addToToString(builder).append("asciiMode", asciiMode);
     }
 
     public boolean equals(final Object that) {
@@ -85,7 +124,7 @@ public class BapFtpTransfer extends BPTransfer implements Describable<BapFtpTran
     }
 
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
+                .toString();
     }
-
 }

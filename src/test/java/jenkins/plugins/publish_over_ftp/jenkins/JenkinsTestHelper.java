@@ -25,25 +25,25 @@
 package jenkins.plugins.publish_over_ftp.jenkins;
 
 import hudson.util.CopyOnWriteList;
+import java.lang.reflect.Field;
+import java.security.AccessController;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherPluginDescriptor;
 
-import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-
 public class JenkinsTestHelper {
 
     public void setGlobalConfig(final BapFtpHostConfiguration... newHostConfigurations)
-                                                                            throws NoSuchFieldException, IllegalAccessException {
+            throws NoSuchFieldException, IllegalAccessException {
         final CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = getHostConfigurations();
         hostConfigurations.replaceBy(newHostConfigurations);
     }
 
-    public CopyOnWriteList<BapFtpHostConfiguration> getHostConfigurations() throws NoSuchFieldException, IllegalAccessException {
+    public CopyOnWriteList<BapFtpHostConfiguration> getHostConfigurations()
+            throws NoSuchFieldException, IllegalAccessException {
         final Field hostConfigurations = BapFtpPublisherPluginDescriptor.class.getDeclaredField("hostConfigurations");
         try {
             return AccessController.doPrivileged(new GetMeTheHostConfigurations(hostConfigurations));
@@ -52,16 +52,18 @@ public class JenkinsTestHelper {
         }
     }
 
-    public static final class GetMeTheHostConfigurations implements PrivilegedExceptionAction<CopyOnWriteList<BapFtpHostConfiguration>> {
+    public static final class GetMeTheHostConfigurations
+            implements PrivilegedExceptionAction<CopyOnWriteList<BapFtpHostConfiguration>> {
         private final transient Field hostConfigurations;
+
         protected GetMeTheHostConfigurations(final Field hostConfigurations) {
             this.hostConfigurations = hostConfigurations;
         }
+
         public CopyOnWriteList<BapFtpHostConfiguration> run() throws IllegalAccessException {
             hostConfigurations.setAccessible(true);
-            return (CopyOnWriteList) hostConfigurations.get(Jenkins.getInstance().getDescriptorByType(
-                                                                                            BapFtpPublisherPlugin.Descriptor.class));
+            return (CopyOnWriteList) hostConfigurations.get(
+                    Jenkins.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class));
         }
     }
-
 }

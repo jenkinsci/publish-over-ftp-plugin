@@ -28,6 +28,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import hudson.model.Project;
+import java.util.ArrayList;
+import java.util.List;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
@@ -37,9 +39,6 @@ import org.junit.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.recipes.LocalData;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class LegacyConfigurationTest {
 
     @Rule
@@ -48,31 +47,49 @@ public class LegacyConfigurationTest {
     @LocalData
     @Test
     public void testLoadR0x1() {
-        final List<BapFtpHostConfiguration> configurations = getPublisherPluginDescriptor().getHostConfigurations();
+        final List<BapFtpHostConfiguration> configurations =
+                getPublisherPluginDescriptor().getHostConfigurations();
         assertEquals(2, configurations.size());
         final int expectedConfigAPort = 21;
         final int expectedConfigATimeout = 300000;
-        assertEquals(createHostConfiguration("a", expectedConfigAPort, expectedConfigATimeout, false), configurations.get(0));
+        assertEquals(
+                createHostConfiguration("a", expectedConfigAPort, expectedConfigATimeout, false),
+                configurations.get(0));
         final int expectedConfigBPort = 121;
         final int expectedConfigBTimeout = 121000;
-        assertEquals(createHostConfiguration("b", expectedConfigBPort, expectedConfigBTimeout, true), configurations.get(1));
+        assertEquals(
+                createHostConfiguration("b", expectedConfigBPort, expectedConfigBTimeout, true), configurations.get(1));
 
-        final BapFtpTransfer transfer1 = new BapFtpTransfer("**/*", null, "'helloo-${BUILD_NUMBER}'-MMDD", "target",
-                                                            true, true, true, false, false, false, null);
+        final BapFtpTransfer transfer1 = new BapFtpTransfer(
+                "**/*", null, "'helloo-${BUILD_NUMBER}'-MMDD", "target", true, true, true, false, false, false, null);
         final ArrayList<BapFtpTransfer> transfers1 = new ArrayList<>();
         transfers1.add(transfer1);
-        final BapFtpPublisher publisher1 = new BapFtpPublisher("Config b", true, transfers1, false, false, null, null, null);
-        final BapFtpTransfer transfer21 = new BapFtpTransfer("target\\images\\*", null, "", "", false, false, false, false, false, false, null);
-        final BapFtpTransfer transfer22 = new BapFtpTransfer("target\\logs\\**\\*", null, "serverlogs", "target\\logs",
-                                                             true, false, true, false, false, false, null);
+        final BapFtpPublisher publisher1 =
+                new BapFtpPublisher("Config b", true, transfers1, false, false, null, null, null);
+        final BapFtpTransfer transfer21 =
+                new BapFtpTransfer("target\\images\\*", null, "", "", false, false, false, false, false, false, null);
+        final BapFtpTransfer transfer22 = new BapFtpTransfer(
+                "target\\logs\\**\\*",
+                null,
+                "serverlogs",
+                "target\\logs",
+                true,
+                false,
+                true,
+                false,
+                false,
+                false,
+                null);
         final ArrayList<BapFtpTransfer> transfers2 = new ArrayList<>();
         transfers2.add(transfer21);
         transfers2.add(transfer22);
-        final BapFtpPublisher publisher2 = new BapFtpPublisher("Config a", false, transfers2, false, false, null, null, null);
+        final BapFtpPublisher publisher2 =
+                new BapFtpPublisher("Config a", false, transfers2, false, false, null, null, null);
         final ArrayList<BapFtpPublisher> publishers = new ArrayList<>();
         publishers.add(publisher1);
         publishers.add(publisher2);
-        final BapFtpPublisherPlugin expectedPlugin = new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER", null);
+        final BapFtpPublisherPlugin expectedPlugin =
+                new BapFtpPublisherPlugin(publishers, true, true, true, "MASTER", null);
         assertEquals(expectedPlugin, getConfiguredPlugin());
     }
 
@@ -89,10 +106,19 @@ public class LegacyConfigurationTest {
         return null;
     }
 
-    public BapFtpHostConfiguration createHostConfiguration(final String suffix, final int port,
-                                                           final int timeout, final boolean useActiveData) {
-        return new BapFtpHostConfiguration("Config " + suffix, "hostname." + suffix, "username." + suffix,
-            "password." + suffix, "remoteRoot." + suffix, port, timeout, useActiveData, null, false, false);
+    public BapFtpHostConfiguration createHostConfiguration(
+            final String suffix, final int port, final int timeout, final boolean useActiveData) {
+        return new BapFtpHostConfiguration(
+                "Config " + suffix,
+                "hostname." + suffix,
+                "username." + suffix,
+                "password." + suffix,
+                "remoteRoot." + suffix,
+                port,
+                timeout,
+                useActiveData,
+                null,
+                false,
+                false);
     }
-
 }

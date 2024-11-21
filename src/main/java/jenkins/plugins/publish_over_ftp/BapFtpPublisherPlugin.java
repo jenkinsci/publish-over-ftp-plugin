@@ -25,15 +25,12 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.Extension;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPPlugin;
 import jenkins.plugins.publish_over.BPPluginDescriptor;
 import jenkins.plugins.publish_over_ftp.descriptor.BapFtpPublisherPluginDescriptor;
-
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -47,10 +44,20 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
     private static final long serialVersionUID = 1L;
 
     @DataBoundConstructor
-    public BapFtpPublisherPlugin(final ArrayList<BapFtpPublisher> publishers, final boolean continueOnError, final boolean failOnError,
-            final boolean alwaysPublishFromMaster, final String masterNodeName,
+    public BapFtpPublisherPlugin(
+            final ArrayList<BapFtpPublisher> publishers,
+            final boolean continueOnError,
+            final boolean failOnError,
+            final boolean alwaysPublishFromMaster,
+            final String masterNodeName,
             final BapFtpParamPublish paramPublish) {
-        super(Messages.console_message_prefix(), publishers, continueOnError, failOnError, alwaysPublishFromMaster, masterNodeName,
+        super(
+                Messages.console_message_prefix(),
+                publishers,
+                continueOnError,
+                failOnError,
+                alwaysPublishFromMaster,
+                masterNodeName,
                 paramPublish);
     }
 
@@ -93,7 +100,8 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
 
     @Override
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
+                .toString();
     }
 
     @Override
@@ -116,6 +124,5 @@ public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClien
 
     /** prevent complaints from XStream */
     @Deprecated
-    public static class DescriptorMessages implements BPPluginDescriptor.BPDescriptorMessages { }
-
+    public static class DescriptorMessages implements BPPluginDescriptor.BPDescriptorMessages {}
 }

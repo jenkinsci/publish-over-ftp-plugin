@@ -22,146 +22,146 @@
   ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
   ~ THE SOFTWARE.
   -->
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.jenkins-ci.plugins</groupId>
-        <artifactId>plugin</artifactId>
-        <version>4.70</version>
-        <relativePath />
-    </parent>
+  <parent>
+    <groupId>org.jenkins-ci.plugins</groupId>
+    <artifactId>plugin</artifactId>
+    <version>4.70</version>
+    <relativePath />
+  </parent>
 
-    <artifactId>publish-over-ftp</artifactId>
-    <packaging>hpi</packaging>
-    <name>Publish Over FTP</name>
-    <version>1.18-SNAPSHOT</version>
-    <description>Send build artifacts over FTP</description>
-    <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+  <artifactId>publish-over-ftp</artifactId>
+  <version>1.18-SNAPSHOT</version>
+  <packaging>hpi</packaging>
+  <name>Publish Over FTP</name>
+  <description>Send build artifacts over FTP</description>
+  <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
 
-    <properties>
-        <spotbugs.skip>true</spotbugs.skip>
-        <revision>1.17</revision>
-        <changelist>-SNAPSHOT</changelist>
-        <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
-        <jenkins.version>2.361.4</jenkins.version>
-    </properties>
+  <licenses>
+    <license>
+      <name>The MIT license</name>
+      <url>https://opensource.org/license/mit/</url>
+      <comments>All source code is under the MIT license.</comments>
+    </license>
+  </licenses>
 
-    <licenses>
-        <license>
-            <name>The MIT license</name>
-            <comments>All source code is under the MIT license.</comments>
-            <url>https://opensource.org/license/mit/</url>
-        </license>
-    </licenses>
+  <developers>
+    <developer>
+      <id>slide_o_mix</id>
+      <name>Alex Earl</name>
+      <email>slide.o.mix@gmail.com</email>
+    </developer>
+    <developer>
+      <id>bap</id>
+      <name>Bap</name>
+      <email>bap-jenkins@BapIT.co.uk</email>
+    </developer>
+  </developers>
 
-    <developers>
-        <developer>
-            <id>slide_o_mix</id>
-            <name>Alex Earl</name>
-            <email>slide.o.mix@gmail.com</email>
-        </developer>
-        <developer>
-            <id>bap</id>
-            <name>Bap</name>
-            <email>bap-jenkins@BapIT.co.uk</email>
-        </developer>
-    </developers>
+  <scm>
+    <connection>scm:git:git://github.com/jenkinsci/publish-over-ftp-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/publish-over-ftp-plugin.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/jenkinsci/publish-over-ftp-plugin</url>
+  </scm>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.jenkins.tools.bom</groupId>
-                <artifactId>bom-2.361.x</artifactId>
-                <version>2102.v854b_fec19c92</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://issues.jenkins-ci.org/</url>
+  </issueManagement>
 
+  <distributionManagement>
+    <repository>
+      <id>maven.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/releases</url>
+    </repository>
+  </distributionManagement>
+
+  <properties>
+    <spotbugs.skip>true</spotbugs.skip>
+    <revision>1.17</revision>
+    <changelist>-SNAPSHOT</changelist>
+    <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
+    <jenkins.version>2.361.4</jenkins.version>
+    <spotless.check.skip>false</spotless.check.skip>
+  </properties>
+
+  <dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>org.jenkins-ci.plugins</groupId>
-            <artifactId>publish-over</artifactId>
-            <version>0.22</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.9.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jenkins-ci.plugins</groupId>
-            <artifactId>structs</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymock</artifactId>
-            <version>3.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.easymock</groupId>
-            <artifactId>easymockclassextension</artifactId>
-            <version>3.2</version>
-            <scope>test</scope>
-        </dependency>
+      <dependency>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <artifactId>bom-2.361.x</artifactId>
+        <version>2102.v854b_fec19c92</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
+  </dependencyManagement>
 
-    <scm>
-        <url>https://github.com/jenkinsci/publish-over-ftp-plugin</url>
-        <connection>scm:git:git://github.com/jenkinsci/publish-over-ftp-plugin.git</connection>
-        <developerConnection>scm:git:git@github.com:jenkinsci/publish-over-ftp-plugin.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
+  <dependencies>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>3.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>publish-over</artifactId>
+      <version>0.22</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>structs</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>3.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymockclassextension</artifactId>
+      <version>3.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
 
-    <issueManagement>
-        <system>JIRA</system>
-        <url>http://issues.jenkins-ci.org/</url>
-    </issueManagement>
+  <repositories>
+    <repository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </repository>
+  </repositories>
 
-    <distributionManagement>
-        <repository>
-            <id>maven.jenkins-ci.org</id>
-            <url>https://repo.jenkins-ci.org/releases</url>
-        </repository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>repo.jenkins-ci.org</id>
-            <url>https://repo.jenkins-ci.org/public/</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>repo.jenkins-ci.org</id>
-            <url>https://repo.jenkins-ci.org/public/</url>
-        </pluginRepository>
-    </pluginRepositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>repo.jenkins-ci.org</id>
+      <url>https://repo.jenkins-ci.org/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
 </project>

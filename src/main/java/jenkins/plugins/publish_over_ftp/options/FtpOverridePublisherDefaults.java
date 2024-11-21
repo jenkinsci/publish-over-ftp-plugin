@@ -40,8 +40,11 @@ public class FtpOverridePublisherDefaults implements PublisherOptions, Describab
     private final boolean verbose;
 
     @DataBoundConstructor
-    public FtpOverridePublisherDefaults(final String configName, final boolean useWorkspaceInPromotion, final boolean usePromotionTimestamp,
-                                        final boolean verbose) {
+    public FtpOverridePublisherDefaults(
+            final String configName,
+            final boolean useWorkspaceInPromotion,
+            final boolean usePromotionTimestamp,
+            final boolean verbose) {
         this.configName = configName;
         this.usePromotionTimestamp = usePromotionTimestamp;
         this.useWorkspaceInPromotion = useWorkspaceInPromotion;
@@ -83,7 +86,5 @@ public class FtpOverridePublisherDefaults implements PublisherOptions, Describab
         public jenkins.plugins.publish_over.view_defaults.BapPublisher.Messages getCommonFieldNames() {
             return new jenkins.plugins.publish_over.view_defaults.BapPublisher.Messages();
         }
-
     }
-
 }

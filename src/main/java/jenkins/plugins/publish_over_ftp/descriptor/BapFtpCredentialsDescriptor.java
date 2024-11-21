@@ -33,9 +33,9 @@ import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over_ftp.BapFtpCredentials;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
+import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.interceptor.RequirePOST;
-import org.kohsuke.stapler.AncestorInPath;
 
 @Extension
 public class BapFtpCredentialsDescriptor extends Descriptor<BapFtpCredentials> {
@@ -58,18 +58,21 @@ public class BapFtpCredentialsDescriptor extends Descriptor<BapFtpCredentials> {
     }
 
     @RequirePOST
-    public FormValidation doTestConnection(@QueryParameter final String configName, @QueryParameter final String username,
-                                           @QueryParameter final String password, @AncestorInPath Item item) {
-            if (item == null) {
-                Jenkins.get().checkPermission(Jenkins.ADMINISTER);
-            } else {
-                item.checkPermission(Item.CONFIGURE);
-            }
+    public FormValidation doTestConnection(
+            @QueryParameter final String configName,
+            @QueryParameter final String username,
+            @QueryParameter final String password,
+            @AncestorInPath Item item) {
+        if (item == null) {
+            Jenkins.get().checkPermission(Jenkins.ADMINISTER);
+        } else {
+            item.checkPermission(Item.CONFIGURE);
+        }
         final BapFtpCredentials credentials = new BapFtpCredentials(username, password);
         final BPBuildInfo buildInfo = BapFtpPublisherPluginDescriptor.createDummyBuildInfo();
         buildInfo.put(BPBuildInfo.OVERRIDE_CREDENTIALS_CONTEXT_KEY, credentials);
-        final BapFtpPublisherPlugin.Descriptor pluginDescriptor = Jenkins.getInstance().getDescriptorByType(
-                BapFtpPublisherPlugin.Descriptor.class);
+        final BapFtpPublisherPlugin.Descriptor pluginDescriptor =
+                Jenkins.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class);
         final BapFtpHostConfiguration hostConfig = pluginDescriptor.getConfiguration(configName);
         return BapFtpPublisherPluginDescriptor.validateConnection(hostConfig, buildInfo);
     }
@@ -77,5 +80,4 @@ public class BapFtpCredentialsDescriptor extends Descriptor<BapFtpCredentials> {
     public jenkins.plugins.publish_over.view_defaults.HostConfiguration.Messages getCommonFieldNames() {
         return new jenkins.plugins.publish_over.view_defaults.HostConfiguration.Messages();
     }
-
 }

@@ -31,6 +31,7 @@ import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 import hudson.util.CopyOnWriteList;
 import hudson.util.FormValidation;
+import java.util.List;
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over.BPInstanceConfig;
@@ -45,23 +46,23 @@ import net.sf.json.JSONObject;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.interceptor.RequirePOST;
 
-import java.util.List;
-
 @SuppressWarnings("PMD.TooManyMethods")
 public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publisher> {
 
     /** prevent complaints from XStream */
-    @Deprecated private transient BPPluginDescriptor.BPDescriptorMessages msg;
+    @Deprecated
+    private transient BPPluginDescriptor.BPDescriptorMessages msg;
     /** prevent complaints from XStream */
-    @Deprecated private transient Class hostConfigClass;
+    @Deprecated
+    private transient Class hostConfigClass;
+
     private final CopyOnWriteList<BapFtpHostConfiguration> hostConfigurations = new CopyOnWriteList<>();
     private FtpDefaults defaults;
 
     public BapFtpPublisherPluginDescriptor() {
         super(BapFtpPublisherPlugin.class);
         load();
-        if (defaults == null)
-            defaults = new FtpPluginDefaults();
+        if (defaults == null) defaults = new FtpPluginDefaults();
     }
 
     public FtpDefaults getDefaults() {
@@ -130,22 +131,42 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
     }
 
     @RequirePOST
-    public FormValidation doTestConnection(final String name, final String hostname, final String username,
-            final String encryptedPassword, final String remoteRootDir, final int port, final int timeout,
-            final boolean useActiveData, final String controlEncoding, final boolean disableMakeNestedDirs,
-            final boolean disableRemoteVerification, final boolean useFtpOverTls, final boolean useImplicitTls,
+    public FormValidation doTestConnection(
+            final String name,
+            final String hostname,
+            final String username,
+            final String encryptedPassword,
+            final String remoteRootDir,
+            final int port,
+            final int timeout,
+            final boolean useActiveData,
+            final String controlEncoding,
+            final boolean disableMakeNestedDirs,
+            final boolean disableRemoteVerification,
+            final boolean useFtpOverTls,
+            final boolean useImplicitTls,
             final String trustedCertificate) {
         Jenkins.get().checkPermission(Jenkins.ADMINISTER);
-        final BapFtpHostConfiguration hostConfig = new BapFtpHostConfiguration(name, hostname, username,
-                encryptedPassword, remoteRootDir, port, timeout, useActiveData, controlEncoding,
-                disableMakeNestedDirs, disableRemoteVerification);
+        final BapFtpHostConfiguration hostConfig = new BapFtpHostConfiguration(
+                name,
+                hostname,
+                username,
+                encryptedPassword,
+                remoteRootDir,
+                port,
+                timeout,
+                useActiveData,
+                controlEncoding,
+                disableMakeNestedDirs,
+                disableRemoteVerification);
         hostConfig.setUseFtpOverTls(useFtpOverTls);
         hostConfig.setUseImplicitTls(useImplicitTls);
         hostConfig.setTrustedCertificate(trustedCertificate);
         return validateConnection(hostConfig, createDummyBuildInfo());
     }
 
-    public static FormValidation validateConnection(final BapFtpHostConfiguration hostConfig, final BPBuildInfo buildInfo) {
+    public static FormValidation validateConnection(
+            final BapFtpHostConfiguration hostConfig, final BPBuildInfo buildInfo) {
         try {
             hostConfig.createClient(buildInfo).disconnect();
             return FormValidation.ok(Messages.descriptor_testConnection_ok());
@@ -158,19 +179,11 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
     }
 
     public static BPBuildInfo createDummyBuildInfo() {
-        return new BPBuildInfo(
-            TaskListener.NULL,
-            "",
-            Jenkins.getInstance().getRootPath(),
-            null,
-            null
-        );
+        return new BPBuildInfo(TaskListener.NULL, "", Jenkins.getInstance().getRootPath(), null, null);
     }
 
     public Object readResolve() {
-        if (defaults == null)
-            defaults = new FtpPluginDefaults();
+        if (defaults == null) defaults = new FtpPluginDefaults();
         return this;
     }
-
 }

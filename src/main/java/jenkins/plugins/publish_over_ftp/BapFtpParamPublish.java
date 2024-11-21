@@ -60,7 +60,8 @@ public class BapFtpParamPublish extends ParamPublish implements Describable<BapF
     }
 
     public String toString() {
-        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)).toString();
+        return addToToString(new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE))
+                .toString();
     }
 
     @Extension
@@ -74,7 +75,5 @@ public class BapFtpParamPublish extends ParamPublish implements Describable<BapF
         public jenkins.plugins.publish_over.view_defaults.ParamPublish.Messages getCommonFieldNames() {
             return new jenkins.plugins.publish_over.view_defaults.ParamPublish.Messages();
         }
-
     }
-
 }

@@ -32,13 +32,11 @@ public final class FtpPluginDefaultsHandler implements InvocationHandler {
     private static final String GET_ASCII_MODE = "isAsciiMode";
 
     public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
-        if (method.getName().equals(GET_ASCII_MODE))
-            return isAsciiMode();
+        if (method.getName().equals(GET_ASCII_MODE)) return isAsciiMode();
         return method.invoke(FtpPluginDefaults.GLOBAL_DEFAULTS, args);
     }
 
     public boolean isAsciiMode() {
         return false;
     }
-
 }

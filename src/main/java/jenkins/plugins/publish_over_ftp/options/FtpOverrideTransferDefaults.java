@@ -45,10 +45,18 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
     private final String patternSeparator;
 
     @DataBoundConstructor
-    public FtpOverrideTransferDefaults(final String sourceFiles, final String excludes, final String removePrefix,
-                                       final String remoteDirectory, final boolean flatten, boolean remoteDirectorySDF,
-                                       final boolean cleanRemote, final boolean asciiMode, final boolean noDefaultExcludes,
-                                       final boolean makeEmptyDirs, final String patternSeparator) {
+    public FtpOverrideTransferDefaults(
+            final String sourceFiles,
+            final String excludes,
+            final String removePrefix,
+            final String remoteDirectory,
+            final boolean flatten,
+            boolean remoteDirectorySDF,
+            final boolean cleanRemote,
+            final boolean asciiMode,
+            final boolean noDefaultExcludes,
+            final boolean makeEmptyDirs,
+            final String patternSeparator) {
         this.asciiMode = asciiMode;
         this.cleanRemote = cleanRemote;
         this.excludes = excludes;
@@ -121,7 +129,5 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
         public jenkins.plugins.publish_over.view_defaults.BPTransfer.Messages getCommonFieldNames() {
             return new jenkins.plugins.publish_over.view_defaults.BPTransfer.Messages();
         }
-
     }
-
 }

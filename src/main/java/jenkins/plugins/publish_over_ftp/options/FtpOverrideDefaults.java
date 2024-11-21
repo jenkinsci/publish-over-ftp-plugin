@@ -43,12 +43,13 @@ public class FtpOverrideDefaults extends FtpDefaults {
     private final FtpOverrideTransferDefaults overrideTransfer;
 
     @DataBoundConstructor
-    public FtpOverrideDefaults(final FtpOverrideInstanceConfigDefaults overrideInstanceConfig,
-                               final FtpOverrideParamPublishDefaults overrideParamPublish,
-                               final FtpOverridePublisherDefaults overridePublisher,
-                               final FtpOverridePublisherLabelDefaults overridePublisherLabel,
-                               final FtpOverrideRetryDefaults overrideRetry,
-                               final FtpOverrideTransferDefaults overrideTransfer) {
+    public FtpOverrideDefaults(
+            final FtpOverrideInstanceConfigDefaults overrideInstanceConfig,
+            final FtpOverrideParamPublishDefaults overrideParamPublish,
+            final FtpOverridePublisherDefaults overridePublisher,
+            final FtpOverridePublisherLabelDefaults overridePublisherLabel,
+            final FtpOverrideRetryDefaults overrideRetry,
+            final FtpOverrideTransferDefaults overrideTransfer) {
         this.overrideInstanceConfig = overrideInstanceConfig;
         this.overrideParamPublish = overrideParamPublish;
         this.overridePublisher = overridePublisher;
@@ -119,7 +120,5 @@ public class FtpOverrideDefaults extends FtpDefaults {
         public FtpPluginDefaults getPluginDefaults() {
             return PLUGIN_DEFAULTS;
         }
-
     }
-
 }

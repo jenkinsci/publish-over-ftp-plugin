@@ -32,14 +32,6 @@
     <relativePath />
   </parent>
 
-  <properties>
-    <spotbugs.skip>true</spotbugs.skip>
-    <changelist>999999-SNAPSHOT</changelist>
-    <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
-    <jenkins.version>2.361.4</jenkins.version>
-    <spotless.check.skip>false</spotless.check.skip>
-  </properties>
-
   <artifactId>publish-over-ftp</artifactId>
   <version>${changelist}</version>
   <packaging>hpi</packaging>
@@ -68,12 +60,32 @@
     </developer>
   </developers>
 
+  <scm>
+    <connection>scm:git:git://github.com/jenkinsci/publish-over-ftp-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/publish-over-ftp-plugin.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://github.com/jenkinsci/publish-over-ftp-plugin</url>
+  </scm>
+
+  <issueManagement>
+    <system>Github</system>
+    <url>https://github.com/jenkinsci/publish-over-ftp-plugin/issues</url>
+  </issueManagement>
+
   <distributionManagement>
     <repository>
       <id>maven.jenkins-ci.org</id>
       <url>https://repo.jenkins-ci.org/releases</url>
     </repository>
   </distributionManagement>
+
+  <properties>
+    <spotbugs.skip>true</spotbugs.skip>
+    <changelist>999999-SNAPSHOT</changelist>
+    <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
+    <jenkins.version>2.361.4</jenkins.version>
+    <spotless.check.skip>false</spotless.check.skip>
+  </properties>
 
   <dependencyManagement>
     <dependencies>
@@ -137,18 +149,6 @@
       </exclusions>
     </dependency>
   </dependencies>
-
-   <scm>
-    <connection>scm:git:git://github.com/jenkinsci/publish-over-ftp-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/publish-over-ftp-plugin.git</developerConnection>
-    <tag>HEAD</tag>
-    <url>https://github.com/jenkinsci/publish-over-ftp-plugin</url>
-  </scm>
-
-  <issueManagement>
-    <system>Github</system>
-    <url>https://github.com/jenkinsci/publish-over-ftp-plugin/issues</url>
-  </issueManagement>
 
   <repositories>
     <repository>

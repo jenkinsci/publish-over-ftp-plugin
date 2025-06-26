@@ -98,6 +98,26 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
         return true;
     }
 
+    public boolean addConfigure(final StaplerRequest request, final JSONObject formData) {
+        hostConfigurations.addAll(request.bindJSONToList(BapFtpHostConfiguration.class, formData.get("instance")));
+        if (isEnableOverrideDefaults())
+            defaults = request.bindJSON(FtpDefaults.class, formData.getJSONObject("defaults"));
+        save();
+        return true;
+    }
+
+    /**
+     * Removes the given named Host Configuration from the list of configurations.
+     * 
+     * @param name The Name of the Host Configuration to remove.
+     */
+    public void removeHostConfiguration(final String name) {
+        BapFtpHostConfiguration configuration = getConfiguration(name);
+        if (configuration != null) {
+            hostConfigurations.remove(configuration);
+        }
+    }
+
     public boolean canSetMasterNodeName() {
         return false;
     }

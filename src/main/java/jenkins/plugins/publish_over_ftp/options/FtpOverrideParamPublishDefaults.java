@@ -30,6 +30,7 @@ import hudson.model.Descriptor;
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.options.ParamPublishOptions;
 import jenkins.plugins.publish_over_ftp.BapFtpParamPublish;
+import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 public class FtpOverrideParamPublishDefaults
@@ -51,6 +52,7 @@ public class FtpOverrideParamPublishDefaults
     }
 
     @Extension
+    @SuppressRestrictedWarnings(jenkins.plugins.publish_over.view_defaults.ParamPublish.Messages.class)
     public static class FtpOverrideParamPublishDefaultsDescriptor extends Descriptor<FtpOverrideParamPublishDefaults> {
 
         @Override

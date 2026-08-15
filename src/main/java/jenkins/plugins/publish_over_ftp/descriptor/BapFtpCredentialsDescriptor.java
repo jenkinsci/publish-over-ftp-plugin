@@ -33,11 +33,13 @@ import jenkins.plugins.publish_over.BPBuildInfo;
 import jenkins.plugins.publish_over_ftp.BapFtpCredentials;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
+import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
 import org.kohsuke.stapler.AncestorInPath;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.interceptor.RequirePOST;
 
 @Extension
+@SuppressRestrictedWarnings(jenkins.plugins.publish_over.view_defaults.HostConfiguration.Messages.class)
 public class BapFtpCredentialsDescriptor extends Descriptor<BapFtpCredentials> {
 
     public BapFtpCredentialsDescriptor() {

@@ -30,6 +30,7 @@ import hudson.model.Descriptor;
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.options.PublisherLabelOptions;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherLabel;
+import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 public class FtpOverridePublisherLabelDefaults
@@ -51,6 +52,7 @@ public class FtpOverridePublisherLabelDefaults
     }
 
     @Extension
+    @SuppressRestrictedWarnings(jenkins.plugins.publish_over.view_defaults.PublisherLabel.Messages.class)
     public static class FtpOverridePublisherLabelDefaultsDescriptor
             extends Descriptor<FtpOverridePublisherLabelDefaults> {
 

@@ -114,7 +114,7 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>publish-over</artifactId>
-      <version>0.22</version>
+      <version>242.vf56f6892cb_b_a_</version>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>

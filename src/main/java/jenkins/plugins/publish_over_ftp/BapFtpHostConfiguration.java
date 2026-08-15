@@ -33,6 +33,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.cert.CertificateFactory;
@@ -56,7 +57,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.DataBoundSetter;
 
 @SuppressWarnings("PMD.TooManyMethods")
-public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Object>
+public class BapFtpHostConfiguration extends BPHostConfiguration<BapFtpClient, Serializable>
         implements Describable<BapFtpHostConfiguration> {
 
     private static final long serialVersionUID = 1L;

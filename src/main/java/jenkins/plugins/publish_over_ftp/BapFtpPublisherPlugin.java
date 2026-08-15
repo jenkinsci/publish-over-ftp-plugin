@@ -25,6 +25,7 @@
 package jenkins.plugins.publish_over_ftp;
 
 import hudson.Extension;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import jenkins.model.Jenkins;
@@ -39,7 +40,7 @@ import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 @SuppressWarnings("PMD.LooseCoupling") // serializable
-public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClient, Object> {
+public class BapFtpPublisherPlugin extends BPPlugin<BapFtpPublisher, BapFtpClient, Serializable> {
 
     private static final long serialVersionUID = 1L;
 

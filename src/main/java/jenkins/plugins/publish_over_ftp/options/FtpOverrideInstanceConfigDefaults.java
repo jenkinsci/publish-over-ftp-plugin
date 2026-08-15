@@ -29,6 +29,7 @@ import hudson.model.Describable;
 import hudson.model.Descriptor;
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.options.InstanceConfigOptions;
+import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 public class FtpOverrideInstanceConfigDefaults
@@ -63,6 +64,7 @@ public class FtpOverrideInstanceConfigDefaults
     }
 
     @Extension
+    @SuppressRestrictedWarnings(jenkins.plugins.publish_over.view_defaults.BPInstanceConfig.Messages.class)
     public static class FtpOverrideInstanceConfigDefaultsDescriptor
             extends Descriptor<FtpOverrideInstanceConfigDefaults> {
 

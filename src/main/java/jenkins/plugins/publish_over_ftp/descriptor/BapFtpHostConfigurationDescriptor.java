@@ -32,10 +32,12 @@ import jenkins.plugins.publish_over.BPValidators;
 import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.Messages;
+import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
 import org.kohsuke.stapler.QueryParameter;
 import org.kohsuke.stapler.interceptor.RequirePOST;
 
 @Extension
+@SuppressRestrictedWarnings(jenkins.plugins.publish_over.view_defaults.HostConfiguration.Messages.class)
 public class BapFtpHostConfigurationDescriptor extends Descriptor<BapFtpHostConfiguration> {
 
     public BapFtpHostConfigurationDescriptor() {

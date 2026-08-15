@@ -30,8 +30,10 @@ import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.Messages;
+import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
 
 @Extension
+@SuppressRestrictedWarnings(jenkins.plugins.publish_over.view_defaults.BapPublisher.Messages.class)
 public class BapFtpPublisherDescriptor extends Descriptor<BapFtpPublisher> {
 
     public BapFtpPublisherDescriptor() {

@@ -43,10 +43,15 @@ import jenkins.plugins.publish_over_ftp.Messages;
 import jenkins.plugins.publish_over_ftp.options.FtpDefaults;
 import jenkins.plugins.publish_over_ftp.options.FtpPluginDefaults;
 import net.sf.json.JSONObject;
+import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.interceptor.RequirePOST;
 
 @SuppressWarnings("PMD.TooManyMethods")
+@SuppressRestrictedWarnings({
+    jenkins.plugins.publish_over.view_defaults.BPInstanceConfig.Messages.class,
+    jenkins.plugins.publish_over.view_defaults.manage_jenkins.Messages.class
+})
 public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publisher> {
 
     /** prevent complaints from XStream */

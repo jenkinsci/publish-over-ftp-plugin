@@ -31,6 +31,7 @@ import hudson.util.FormValidation;
 import jenkins.model.Jenkins;
 import jenkins.plugins.publish_over.options.RetryOptions;
 import jenkins.plugins.publish_over_ftp.BapFtpRetry;
+import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
 
@@ -58,6 +59,7 @@ public class FtpOverrideRetryDefaults implements RetryOptions, Describable<FtpOv
     }
 
     @Extension
+    @SuppressRestrictedWarnings(jenkins.plugins.publish_over.view_defaults.Retry.Messages.class)
     public static class FtpOverrideRetryDefaultsDescriptor extends Descriptor<FtpOverrideRetryDefaults> {
 
         @Override

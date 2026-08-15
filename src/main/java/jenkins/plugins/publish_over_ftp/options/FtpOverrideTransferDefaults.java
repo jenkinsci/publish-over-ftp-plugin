@@ -28,6 +28,7 @@ import hudson.Extension;
 import hudson.model.Describable;
 import hudson.model.Descriptor;
 import jenkins.model.Jenkins;
+import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
 import org.kohsuke.stapler.DataBoundConstructor;
 
 public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describable<FtpOverrideTransferDefaults> {
@@ -119,6 +120,7 @@ public class FtpOverrideTransferDefaults implements FtpTransferOptions, Describa
     }
 
     @Extension
+    @SuppressRestrictedWarnings(jenkins.plugins.publish_over.view_defaults.BPTransfer.Messages.class)
     public static class FtpOverrideTransferDefaultsDescriptor extends Descriptor<FtpOverrideTransferDefaults> {
 
         @Override

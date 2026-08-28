@@ -56,14 +56,14 @@ public class JenkinsTestHelper {
             implements PrivilegedExceptionAction<CopyOnWriteList<BapFtpHostConfiguration>> {
         private final transient Field hostConfigurations;
 
-        protected GetMeTheHostConfigurations(final Field hostConfigurations) {
+        private GetMeTheHostConfigurations(final Field hostConfigurations) {
             this.hostConfigurations = hostConfigurations;
         }
 
         public CopyOnWriteList<BapFtpHostConfiguration> run() throws IllegalAccessException {
             hostConfigurations.setAccessible(true);
-            return (CopyOnWriteList) hostConfigurations.get(
-                    Jenkins.getInstance().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class));
+            return (CopyOnWriteList<BapFtpHostConfiguration>)
+                    hostConfigurations.get(Jenkins.get().getDescriptorByType(BapFtpPublisherPlugin.Descriptor.class));
         }
     }
 }

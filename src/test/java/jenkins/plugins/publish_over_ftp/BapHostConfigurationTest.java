@@ -25,45 +25,28 @@
 package jenkins.plugins.publish_over_ftp;
 
 import static org.easymock.EasyMock.expect;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import hudson.FilePath;
 import hudson.model.TaskListener;
 import java.io.File;
-import java.io.IOException;
+import java.io.Serial;
 import jenkins.plugins.publish_over.BPBuildInfo;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-import org.easymock.classextension.EasyMock;
-import org.easymock.classextension.IMocksControl;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import org.easymock.EasyMock;
+import org.easymock.IMocksControl;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException", "PMD.TooManyMethods"})
-public class BapHostConfigurationTest {
-
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
-
-    @BeforeClass
-    public static void before() {
-        MySecretHelper.setSecretKey();
-    }
-
-    @AfterClass
-    public static void after() {
-        MySecretHelper.clearSecretKey();
-    }
-
-    @Before
-    public void initializeHostConfig() {
-        this.bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
-    }
+@WithJenkins
+class BapHostConfigurationTest {
 
     private final transient BPBuildInfo buildInfo =
             new BPBuildInfo(TaskListener.NULL, "", new FilePath(new File("")), null, null);
@@ -71,38 +54,56 @@ public class BapHostConfigurationTest {
     private final transient FTPClient mockFTPClient = mockControl.createMock(FTPClient.class);
     private transient BapFtpHostConfiguration bapFtpHostConfiguration;
 
+    private JenkinsRule j;
+
+    @BeforeAll
+    static void beforeAll() {
+        MySecretHelper.setSecretKey();
+    }
+
+    @AfterAll
+    static void afterAll() {
+        MySecretHelper.clearSecretKey();
+    }
+
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) {
+        j = rule;
+        this.bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
+    }
+
     @Test
-    public void testChangeToRootDir() throws Exception {
+    void testChangeToRootDir() throws Exception {
         assertChangeToInitialDirectory("/");
     }
 
     @Test
-    public void testChangeToRootDirWin() throws Exception {
+    void testChangeToRootDirWin() throws Exception {
         assertChangeToInitialDirectory("\\");
     }
 
     @Test
-    public void testChangeToRootDirLongerPath() throws Exception {
+    void testChangeToRootDirLongerPath() throws Exception {
         assertChangeToInitialDirectory("/this/is/my/root");
     }
 
     @Test
-    public void testChangeToRootDirRelativePath() throws Exception {
+    void testChangeToRootDirRelativePath() throws Exception {
         assertChangeToInitialDirectory("this/is/my/rel/root", true);
     }
 
     @Test
-    public void testNoChangeDirectoryRemoteDirNull() throws Exception {
+    void testNoChangeDirectoryRemoteDirNull() throws Exception {
         assertNoChangeToInitialDirectory(null);
     }
 
     @Test
-    public void testNoChangeDirectoryRemoteDirEmptyString() throws Exception {
+    void testNoChangeDirectoryRemoteDirEmptyString() throws Exception {
         assertNoChangeToInitialDirectory("");
     }
 
     @Test
-    public void testNoChangeDirectoryRemoteDirOnlySpaceInString() throws Exception {
+    void testNoChangeDirectoryRemoteDirOnlySpaceInString() throws Exception {
         assertNoChangeToInitialDirectory("  ");
     }
 
@@ -131,7 +132,7 @@ public class BapHostConfigurationTest {
     }
 
     @Test
-    public void testSetActive() throws Exception {
+    void testSetActive() throws Exception {
         this.bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient);
         bapFtpHostConfiguration.setUseActiveData(true);
         expectConnectAndLogin();
@@ -140,7 +141,7 @@ public class BapHostConfigurationTest {
     }
 
     @Test
-    public void testDisableMakeNestedDirs() throws Exception {
+    void testDisableMakeNestedDirs() throws Exception {
         bapFtpHostConfiguration = new BapFtpHostConfigurationWithMockFTPClient(mockFTPClient, true);
         expectConnectAndLogin();
         expect(mockFTPClient.printWorkingDirectory()).andReturn("/");
@@ -165,7 +166,7 @@ public class BapHostConfigurationTest {
                 .andReturn(true);
     }
 
-    private BapFtpClient assertCreateSession() throws IOException {
+    private BapFtpClient assertCreateSession() {
         mockControl.replay();
         final BapFtpClient client = bapFtpHostConfiguration.createClient(buildInfo);
         mockControl.verify();
@@ -173,7 +174,9 @@ public class BapHostConfigurationTest {
     }
 
     private static class BapFtpHostConfigurationWithMockFTPClient extends BapFtpHostConfiguration {
+        @Serial
         private static final long serialVersionUID = 1L;
+
         private static final String TEST_CFG_NAME = "myTestConfig";
         private static final String TEST_HOSTNAME = "my.test.hostname";
         private static final String TEST_USERNAME = "myTestUsername";
@@ -205,6 +208,7 @@ public class BapHostConfigurationTest {
             return ftpClient;
         }
 
+        @Serial
         @Override
         public Object readResolve() {
             return super.readResolve();

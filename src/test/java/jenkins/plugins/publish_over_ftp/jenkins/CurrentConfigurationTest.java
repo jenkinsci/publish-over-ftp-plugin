@@ -24,8 +24,8 @@
 
 package jenkins.plugins.publish_over_ftp.jenkins;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import hudson.model.FreeStyleProject;
 import java.util.ArrayList;
@@ -36,28 +36,27 @@ import jenkins.plugins.publish_over_ftp.BapFtpPublisherLabel;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpRetry;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
 @SuppressWarnings({"PMD.SystemPrintln", "PMD.SignatureDeclareThrowsException"})
-public class CurrentConfigurationTest {
+@Disabled("can no longer configure or retrieve the config")
+@WithJenkins
+class CurrentConfigurationTest {
 
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
+    private JenkinsRule j;
 
-    @Test
-    public void testTestsAreDisabled() throws Exception {
-        final int numberOfTimesToRepeatTheMessage = 3;
-        for (int i = 0; i < numberOfTimesToRepeatTheMessage; i++) {
-            System.out.println("*** TEST DISABLED!");
-            System.err.println("*** TEST DISABLED!");
-        }
-        System.out.println("can no longer configure or retrieve the config");
-        System.err.println("can no longer configure or retrieve the config");
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) {
+        j = rule;
     }
+
     //    @TODO figure out why this no longer works
-    public void dontTestRoundTrip() throws Exception {
+    @Test
+    void dontTestRoundTrip() throws Exception {
         final BapFtpHostConfiguration configA =
                 new BapFtpHostConfiguration("host A", "", "", "", "", 0, 0, false, null, false, false);
         final BapFtpHostConfiguration configB =
@@ -78,9 +77,11 @@ public class CurrentConfigurationTest {
     }
 
     //    @TODO test configuring various ways using the jelly forms (promotions?)
-    //    public void testConfigureProject() throws Exception {}
-    //
-    //    public void testConfigureGlobal() throws Exception {}
+    @Test
+    void testConfigureProject() {}
+
+    @Test
+    void testConfigureGlobal() {}
 
     private BapFtpPublisherPlugin createPlugin(final String config1, final String config2) {
         final BapFtpTransfer transfer1 =

@@ -24,8 +24,8 @@
 
 package jenkins.plugins.publish_over_ftp.jenkins;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import hudson.model.Project;
 import java.util.ArrayList;
@@ -34,19 +34,25 @@ import jenkins.plugins.publish_over_ftp.BapFtpHostConfiguration;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisher;
 import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 import org.jvnet.hudson.test.recipes.LocalData;
 
-public class LegacyConfigurationTest {
+@WithJenkins
+class LegacyConfigurationTest {
 
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
+    private JenkinsRule j;
+
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) {
+        j = rule;
+    }
 
     @LocalData
     @Test
-    public void testLoadR0x1() {
+    void testLoadR0x1() {
         final List<BapFtpHostConfiguration> configurations =
                 getPublisherPluginDescriptor().getHostConfigurations();
         assertEquals(2, configurations.size());

@@ -45,23 +45,29 @@ import jenkins.plugins.publish_over_ftp.BapFtpPublisherPlugin;
 import jenkins.plugins.publish_over_ftp.BapFtpTransfer;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jvnet.hudson.test.JenkinsRule;
 import org.jvnet.hudson.test.TestBuilder;
+import org.jvnet.hudson.test.junit.jupiter.WithJenkins;
 
 @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-public class IntegrationTest {
+@WithJenkins
+class IntegrationTest {
 
-    @Rule
-    public JenkinsRule j = new JenkinsRule();
+    private JenkinsRule j;
 
     private static final String TEST_PASSWORD = "testPassword";
+
+    @BeforeEach
+    void beforeEach(JenkinsRule rule) {
+        j = rule;
+    }
 
     //    @TODO test that we get the expected result when in a promotion
 
     @Test
-    public void testIntegration() throws Exception {
+    void testIntegration() throws Exception {
         final FTPClient mockFTPClient = mock(FTPClient.class);
         final int port = 21;
         final int timeout = 3000;

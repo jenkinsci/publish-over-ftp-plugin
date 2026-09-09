@@ -44,6 +44,7 @@ import jenkins.plugins.publish_over_ftp.options.FtpDefaults;
 import jenkins.plugins.publish_over_ftp.options.FtpPluginDefaults;
 import net.sf.json.JSONObject;
 import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
+import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.interceptor.RequirePOST;
 
@@ -74,6 +75,11 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
         return defaults;
     }
 
+    @DataBoundSetter
+    public void setDefaults(final FtpDefaults defaults) {
+        this.defaults = defaults;
+    }
+
     public String getDisplayName() {
         return Messages.descriptor_displayName();
     }
@@ -84,6 +90,11 @@ public class BapFtpPublisherPluginDescriptor extends BuildStepDescriptor<Publish
 
     public List<BapFtpHostConfiguration> getHostConfigurations() {
         return hostConfigurations.getView();
+    }
+
+    @DataBoundSetter
+    public void setHostConfigurations(final List<BapFtpHostConfiguration> hostConfigurations) {
+        this.hostConfigurations.replaceBy(hostConfigurations);
     }
 
     public BapFtpHostConfiguration getConfiguration(final String name) {

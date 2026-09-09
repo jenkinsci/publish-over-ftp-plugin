@@ -1,0 +1,46 @@
+unclassified:
+  ftpPublisher:
+    hostConfigurations:
+      - name: "primary"
+        hostname: "files.example.test"
+        username: "jenkins"
+        encryptedPassword: "ftp-secret"
+        remoteRootDir: "artifacts/releases"
+        port: 21
+        timeout: 45000
+        useActiveData: true
+        controlEncoding: "UTF-8"
+        disableMakeNestedDirs: true
+        disableRemoteVerification: true
+        useFtpOverTls: true
+        useImplicitTls: false
+    defaults:
+      overrideDefaults:
+        overrideInstanceConfig:
+          alwaysPublishFromMaster: true
+          continueOnError: true
+          failOnError: true
+        overrideParamPublish:
+          parameterName: "FTP_PUBLISH"
+        overridePublisher:
+          configName: "primary"
+          useWorkspaceInPromotion: true
+          usePromotionTimestamp: true
+          verbose: true
+        overridePublisherLabel:
+          label: "release"
+        overrideRetry:
+          retries: 4
+          retryDelay: 15000
+        overrideTransfer:
+          sourceFiles: "target/*.zip"
+          excludes: "target/*-sources.zip"
+          removePrefix: "target"
+          remoteDirectory: "builds"
+          flatten: true
+          remoteDirectorySDF: true
+          cleanRemote: true
+          asciiMode: true
+          noDefaultExcludes: true
+          makeEmptyDirs: true
+          patternSeparator: "[, ]+"

@@ -148,6 +148,66 @@ available.
 [see Publish Over ... for common options for
 Promotions](https://wiki.jenkins.io/display/JENKINS/Publish+Over#PublishOver-promotions)
 
+## Configuration as Code (JCasC)
+
+All of the system configuration described above (FTP server host configurations and the plugin/override defaults) can be managed with the [Jenkins Configuration as Code plugin](https://plugins.jenkins.io/configuration-as-code/) instead of the UI.
+
+Host configurations and defaults live under `unclassified.ftpPublisher`:
+
+```yaml
+unclassified:
+  ftpPublisher:
+    hostConfigurations:
+      - name: "primary"
+        hostname: "files.example.com"
+        username: "jenkins"
+        encryptedPassword: "${FTP_PASSWORD}"
+        remoteRootDir: "artifacts/releases"
+        port: 21
+        timeout: 45000
+        useActiveData: false
+        controlEncoding: "UTF-8"
+        disableMakeNestedDirs: false
+        disableRemoteVerification: false
+        useFtpOverTls: true
+        useImplicitTls: false
+    defaults:
+      overrideDefaults:
+        overrideInstanceConfig:
+          alwaysPublishFromMaster: true
+          continueOnError: true
+          failOnError: true
+        overrideParamPublish:
+          parameterName: "FTP_PUBLISH"
+        overridePublisher:
+          configName: "primary"
+          useWorkspaceInPromotion: true
+          usePromotionTimestamp: true
+          verbose: true
+        overridePublisherLabel:
+          label: "release"
+        overrideRetry:
+          retries: 4
+          retryDelay: 15000
+        overrideTransfer:
+          sourceFiles: "target/*.zip"
+          excludes: "target/*-sources.zip"
+          removePrefix: "target"
+          remoteDirectory: "builds"
+          flatten: true
+          remoteDirectorySDF: true
+          cleanRemote: true
+          asciiMode: true
+          noDefaultExcludes: true
+          makeEmptyDirs: true
+          patternSeparator: "[, ]+"
+```
+
+Notes:
+
+-   Use `encryptedPassword` (plain text, encrypted on write) when authoring configuration, or a [secret source](https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc) reference such as `${FTP_PASSWORD}` so the credential isn't committed in plain text. When exporting the current configuration with the "View Configuration"/export feature, the password is emitted back as an already-encrypted value and never in plain text.
+-   `defaults` accepts either `pluginDefaults` (use the global publish-over defaults unchanged) or `overrideDefaults` (override one or more of the six option groups shown above) - only set the groups you want to override, the rest fall back to the plugin defaults.
+
 ## Release Notes
 
 See the [changelog](./CHANGELOG.md).

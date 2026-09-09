@@ -33,6 +33,7 @@ import jenkins.plugins.publish_over.options.PublisherLabelOptions;
 import jenkins.plugins.publish_over.options.PublisherOptions;
 import jenkins.plugins.publish_over.options.RetryOptions;
 import jenkins.plugins.publish_over.view_defaults.manage_jenkins.Messages;
+import org.jenkinsci.Symbol;
 import org.kohsuke.accmod.restrictions.suppressions.SuppressRestrictedWarnings;
 import org.kohsuke.stapler.DataBoundConstructor;
 
@@ -76,6 +77,7 @@ public final class FtpPluginDefaults extends FtpDefaults {
     }
 
     @Extension
+    @Symbol("pluginDefaults")
     @SuppressRestrictedWarnings(jenkins.plugins.publish_over.view_defaults.manage_jenkins.Messages.class)
     public static final class FtpPluginDefaultsDescriptor extends FtpDefaultsDescriptor {
 
